@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:background="@color/white" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:id="@+id/llElemMat" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/issue_material" android:drawableLeft="@drawable/element" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvElemMat" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/llCoords" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/title_coordinates" android:drawableLeft="@drawable/x_axis" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvCoord" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:paddingLeft="@dimen/padding_short" android:paddingTop="@dimen/padding_small" android:paddingRight="8dp" android:paddingBottom="@dimen/padding_small" android:layout_width="wrap_content" android:layout_height="match_parent" android:src="@drawable/category_of_danger"/>
+            <Spinner android:textSize="18sp" android:gravity="center_vertical" android:entries="@array/danger_categories" android:id="@+id/sCategory" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginRight="@dimen/padding_normal" android:prompt="@string/danger_category"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/llDefect" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/defect_desc" android:drawableLeft="@drawable/description" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvDefect" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/llReason" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/defect_reasons" android:drawableLeft="@drawable/description" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvReasons" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/llCompensations" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/defect_compentations" android:drawableLeft="@drawable/description" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvCompensations" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@+id/llVolume" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/ElementGroup">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/average_volume" android:drawableLeft="@drawable/volume" style="@style/ElementHint"/>
+            <ru.sviridov.techsupervision.widgets.GonaTextView android:id="@+id/tvVolume" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/Element"/>
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+    </LinearLayout>
+</ScrollView>

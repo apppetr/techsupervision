@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ru.sviridov.techsupervision.utils.vectors.PaintView android:id="@+id/pvPaint" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <android.support.v7.widget.Toolbar android:id="@+id/action_bar" android:background="#77000000" android:layout_width="match_parent" android:layout_height="wrap_content" app:popupTheme="@style/Toolbar.PopupMenu" app:theme="@style/Base.Theme.AppCompat"/>
+    <FrameLayout android:id="@+id/dataActions" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/action_bar">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <LinearLayout android:layout_gravity="bottom" android:orientation="horizontal" android:background="#77000000" android:layout_width="match_parent" android:layout_height="@dimen/abc_action_bar_default_height_material">
+            <TextView android:textColor="#fff" android:gravity="center" android:orientation="horizontal" android:id="@+id/tvAddComment" android:layout_width="0dp" android:layout_height="@dimen/abc_action_bar_default_height_material" android:text="@string/add_qualifier" android:layout_weight="1" android:onClick="addComment"/>
+            <TextView android:textColor="#fff" android:gravity="center" android:orientation="horizontal" android:id="@+id/tvComments" android:visibility="gone" android:layout_width="0dp" android:layout_height="@dimen/abc_action_bar_default_height_material" android:text="@string/comments" android:layout_weight="1" android:onClick="comments"/>
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout android:id="@+id/editActions" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:layout_gravity="bottom|left|center_vertical|center_horizontal|center" android:id="@+id/ivCancel" android:layout_width="64dp" android:layout_height="64dp" android:layout_margin="8dp" android:src="@drawable/cancel_button" android:onClick="onCancel"/>
+        <ImageView android:layout_gravity="bottom|right|center_vertical|center_horizontal|center" android:id="@+id/ivApply" android:layout_width="64dp" android:layout_height="64dp" android:layout_margin="8dp" android:src="@drawable/ok_button" android:onClick="onApply"/>
+    </FrameLayout>
+    <FrameLayout android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/action_bar"/>
+</RelativeLayout>

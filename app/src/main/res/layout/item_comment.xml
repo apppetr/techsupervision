@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:padding="20dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="25dp" android:textColor="#0000" android:gravity="center" android:id="@+id/tvIndex" android:background="@drawable/red_circle" android:layout_width="54dp" android:layout_height="54dp" android:layout_marginRight="20dp" android:layout_marginBottom="20dp" android:text="3"/>
+    <TextView android:textStyle="bold" android:id="@+id/tvTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Семидесятипятиугольник" android:layout_toRightOf="@+id/tvIndex" android:layout_alignTop="@+id/tvIndex"/>
+    <TextView android:textSize="13sp" android:id="@+id/tvDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Добавлен на восходе красной Луны, когда Солнце зашло навека." android:layout_toRightOf="@+id/tvIndex" android:layout_alignBottom="@+id/tvIndex"/>
+    <TextView android:id="@+id/tvDesc" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Надо исправить цвет Красной Луны на более зелёный, и поправить расположение умирающего Солнца. Также неплохо бы добавить новых Всадников Апокалипсиса, учитывая современные реалии и движения." android:layout_below="@+id/tvIndex"/>
+</RelativeLayout>
