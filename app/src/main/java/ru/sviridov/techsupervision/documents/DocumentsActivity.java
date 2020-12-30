@@ -1,6 +1,7 @@
 package ru.sviridov.techsupervision.documents;
 
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,15 +57,15 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderCallback
                if (var2 == -1) {
                   CupboardFactory.cupboard().withContext(DocumentsActivity.this).delete(UserDataProvider.getContentUri("Document"), "_id=?", String.valueOf(var1));
                }
-
             }
          });
          break;
       case R.id.menu_popup_send:
          this.checkAndRequestPermissions(22);
-         break;
+         return;
       case R.id.menu_popup_export:
          this.checkAndRequestPermissions(23);
+         break;
       }
 
    }
@@ -77,14 +78,16 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderCallback
          var3.setDisplayHomeAsUpEnabled(false);
       }
 
-      LayoutInflater var2 = LayoutInflater.from(this);
-      ListView var4 = (ListView)this.findViewById(android.R.id.list);
-      var4.setEmptyView(this.findViewById(android.R.id.empty));
-      var4.addHeaderView(var2.inflate(R.layout.header_documents, var4, false), (Object)null, false);
-      var4.addFooterView(var2.inflate(R.layout.separator, var4, false), (Object)null, false);
-      this.adapter = new DocumentsAdapter(this, (Cursor)null, this);
-      var4.setAdapter(this.adapter);
-      var4.setOnItemClickListener(this);
+      LayoutInflater layoutInflater = LayoutInflater.from(this);
+      ListView listView = (ListView)this.findViewById(android.R.id.list);
+      listView.setEmptyView(this.findViewById(android.R.id.empty));
+      listView.addHeaderView(layoutInflater.inflate(R.layout.header_documents, listView, false), (Object)null, false);
+      listView.addFooterView(layoutInflater.inflate(R.layout.separator, listView, false), (Object)null, false);
+
+      adapter = new DocumentsAdapter(this, (Cursor)null, this);
+
+      listView.setAdapter(adapter);
+      listView.setOnItemClickListener(this);
       this.getLoaderManager().initLoader(1, (Bundle)null, this);
       this.findViewById(R.id.fabAdd).setOnClickListener(new android.view.View.OnClickListener() {
          public void onClick(View var1) {
@@ -129,14 +132,14 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderCallback
    }
 
    public void onPermissionDenied(int var1) {
-      Toast.makeText(this, "Невозможно выполнить действие без разрешений", 1).show();
+      Toast.makeText(this, "Невозможно выполнить действие без разрешений", Toast.LENGTH_LONG).show();
    }
 
    public void onPermissionGranted(int var1) {
       if (var1 == 23) {
-         (new DocxSaver(this, this.docId)).saveToDisk();
+         new DocxSaver((Context)this, this.docId).saveToDisk();
       } else if (var1 == 22) {
-         (new DocxSaver(this, this.docId)).send();
+         new DocxSaver((Context)this, this.docId).send();
       }
 
    }

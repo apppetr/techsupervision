@@ -1,5 +1,13 @@
+/*
+ * Decompiled with CFR <Could not determine version>.
+ *
+ * Could not load the following classes:
+ *  android.view.MenuItem
+ *  android.view.View
+ *  android.view.ViewGroup
+ *  android.view.ViewGroup$LayoutParams
+ */
 package ru.sviridov.techsupervision;
-
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -7,46 +15,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 
-public class ToolbarActivity extends AppCompatActivity {
+public class ToolbarActivity
+        extends AppCompatActivity {
    private void setupToolbar() {
       this.setSupportActionBar(this.getToolbar());
-      ActionBar var1 = this.getSupportActionBar();
-      if (var1 != null) {
-         var1.setDisplayHomeAsUpEnabled(true);
-      }
-
+      ActionBar actionBar = this.getSupportActionBar();
+      if (actionBar == null) return;
+      actionBar.setDisplayHomeAsUpEnabled(true);
    }
 
    public Toolbar getToolbar() {
-      return (Toolbar)this.findViewById(R.id.action_bar);
+      return (Toolbar) this.findViewById(R.id.action_bar);
    }
 
-   public boolean onOptionsItemSelected(MenuItem var1) {
-      boolean var2;
-      if (var1.getItemId() == 16908332) {
-         NavUtils.navigateUpFromSameTask(this);
-         var2 = true;
-      } else {
-         var2 = super.onOptionsItemSelected(var1);
-      }
-
-      return var2;
+   public boolean onOptionsItemSelected(MenuItem menuItem) {
+      if (menuItem.getItemId() != android.R.id.home) return super.onOptionsItemSelected(menuItem);
+      NavUtils.navigateUpFromSameTask(this);
+      return true;
    }
 
-   public void setContentView(int var1) {
-      super.setContentView(var1);
+   @Override
+   public void setContentView(int n) {
+      super.setContentView(n);
       this.setupToolbar();
    }
 
-   public void setContentView(View var1) {
-      super.setContentView(var1);
+   @Override
+   public void setContentView(View view) {
+      super.setContentView(view);
       this.setupToolbar();
    }
 
-   public void setContentView(View var1, LayoutParams var2) {
-      super.setContentView(var1, var2);
+   @Override
+   public void setContentView(View view, ViewGroup.LayoutParams layoutParams) {
+      super.setContentView(view, layoutParams);
       this.setupToolbar();
    }
 }
+

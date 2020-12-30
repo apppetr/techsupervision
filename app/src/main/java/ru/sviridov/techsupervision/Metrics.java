@@ -35,87 +35,87 @@ public abstract class Metrics {
    }
 
    @NonNull
-   public static HashMap toMetrics(Defect var0, long var1, int var3) {
-      HashMap var4 = new HashMap();
-      var4.put("material", var0.getMaterial());
-      var4.put("element", var0.getElement());
+   public static HashMap<String, Object> toMetrics(Defect defect, long l, int n) {
+      HashMap<String, Object> hashMap = new HashMap<String, Object>();
+      hashMap.put("material", defect.getMaterial());
+      hashMap.put("element", defect.getElement());
       String var5;
-      if (var0.place == null) {
+      if (defect.place == null) {
          var5 = "";
       } else {
-         var5 = var0.place.toString();
+         var5 = defect.place.toString();
       }
 
-      var4.put("place", var5);
-      var4.put("category", var0.getCategory());
-      var4.put("problems", var0.getNiceProblems());
-      var4.put("reasons", var0.getNiceReasons());
-      var4.put("compensations", var0.getNiceCompensations());
-      var4.put("volume", var0.getVolume());
-      var4.put("picture count", var3);
-      var4.put("spent time", calcSpentTime(var1));
-      return var4;
+      hashMap.put("place", var5);
+      hashMap.put("category", defect.getCategory());
+      hashMap.put("problems", defect.getNiceProblems());
+      hashMap.put("reasons", defect.getNiceReasons());
+      hashMap.put("compensations", defect.getNiceCompensations());
+      hashMap.put("volume", defect.getVolume());
+      hashMap.put("picture count", n);
+      hashMap.put("spent time", calcSpentTime(l));
+      return hashMap;
    }
 
    @NonNull
-   public static HashMap toMetrics(Document var0, long var1) {
-      HashMap var3 = new HashMap();
-      var3.put("title", var0.title);
-      var3.put("responsibility", var0.responsibility.getName());
-      var3.put("appointment", var0.appointment.getName());
-      var3.put("year", var0.year);
-      var3.put("address", var0.address);
-      var3.put("sizes", var0.sizes);
-      var3.put("floors", var0.floors);
-      var3.put("date", new Date(var0.date));
-      var3.put("spent time", calcSpentTime(var1));
-      return var3;
+   public static HashMap<String, java.io.Serializable> toMetrics(Document document, long l) {
+      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
+      hashMap.put("title", document.title);
+      hashMap.put("responsibility", document.responsibility.getName());
+      hashMap.put("appointment", document.appointment.getName());
+      hashMap.put("year", document.year);
+      hashMap.put("address", document.address);
+      hashMap.put("sizes", document.sizes);
+      hashMap.put("floors", document.floors);
+      hashMap.put("date", new Date(document.date));
+      hashMap.put("spent time", calcSpentTime(l));
+      return hashMap;
    }
 
-   public static HashMap toMetrics(Document var0, List var1) {
-      HashMap var2 = new HashMap();
-      var2.put("doc title", var0.title);
-      var2.put("date", new Date(var0.date));
-      var2.put("defects count", var1.size());
-      int var3 = 0;
-      int var4 = 0;
-      Iterator var7 = var1.iterator();
+   public static HashMap<String, java.io.Serializable> toMetrics(Document object, List<DefectwithPicture> list) {
+      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
+      hashMap.put("doc title", object.title);
+      hashMap.put("date", new Date(object.date));
+      hashMap.put("defects count", list.size());
+      int n = 0;
+      int n2 = 0;
+      Iterator<DefectwithPicture> objectiter = list.iterator();
 
-      while(var7.hasNext()) {
-         int var5 = ((DefectwithPicture)var7.next()).getPictures().size();
-         int var6 = var3 + var5;
-         var3 = var6;
-         if (var4 < var5) {
-            var4 = var5;
-            var3 = var6;
+      while(objectiter.hasNext()) {
+         int n5 = (objectiter.next()).getPictures().size();
+         int n6 = n + n5;
+         n = n6;
+         if (n2 < n5) {
+            n2 = n5;
+            n = n6;
          }
       }
 
-      var2.put("pictures count", var3);
-      var2.put("max pictures count for defect", var4);
-      return var2;
+      hashMap.put("pictures count", n);
+      hashMap.put("max pictures count for defect", n2);
+      return hashMap;
    }
 
    @NonNull
-   public static HashMap toMetrics(@NonNull Picture var0, long var1) {
-      HashMap var3 = new HashMap();
-      var3.put("comments count", var0.getComments().size());
-      int var4;
-      if (var0.getGeometries() != null) {
-         var4 = var0.getGeometries().length();
+   public static HashMap<String, java.io.Serializable> toMetrics(@NonNull Picture picture, long var1) {
+      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
+      hashMap.put("comments count", picture.getComments().size());
+      int n4;
+      if (picture.getGeometries() != null) {
+         n4 = picture.getGeometries().length();
       } else {
-         var4 = 0;
+         n4 = 0;
       }
 
-      var3.put("geometries count", var4);
-      String var5;
-      if (TextUtils.isEmpty(var0.getImgUrl())) {
-         var5 = "empty";
+      hashMap.put("geometries count", n4);
+      String s5;
+      if (TextUtils.isEmpty(picture.getImgUrl())) {
+         s5 = "empty";
       } else {
-         var5 = "ok";
+         s5 = "ok";
       }
 
-      var3.put("image url", var5);
-      return var3;
+      hashMap.put("image url", s5);
+      return hashMap;
    }
 }
