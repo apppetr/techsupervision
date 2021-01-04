@@ -21,128 +21,127 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import nl.qbusict.cupboard.CupboardFactory;
+import ru.sviridov.techsupervision.db.UserDataHelper;
 import ru.sviridov.techsupervision.db.UserDataProvider;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Defect;
 import ru.sviridov.techsupervision.widgets.RVCursorAdapter;
 
-public class DefectsAdapter extends RVCursorAdapter {
-   private OnClickListener clickListener;
+public class DefectsAdapter extends RVCursorAdapter<DefectsAdapter.DefectHolder> {
+   /* access modifiers changed from: private */
+   public View.OnClickListener clickListener;
    private SimpleDateFormat format = new SimpleDateFormat("d MMMM y", Locale.getDefault());
    private int imgIndx = -1;
    private final LayoutInflater inflater;
 
-   public DefectsAdapter(@NonNull Context var1, @Nullable Cursor var2, OnClickListener var3) {
-      super(var1, var2);
-      this.clickListener = var3;
-      this.inflater = LayoutInflater.from(var1);
+   public DefectsAdapter(@NonNull Context context, @Nullable Cursor cursor, View.OnClickListener clickListener2) {
+      super(context, cursor);
+      this.clickListener = clickListener2;
+      this.inflater = LayoutInflater.from(context);
    }
 
-   private void setImage(Context var1, ImageView var2, String var3) {
-      if (var3 == null) {
-         var2.setScaleType(ScaleType.CENTER);
-         var2.setImageResource(R.drawable.no_photo);
+   public DefectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      DefectHolder dh = new DefectHolder(this.inflater.inflate(R.layout.item_defect, parent, false));
+      dh.tvEdit.setOnClickListener(this.clickListener);
+      dh.tvAddPhoto.setOnClickListener(this.clickListener);
+      dh.ivImage.setOnClickListener(this.clickListener);
+      return dh;
+   }
+
+   public void onBindViewHolder(DefectHolder h, Cursor cursor) {
+      setImage(this.context, h.ivImage, cursor.getString(this.imgIndx));
+      Defect defect = (Defect) CupboardFactory.cupboard().withCursor(cursor).get(Defect.class);
+      if (defect.place != null) {
+         h.tvTitle.setText(this.context.getString(R.string.format_defect_title, new Object[]{defect.getElement(), defect.getMaterial(), defect.place}));
+      } else if (defect.getElement() != null) {
+         h.tvTitle.setText(this.context.getString(R.string.format_defect_title_short, new Object[]{defect.getElement(), defect.getMaterial()}));
       } else {
-         var2.setScaleType(ScaleType.CENTER_CROP);
-
-         Picasso.get().load(var3).resizeDimen(R.dimen.width_picture_item, R.dimen.height_picture_defect).centerCrop().into(var2);
+         h.tvTitle.setText(R.string.new_defect);
       }
-
+      h.tvDate.setText(this.format.format(new Date(defect.updated)));
+      h.tvCategory.setText(this.context.getString(R.string.danger_category_format, new Object[]{defect.getCategory()}));
+      h.tvDesc.setText(defect.getNiceProblems());
+      int id = defect._id.intValue();
+      h.tvEdit.setTag(Integer.valueOf(id));
+      h.tvAddPhoto.setTag(Integer.valueOf(id));
+      h.ivImage.setTag(Integer.valueOf(id));
    }
 
-   public void delete(View var1, final int var2) {
-      this.noNotifyOncePlease();
-      Uri var3 = UserDataProvider.getContentUri("Defect");
-      CupboardFactory.cupboard().withContext(this.context).delete(var3, "_id=?", String.valueOf(this.getItemId(var2)));
-      var1.postDelayed(new Runnable() {
+   private void setImage(Context context, ImageView ivImage, String imageUrl) {
+      if (imageUrl == null) {
+         ivImage.setScaleType(ImageView.ScaleType.CENTER);
+         ivImage.setImageResource(R.drawable.no_photo);
+         return;
+      }
+      ivImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+      Picasso.get().load(imageUrl).resizeDimen(R.dimen.width_picture_item, R.dimen.height_picture_defect).centerCrop().into(ivImage);
+   }
+
+   /* access modifiers changed from: protected */
+   public void initIndexes(@NonNull Cursor cursor) {
+      this.imgIndx = cursor.getColumnIndex(UserDataHelper.DEFECT_WITH_PICTURE.IMG_URL);
+   }
+
+   public void delete(View view, final int position) {
+      noNotifyOncePlease();
+      Uri uri = UserDataProvider.getContentUri(UserDataHelper.DEFECT_URL);
+      CupboardFactory.cupboard().withContext(this.context).delete(uri, "_id=?", String.valueOf(getItemId(position)));
+      view.postDelayed(new Runnable() {
          public void run() {
-            DefectsAdapter.this.notifyItemRemoved(var2);
+            DefectsAdapter.this.notifyItemRemoved(position);
          }
-      }, 100L);
+      }, 100);
    }
 
-   protected void initIndexes(@NonNull Cursor var1) {
-      this.imgIndx = var1.getColumnIndex("imgUrl");
-   }
-
-   @Override
-   public void onBindViewHolder(RecyclerView.ViewHolder var1, Cursor var2) {
-
-   }
-
-   public void onBindViewHolder(DefectsAdapter.DefectHolder var1, Cursor var2) {
-      this.setImage(this.context, var1.ivImage, var2.getString(this.imgIndx));
-      Defect var4 = (Defect)CupboardFactory.cupboard().withCursor(var2).get(Defect.class);
-
-      if (var4.place != null) {
-         var1.tvTitle.setText(this.context.getString(   R.string.format_defect_title, new Object[]{var4.getElement(), var4.getMaterial(), var4.place}));
-      } else if (var4.getElement() != null) {
-         var1.tvTitle.setText(this.context.getString(R.string.format_defect_title_short, new Object[]{var4.getElement(), var4.getMaterial()}));
-      } else {
-         var1.tvTitle.setText(R.string.new_defect);
-      }
-
-      var1.tvDate.setText(this.format.format(new Date(var4.updated)));
-      var1.tvCategory.setText(this.context.getString(R.string.danger_category_format, new Object[]{var4.getCategory()}));
-      var1.tvDesc.setText(var4.getNiceProblems());
-      int var3 = var4._id.intValue();
-      var1.tvEdit.setTag(var3);
-      var1.tvAddPhoto.setTag(var3);
-      var1.ivImage.setTag(var3);
-   }
-
-   public DefectsAdapter.DefectHolder onCreateViewHolder(ViewGroup var1, int var2) {
-      DefectsAdapter.DefectHolder var3 = new DefectsAdapter.DefectHolder(this.inflater.inflate(R.layout.item_defect, var1, false));
-      var3.tvEdit.setOnClickListener(this.clickListener);
-      var3.tvAddPhoto.setOnClickListener(this.clickListener);
-      var3.ivImage.setOnClickListener(this.clickListener);
-      return var3;
-   }
-
-   public class DefectHolder extends RecyclerView.ViewHolder implements OnClickListener, OnMenuItemClickListener {
-      private final ImageView ivImage;
+   /* renamed from: ru.sviridov.techsupervision.documents.DefectsAdapter$DefectHolder */
+   public class DefectHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+      /* access modifiers changed from: private */
+      public final ImageView ivImage;
       private final View ivMore;
-      private final View tvAddPhoto;
-      private final TextView tvCategory;
-      private final TextView tvDate;
-      private final TextView tvDesc;
-      private final View tvEdit;
-      private final TextView tvTitle;
+      /* access modifiers changed from: private */
+      public final View tvAddPhoto;
+      /* access modifiers changed from: private */
+      public final TextView tvCategory;
+      /* access modifiers changed from: private */
+      public final TextView tvDate;
+      /* access modifiers changed from: private */
+      public final TextView tvDesc;
+      /* access modifiers changed from: private */
+      public final View tvEdit;
+      /* access modifiers changed from: private */
+      public final TextView tvTitle;
 
-      public DefectHolder(View var2) {
-         super(var2);
-         this.tvTitle = (TextView)var2.findViewById(R.id.tvTitle);
-         this.tvDate = (TextView)var2.findViewById(R.id.tvDate);
-         this.tvCategory = (TextView)var2.findViewById(R.id.tvCategory);
-         this.ivImage = (ImageView)var2.findViewById(R.id.ivImage);
-         this.tvDesc = (TextView)var2.findViewById(R.id.tvDesc);
-         this.ivMore = var2.findViewById(R.id.ivMore);
-         this.tvEdit = var2.findViewById(R.id.tvEdit);
-         this.tvAddPhoto = var2.findViewById(R.id.tvAddPhoto);
+      public DefectHolder(View v) {
+         super(v);
+         this.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+         this.tvDate = (TextView) v.findViewById(R.id.tvDate);
+         this.tvCategory = (TextView) v.findViewById(R.id.tvCategory);
+         this.ivImage = (ImageView) v.findViewById(R.id.ivImage);
+         this.tvDesc = (TextView) v.findViewById(R.id.tvDesc);
+         this.ivMore = v.findViewById(R.id.ivMore);
+         this.tvEdit = v.findViewById(R.id.tvEdit);
+         this.tvAddPhoto = v.findViewById(R.id.tvAddPhoto);
          this.ivMore.setOnClickListener(this);
       }
 
-      public void onClick(@NonNull View var1) {
-         PopupMenu var2 = new PopupMenu(DefectsAdapter.this.context, var1);
-         var2.setOnMenuItemClickListener(this);
-         var2.getMenuInflater().inflate(R.menu.popup_menu_defects, var2.getMenu());
-         var2.show();
+      public void onClick(@NonNull View view) {
+         PopupMenu popup = new PopupMenu(DefectsAdapter.this.context, view);
+         popup.setOnMenuItemClickListener(this);
+         popup.getMenuInflater().inflate(R.menu.popup_menu_defects, popup.getMenu());
+         popup.show();
       }
 
-      public boolean onMenuItemClick(MenuItem var1) {
-         boolean var2 = true;
-         switch(var1.getItemId()) {
-         case R.id.menu_popup_edit:
-            DefectsAdapter.this.clickListener.onClick(this.tvEdit);
-            break;
-         case R.id.menu_popup_delete:
-            DefectsAdapter.this.delete(this.itemView, this.getAdapterPosition());
-            break;
-         default:
-            var2 = false;
+      public boolean onMenuItemClick(MenuItem item) {
+         switch (item.getItemId()) {
+            case R.id.menu_popup_edit /*2131558606*/:
+               DefectsAdapter.this.clickListener.onClick(this.tvEdit);
+               return true;
+            case R.id.menu_popup_delete /*2131558607*/:
+               DefectsAdapter.this.delete(this.itemView, getAdapterPosition());
+               return true;
+            default:
+               return false;
          }
-
-         return var2;
       }
    }
 }

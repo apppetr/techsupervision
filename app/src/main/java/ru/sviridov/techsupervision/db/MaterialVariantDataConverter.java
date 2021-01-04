@@ -9,34 +9,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ru.sviridov.techsupervision.objects.MaterialVariant;
 
-public class MaterialVariantDataConverter implements FieldConverter {
+public class MaterialVariantDataConverter implements FieldConverter<MaterialVariant> {
    private static final String PROPERTY_PATTERN = "{\"id\":%s, \"name\":\"%s\", \"mat_elem_id\":\"%s\"}";
 
-   public MaterialVariant fromCursorValue(Cursor var1, int var2) {
-      String var5 = var1.getString(var2);
-
-      MaterialVariant var6;
+   public MaterialVariant fromCursorValue(Cursor cursor, int columnIndex) {
       try {
-         JSONObject var3 = new JSONObject(var5);
-         var6 = new MaterialVariant(var3.getInt("id"), var3.getString("name"), var3.optInt("mat_elem_id"));
-      } catch (JSONException var4) {
-        // Mint.logException(var4);
-         var6 = null;
+         JSONObject json = new JSONObject(cursor.getString(columnIndex));
+         return new MaterialVariant(json.getInt("id"), json.getString("name"), Integer.valueOf(json.optInt("mat_elem_id")));
+      } catch (JSONException e) {
+         //Mint.logException(e);
+         return null;
       }
+   }
 
-      return var6;
+   public void toContentValue(MaterialVariant value, String key, ContentValues values) {
+      values.put(key, String.format(PROPERTY_PATTERN, new Object[]{Integer.valueOf(value.getId()), value.getName(), value.getMatElemId()}));
    }
 
    public EntityConverter.ColumnType getColumnType() {
       return EntityConverter.ColumnType.TEXT;
-   }
-
-   @Override
-   public void toContentValue(Object var1, String var2, ContentValues var3) {
-
-   }
-
-   public void toContentValue(MaterialVariant var1, String var2, ContentValues var3) {
-      var3.put(var2, String.format("{\"id\":%s, \"name\":\"%s\", \"mat_elem_id\":\"%s\"}", var1.getId(), var1.getName(), var1.getMatElemId()));
    }
 }

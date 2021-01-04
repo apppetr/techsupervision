@@ -8,20 +8,25 @@ import ru.sviridov.techsupervision.utils.vectors.Painting;
 
 public class LineImagePatch implements ImagePatch {
    private static final Paint PAINT = new Paint(1);
-   private final Point a;
-   private final Point b;
+
+   /* renamed from: a */
+   private final Point f84a;
+
+   /* renamed from: b */
+   private final Point f85b;
 
    static {
       PAINT.setColor(-1430519809);
    }
 
-   public LineImagePatch(Point var1, Point var2) {
-      this.a = var1;
-      this.b = var2;
+   public LineImagePatch(Point a, Point b) {
+      this.f84a = a;
+      this.f85b = b;
    }
 
-   public void draw(Painting var1, Canvas var2) {
-      PAINT.setStrokeWidth(var1.getDensity() * 3.0F);
-      var2.drawLine((float)this.a.x, (float)this.a.y, (float)this.b.x, (float)this.b.y, PAINT);
+   public void draw(Painting target, Canvas cvs) {
+      PAINT.setStrokeWidth(target.getDensity() * 3.0f);
+      cvs.drawLine((float) this.f84a.x, (float) this.f84a.y, (float) this.f85b.x, (float) this.f85b.y, PAINT);
    }
 }
+

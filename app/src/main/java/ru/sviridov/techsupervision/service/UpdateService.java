@@ -13,6 +13,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,393 +30,281 @@ import ru.sviridov.techsupervision.objects.Defect2Reason;
 import ru.sviridov.techsupervision.objects.Elem2Mat;
 import ru.sviridov.techsupervision.objects.Reason2Compensation;
 import ru.sviridov.techsupervision.objects.Variant;
+import ru.sviridov.techsupervision.values.Values;
 import ru.sviridov.techsupervision.values.ValuesProvider;
 
 public class UpdateService extends Service {
    private static final String UPLOAD_URL = "http://techsupervision-live.appspot.com/content/v1.0/upload";
    private Gson gson;
    private RequestQueue requestQueue;
-   private boolean uploading = false;
+   /* access modifiers changed from: private */
+   public boolean uploading = false;
 
-   public static void call(Context var0) {
-      var0.startService(new Intent(var0, UpdateService.class));
+   public static void call(Context context) {
+      context.startService(new Intent(context, UpdateService.class));
    }
 
-   private List getReason2compensations() {
-      Cursor var1 = this.getContentResolver().query(ValuesProvider.uri("reasons2compensations"), (String[])null, "manually_added=1 AND uploaded=0", (String[])null, (String)null);
-      ArrayList var2 = new ArrayList(var1.getCount());
-      int var3 = var1.getColumnIndex("reason_id");
-      int var4 = var1.getColumnIndex("compensation_id");
-      int var5 = var1.getColumnIndex("manually_added");
-      int var6 = var1.getColumnIndex("uploaded");
-      int var7 = var1.getColumnIndex("version");
-
-      while(var1.moveToNext()) {
-         Reason2Compensation var8 = new Reason2Compensation();
-         var8.setReasonId(var1.getInt(var3));
-         var8.setCompensationId(var1.getInt(var4));
-         boolean var9;
-         if (var1.getInt(var5) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsManuallyAdded(var9);
-         var8.setVersion(var1.getString(var7));
-         if (var1.getInt(var6) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsUploaded(var9);
-         var2.add(var8);
-      }
-
-      return var2;
-   }
-
-   private boolean isSuccess(JSONObject var1) {
-      String var3;
-      if (var1.isNull("error")) {
-         var3 = null;
-      } else {
-         var3 = var1.optString("error");
-      }
-
-     // if (var3 != null) {
-      //   Mint.logEvent("upload error", MintLogLevel.Info, "error", var3);
-     // }
-
-      boolean var2;
-      if (var3 == null) {
-         var2 = true;
-      } else {
-         var2 = false;
-      }
-
-      return var2;
-   }
-
-   private void markUploaded(UploadVariantData var1) {
-      this.setUploadedVariants("elements", var1.getElements());
-      this.setUploadedVariants("materials", var1.getMaterials());
-      this.setUploadedElem2mats("elements2materials", var1.getElem2mats());
-      this.setUploadedDef2Elems("defects2elements", var1.getDef2elems());
-      this.setUploadedVariants("defects", var1.getDefects());
-      this.setUploadedDef2Reasons("defects2reasons", var1.getDefect2reasons());
-      this.setUploadedVariants("reasons", var1.getReasons());
-      this.setUploadedReason2compensations("reasons2compensations", var1.getReason2compensations());
-      this.setUploadedVariants("compensations", var1.getCompensations());
-   }
-
-   private UploadVariantData prepareUploadData(Intent var1) {
-      UploadVariantData var3 = new UploadVariantData();
-      User var2 = new User();
-      var2.setDbVersion(2);
-      var2.setToken(StrongMan.userThing);
-      var3.setApiToken("d0e849ad-4591-4230-8cab-08e132854e2b");
-      var3.setUser(var2);
-      var3.setMaterials(this.getVariants("materials"));
-      var3.setElements(this.getVariants("elements"));
-      var3.setElem2mats(this.getElem2mats());
-      var3.setDef2elems(this.getDef2Elems());
-      var3.setDefects(this.getVariants("defects"));
-      var3.setDefect2reasons(this.getDefect2reasons());
-      var3.setReasons(this.getVariants("reasons"));
-      var3.setReason2compensations(this.getReason2compensations());
-      var3.setCompensations(this.getVariants("compensations"));
-      return var3;
-   }
-
-   private void upload(Intent var1) {
-      final UploadVariantData var2 = this.prepareUploadData(var1);
-      if (!var2.isEmpty()) {
-         this.uploading = true;
-         Response.Listener var4 = new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-
-            }
-
-            public void onResponse(JSONObject var1) {
-               UpdateService.this.uploading = false;
-               if (UpdateService.this.isSuccess(var1)) {
-                  UpdateService.this.markUploaded(var2);
-               }
-
-            }
-         };
-         Response.ErrorListener var3 = new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError var1) {
-               UpdateService.this.uploading = false;
-            }
-         };
-         String var6 = this.gson.toJson(var2);
-        // JsonObjectRequest var5 = new JsonObjectRequest(1, "http://techsupervision-live.appspot.com/content/v1.0/upload", var4, var3);
-         VolleyLog.v(String.valueOf(var6));
-         //var5.setRetryPolicy(new DefaultRetryPolicy(10000, 3, 1.0F));
-        // this.requestQueue.add(var5);
-      }
-
-   }
-
-   public List getDef2Elems() {
-      Cursor var1 = this.getContentResolver().query(ValuesProvider.uri("defects2elements"), (String[])null, "manually_added=1 AND uploaded=0", (String[])null, (String)null);
-      ArrayList var2 = new ArrayList(var1.getCount());
-      int var3 = var1.getColumnIndex("defect_id");
-      int var4 = var1.getColumnIndex("mat_elem_id");
-      int var5 = var1.getColumnIndex("manually_added");
-      int var6 = var1.getColumnIndex("uploaded");
-      int var7 = var1.getColumnIndex("version");
-
-      while(var1.moveToNext()) {
-         Def2Elem var8 = new Def2Elem();
-         var8.setDefectId(var1.getInt(var3));
-         var8.setMatElemId(var1.getInt(var4));
-         boolean var9;
-         if (var1.getInt(var5) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsManuallyAdded(var9);
-         var8.setVersion(var1.getString(var7));
-         if (var1.getInt(var6) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsUploaded(var9);
-         var2.add(var8);
-      }
-
-      return var2;
-   }
-
-   public List getDefect2reasons() {
-      Cursor var1 = this.getContentResolver().query(ValuesProvider.uri("defects2reasons"), (String[])null, "manually_added=1 AND uploaded=0", (String[])null, (String)null);
-      ArrayList var2 = new ArrayList(var1.getCount());
-      int var3 = var1.getColumnIndex("defect_id");
-      int var4 = var1.getColumnIndex("reason_id");
-      int var5 = var1.getColumnIndex("manually_added");
-      int var6 = var1.getColumnIndex("uploaded");
-      int var7 = var1.getColumnIndex("version");
-
-      while(var1.moveToNext()) {
-         Defect2Reason var8 = new Defect2Reason();
-         var8.setDefectId(var1.getInt(var3));
-         var8.setReasonId(var1.getInt(var4));
-         boolean var9;
-         if (var1.getInt(var5) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsManuallyAdded(var9);
-         var8.setVersion(var1.getString(var7));
-         if (var1.getInt(var6) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var8.setIsUploaded(var9);
-         var2.add(var8);
-      }
-
-      return var2;
-   }
-
-   public List getElem2mats() {
-      Cursor var1 = this.getContentResolver().query(ValuesProvider.uri("elements2materials"), (String[])null, "manually_added=1 AND uploaded=0", (String[])null, (String)null);
-      ArrayList var2 = new ArrayList(var1.getCount());
-      int var3 = var1.getColumnIndex("element_id");
-      int var4 = var1.getColumnIndex("material_id");
-      int var5 = var1.getColumnIndex("mat_elem_id");
-      int var6 = var1.getColumnIndex("manually_added");
-      int var7 = var1.getColumnIndex("uploaded");
-      int var8 = var1.getColumnIndex("version");
-
-      while(var1.moveToNext()) {
-         Elem2Mat var9 = new Elem2Mat();
-         var9.setElementId(var1.getInt(var3));
-         var9.setMaterialId(var1.getInt(var4));
-         var9.setMatElemId(var1.getInt(var5));
-         boolean var10;
-         if (var1.getInt(var6) == 1) {
-            var10 = true;
-         } else {
-            var10 = false;
-         }
-
-         var9.setIsManuallyAdded(var10);
-         var9.setVersion(var1.getString(var8));
-         if (var1.getInt(var7) == 1) {
-            var10 = true;
-         } else {
-            var10 = false;
-         }
-
-         var9.setIsUploaded(var10);
-         var2.add(var9);
-      }
-
-      return var2;
-   }
-
-   public List getVariants(String var1) {
-      Cursor var2 = this.getContentResolver().query(ValuesProvider.uri(var1), (String[])null, "manually_added=1 AND uploaded=0", (String[])null, (String)null);
-      ArrayList var3 = new ArrayList(var2.getCount());
-      int var4 = var2.getColumnIndex("_id");
-      int var5 = var2.getColumnIndex("name");
-      int var6 = var2.getColumnIndex("manually_added");
-      int var7 = var2.getColumnIndex("uploaded");
-      int var8 = var2.getColumnIndex("version");
-
-      while(var2.moveToNext()) {
-         Variant var10 = new Variant(var2.getInt(var4), var2.getString(var5));
-         boolean var9;
-         if (var2.getInt(var6) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var10.setIsManuallyAdded(var9);
-         var10.setVersion(var2.getString(var8));
-         if (var2.getInt(var7) == 1) {
-            var9 = true;
-         } else {
-            var9 = false;
-         }
-
-         var10.setIsUploaded(var9);
-         var3.add(var10);
-      }
-
-      return var3;
-   }
-
-   public IBinder onBind(Intent var1) {
+   public IBinder onBind(Intent intent) {
       return null;
    }
 
    public void onCreate() {
       super.onCreate();
-      this.requestQueue = Volley.newRequestQueue(this, new HurlStack());
-      this.gson = (new GsonBuilder()).setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).excludeFieldsWithModifiers(64, 8, 128).create();
+      this.requestQueue = Volley.newRequestQueue((Context) this, (HttpStack) new HurlStack());
+      this.gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).excludeFieldsWithModifiers(64, 8, 128).create();
+   }
+
+   public int onStartCommand(Intent intent, int flags, int startId) {
+      super.onStartCommand(intent, flags, startId);
+      if (this.uploading) {
+         return Service.START_STICKY;
+      }
+      upload(intent);
+      return Service.START_STICKY ;
    }
 
    public void onDestroy() {
       super.onDestroy();
       this.uploading = false;
-      this.requestQueue.cancelAll(new RequestQueue.RequestFilter() {
-         public boolean apply(Request var1) {
+      this.requestQueue.cancelAll((RequestQueue.RequestFilter) new RequestQueue.RequestFilter() {
+         public boolean apply(Request<?> request) {
             return true;
          }
       });
    }
 
-   public int onStartCommand(Intent var1, int var2, int var3) {
-      super.onStartCommand(var1, var2, var3);
-      if (!this.uploading) {
-         this.upload(var1);
+   private void upload(Intent intent) {
+      final UploadVariantData data = prepareUploadData(intent);
+      if (!data.isEmpty()) {
+         this.uploading = true;
+         Response.Listener<JSONObject> lstner = new Response.Listener<JSONObject>() {
+            public void onResponse(JSONObject response) {
+               boolean unused = UpdateService.this.uploading = false;
+               if (UpdateService.this.isSuccess(response)) {
+                  UpdateService.this.markUploaded(data);
+               }
+            }
+         };
+         Response.ErrorListener errLstner = new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+               boolean unused = UpdateService.this.uploading = false;
+            }
+         };
+         String body = this.gson.toJson(data);
+         //Request request = new JsonObjectRequest(1, UPLOAD_URL, body, lstner, errLstner);
+         //VolleyLog.m23v(body, new Object[0]);
+         //request.setRetryPolicy(new DefaultRetryPolicy(10000, 3, 1.0f));
+       //  this.requestQueue.add(request);
       }
-
-      return Service.START_STICKY;
    }
 
-   public void setUploadedDef2Elems(String var1, List var2) {
-      if (!var2.isEmpty()) {
-         StringBuilder var3 = new StringBuilder();
-         var3.append("mat_elem_id").append(" in (");
-         Iterator var4 = var2.iterator();
-
-         while(var4.hasNext()) {
-            var3.append(((Def2Elem)var4.next()).getMatElemId());
-            var3.append(',');
-         }
-
-         var3.deleteCharAt(var3.length() - 1);
-         var3.append(')');
-         ContentValues var5 = new ContentValues();
-         var5.put("uploaded", true);
-         this.getContentResolver().update(ValuesProvider.uri(var1), var5, var3.toString(), (String[])null);
+   /* access modifiers changed from: private */
+   public boolean isSuccess(JSONObject response) {
+      String error = response.isNull("error") ? null : response.optString("error");
+      if (error != null) {
+       //  Mint.logEvent("upload error", MintLogLevel.Info, "error", error);
       }
-
+      return error == null;
    }
 
-   public void setUploadedDef2Reasons(String var1, List var2) {
-      if (!var2.isEmpty()) {
-         ContentResolver var3 = this.getContentResolver();
-         Iterator var4 = var2.iterator();
-
-         while(var4.hasNext()) {
-            Defect2Reason var5 = (Defect2Reason)var4.next();
-            ContentValues var6 = new ContentValues();
-            var6.put("uploaded", true);
-            var3.update(ValuesProvider.uri(var1), var6, String.format("defect_id=%d AND reason_id=%d", var5.getDefectId(), var5.getReasonId()), (String[])null);
-         }
-      }
-
+   /* access modifiers changed from: private */
+   public void markUploaded(UploadVariantData data) {
+      setUploadedVariants("elements", data.getElements());
+      setUploadedVariants("materials", data.getMaterials());
+      setUploadedElem2mats("elements2materials", data.getElem2mats());
+      setUploadedDef2Elems("defects2elements", data.getDef2elems());
+      setUploadedVariants("defects", data.getDefects());
+      setUploadedDef2Reasons("defects2reasons", data.getDefect2reasons());
+      setUploadedVariants("reasons", data.getReasons());
+      setUploadedReason2compensations("reasons2compensations", data.getReason2compensations());
+      setUploadedVariants("compensations", data.getCompensations());
    }
 
-   public void setUploadedElem2mats(String var1, List var2) {
-      if (!var2.isEmpty()) {
-         StringBuilder var3 = new StringBuilder();
-         var3.append("mat_elem_id").append(" in (");
-         Iterator var4 = var2.iterator();
-
-         while(var4.hasNext()) {
-            var3.append(((Elem2Mat)var4.next()).getMatElemId());
-            var3.append(',');
-         }
-
-         var3.deleteCharAt(var3.length() - 1);
-         var3.append(')');
-         ContentValues var5 = new ContentValues();
-         var5.put("uploaded", true);
-         this.getContentResolver().update(ValuesProvider.uri(var1), var5, var3.toString(), (String[])null);
-      }
-
+   private UploadVariantData prepareUploadData(Intent intent) {
+      UploadVariantData data = new UploadVariantData();
+      User user = new User();
+      user.setDbVersion(2);
+      user.setToken(StrongMan.userThing);
+      data.setApiToken(StrongMan.GLOBAL_THING);
+      data.setUser(user);
+      data.setMaterials(getVariants("materials"));
+      data.setElements(getVariants("elements"));
+      data.setElem2mats(getElem2mats());
+      data.setDef2elems(getDef2Elems());
+      data.setDefects(getVariants("defects"));
+      data.setDefect2reasons(getDefect2reasons());
+      data.setReasons(getVariants("reasons"));
+      data.setReason2compensations(getReason2compensations());
+      data.setCompensations(getVariants("compensations"));
+      return data;
    }
 
-   public void setUploadedReason2compensations(String var1, List var2) {
-      if (!var2.isEmpty()) {
-         ContentResolver var3 = this.getContentResolver();
-         Iterator var4 = var2.iterator();
-
-         while(var4.hasNext()) {
-            Reason2Compensation var6 = (Reason2Compensation)var4.next();
-            ContentValues var5 = new ContentValues();
-            var5.put("uploaded", true);
-            var3.update(ValuesProvider.uri(var1), var5, String.format("reason_id=%d AND compensation_id=%d", var6.getReasonId(), var6.getCompensationId()), (String[])null);
-         }
+   public List<Variant> getVariants(String uriPath) {
+      Cursor cursor = getContentResolver().query(ValuesProvider.uri(uriPath), (String[]) null, "manually_added=1 AND uploaded=0", (String[]) null, (String) null);
+      List<Variant> values = new ArrayList<>(cursor.getCount());
+      int inId = cursor.getColumnIndex("_id");
+      int inName = cursor.getColumnIndex("name");
+      int inManAdd = cursor.getColumnIndex("manually_added");
+      int inUploaded = cursor.getColumnIndex("uploaded");
+      int inVersion = cursor.getColumnIndex("version");
+      while (cursor.moveToNext()) {
+         Variant value = new Variant(cursor.getInt(inId), cursor.getString(inName));
+         value.setIsManuallyAdded(cursor.getInt(inManAdd) == 1);
+         value.setVersion(cursor.getString(inVersion));
+         value.setIsUploaded(cursor.getInt(inUploaded) == 1);
+         values.add(value);
       }
-
+      return values;
    }
 
-   public void setUploadedVariants(String var1, List var2) {
-      if (!var2.isEmpty()) {
-         StringBuilder var3 = new StringBuilder("_id in (");
-         Iterator var4 = var2.iterator();
-
-         while(var4.hasNext()) {
-            var3.append(((Variant)var4.next()).getId());
-            var3.append(',');
-         }
-
-         var3.deleteCharAt(var3.length() - 1);
-         var3.append(')');
-         ContentValues var5 = new ContentValues();
-         var5.put("uploaded", true);
-         this.getContentResolver().update(ValuesProvider.uri(var1), var5, var3.toString(), (String[])null);
+   public List<Elem2Mat> getElem2mats() {
+      Cursor cursor = getContentResolver().query(ValuesProvider.uri("elements2materials"), (String[]) null, "manually_added=1 AND uploaded=0", (String[]) null, (String) null);
+      List<Elem2Mat> values = new ArrayList<>(cursor.getCount());
+      int inElId = cursor.getColumnIndex(Values.E2M.ELEMENT_ID);
+      int inMatId = cursor.getColumnIndex(Values.E2M.MATERIAL_ID);
+      int inMatElemId = cursor.getColumnIndex("mat_elem_id");
+      int inManAdd = cursor.getColumnIndex("manually_added");
+      int inUploaded = cursor.getColumnIndex("uploaded");
+      int inVersion = cursor.getColumnIndex("version");
+      while (cursor.moveToNext()) {
+         Elem2Mat value = new Elem2Mat();
+         value.setElementId(cursor.getInt(inElId));
+         value.setMaterialId(cursor.getInt(inMatId));
+         value.setMatElemId(cursor.getInt(inMatElemId));
+         value.setIsManuallyAdded(cursor.getInt(inManAdd) == 1);
+         value.setVersion(cursor.getString(inVersion));
+         value.setIsUploaded(cursor.getInt(inUploaded) == 1);
+         values.add(value);
       }
+      return values;
+   }
 
+   public List<Def2Elem> getDef2Elems() {
+      Cursor cursor = getContentResolver().query(ValuesProvider.uri("defects2elements"), (String[]) null, "manually_added=1 AND uploaded=0", (String[]) null, (String) null);
+      List<Def2Elem> values = new ArrayList<>(cursor.getCount());
+      int inDefId = cursor.getColumnIndex("defect_id");
+      int inMatElemId = cursor.getColumnIndex("mat_elem_id");
+      int inManAdd = cursor.getColumnIndex("manually_added");
+      int inUploaded = cursor.getColumnIndex("uploaded");
+      int inVersion = cursor.getColumnIndex("version");
+      while (cursor.moveToNext()) {
+         Def2Elem value = new Def2Elem();
+         value.setDefectId(cursor.getInt(inDefId));
+         value.setMatElemId(cursor.getInt(inMatElemId));
+         value.setIsManuallyAdded(cursor.getInt(inManAdd) == 1);
+         value.setVersion(cursor.getString(inVersion));
+         value.setIsUploaded(cursor.getInt(inUploaded) == 1);
+         values.add(value);
+      }
+      return values;
+   }
+
+   public void setUploadedVariants(String uriPath, List<Variant> values) {
+      if (!values.isEmpty()) {
+         StringBuilder sBuilder = new StringBuilder("_id in (");
+         for (Variant value : values) {
+            sBuilder.append(value.getId());
+            sBuilder.append(',');
+         }
+         sBuilder.deleteCharAt(sBuilder.length() - 1);
+         sBuilder.append(')');
+         ContentValues cv = new ContentValues();
+         cv.put("uploaded", true);
+         getContentResolver().update(ValuesProvider.uri(uriPath), cv, sBuilder.toString(), (String[]) null);
+      }
+   }
+
+   public void setUploadedDef2Elems(String uriPath, List<Def2Elem> values) {
+      if (!values.isEmpty()) {
+         StringBuilder sBuilder = new StringBuilder();
+         sBuilder.append("mat_elem_id").append(" in (");
+         for (Def2Elem value : values) {
+            sBuilder.append(value.getMatElemId());
+            sBuilder.append(',');
+         }
+         sBuilder.deleteCharAt(sBuilder.length() - 1);
+         sBuilder.append(')');
+         ContentValues cv = new ContentValues();
+         cv.put("uploaded", true);
+         getContentResolver().update(ValuesProvider.uri(uriPath), cv, sBuilder.toString(), (String[]) null);
+      }
+   }
+
+   public void setUploadedElem2mats(String uriPath, List<Elem2Mat> values) {
+      if (!values.isEmpty()) {
+         StringBuilder sBuilder = new StringBuilder();
+         sBuilder.append("mat_elem_id").append(" in (");
+         for (Elem2Mat value : values) {
+            sBuilder.append(value.getMatElemId());
+            sBuilder.append(',');
+         }
+         sBuilder.deleteCharAt(sBuilder.length() - 1);
+         sBuilder.append(')');
+         ContentValues cv = new ContentValues();
+         cv.put("uploaded", true);
+         getContentResolver().update(ValuesProvider.uri(uriPath), cv, sBuilder.toString(), (String[]) null);
+      }
+   }
+
+   public void setUploadedDef2Reasons(String uriPath, List<Defect2Reason> values) {
+      if (!values.isEmpty()) {
+         ContentResolver cr = getContentResolver();
+         for (Defect2Reason value : values) {
+            ContentValues cv = new ContentValues();
+            cv.put("uploaded", true);
+            cr.update(ValuesProvider.uri(uriPath), cv, String.format("defect_id=%d AND reason_id=%d", new Object[]{Integer.valueOf(value.getDefectId()), Integer.valueOf(value.getReasonId())}), (String[]) null);
+         }
+      }
+   }
+
+   public void setUploadedReason2compensations(String uriPath, List<Reason2Compensation> values) {
+      if (!values.isEmpty()) {
+         ContentResolver cr = getContentResolver();
+         for (Reason2Compensation value : values) {
+            ContentValues cv = new ContentValues();
+            cv.put("uploaded", true);
+            cr.update(ValuesProvider.uri(uriPath), cv, String.format("reason_id=%d AND compensation_id=%d", new Object[]{Integer.valueOf(value.getReasonId()), Integer.valueOf(value.getCompensationId())}), (String[]) null);
+         }
+      }
+   }
+
+   public List<Defect2Reason> getDefect2reasons() {
+      Cursor cursor = getContentResolver().query(ValuesProvider.uri("defects2reasons"), (String[]) null, "manually_added=1 AND uploaded=0", (String[]) null, (String) null);
+      List<Defect2Reason> values = new ArrayList<>(cursor.getCount());
+      int inDefId = cursor.getColumnIndex("defect_id");
+      int inReasonId = cursor.getColumnIndex("reason_id");
+      int inManAdd = cursor.getColumnIndex("manually_added");
+      int inUploaded = cursor.getColumnIndex("uploaded");
+      int inVersion = cursor.getColumnIndex("version");
+      while (cursor.moveToNext()) {
+         Defect2Reason value = new Defect2Reason();
+         value.setDefectId(cursor.getInt(inDefId));
+         value.setReasonId(cursor.getInt(inReasonId));
+         value.setIsManuallyAdded(cursor.getInt(inManAdd) == 1);
+         value.setVersion(cursor.getString(inVersion));
+         value.setIsUploaded(cursor.getInt(inUploaded) == 1);
+         values.add(value);
+      }
+      return values;
+   }
+
+   private List<Reason2Compensation> getReason2compensations() {
+      Cursor cursor = getContentResolver().query(ValuesProvider.uri("reasons2compensations"), (String[]) null, "manually_added=1 AND uploaded=0", (String[]) null, (String) null);
+      List<Reason2Compensation> values = new ArrayList<>(cursor.getCount());
+      int inReasonId = cursor.getColumnIndex("reason_id");
+      int inCompId = cursor.getColumnIndex(Values.R2C.COMPENSATION_ID);
+      int inManAdd = cursor.getColumnIndex("manually_added");
+      int inUploaded = cursor.getColumnIndex("uploaded");
+      int inVersion = cursor.getColumnIndex("version");
+      while (cursor.moveToNext()) {
+         Reason2Compensation value = new Reason2Compensation();
+         value.setReasonId(cursor.getInt(inReasonId));
+         value.setCompensationId(cursor.getInt(inCompId));
+         value.setIsManuallyAdded(cursor.getInt(inManAdd) == 1);
+         value.setVersion(cursor.getString(inVersion));
+         value.setIsUploaded(cursor.getInt(inUploaded) == 1);
+         values.add(value);
+      }
+      return values;
    }
 }

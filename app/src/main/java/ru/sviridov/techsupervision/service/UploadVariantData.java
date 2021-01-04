@@ -2,116 +2,115 @@ package ru.sviridov.techsupervision.service;
 
 import java.util.List;
 
+import ru.sviridov.techsupervision.objects.Def2Elem;
+import ru.sviridov.techsupervision.objects.Defect2Reason;
+import ru.sviridov.techsupervision.objects.Elem2Mat;
+import ru.sviridov.techsupervision.objects.Reason2Compensation;
+import ru.sviridov.techsupervision.objects.Variant;
+
 public class UploadVariantData {
    private String apiToken;
-   private List compensations;
-   private List def2elems;
-   private List defect2reasons;
-   private List defects;
-   private List elem2mats;
-   private List elements;
-   private List materials;
-   private List reason2compensations;
-   private List reasons;
+   private List<Variant> compensations;
+   private List<Def2Elem> def2elems;
+   private List<Defect2Reason> defect2reasons;
+   private List<Variant> defects;
+   private List<Elem2Mat> elem2mats;
+   private List<Variant> elements;
+   private List<Variant> materials;
+   private List<Reason2Compensation> reason2compensations;
+   private List<Variant> reasons;
    private User user;
 
    public String getApiToken() {
       return this.apiToken;
    }
 
-   public List getCompensations() {
-      return this.compensations;
-   }
-
-   public List getDef2elems() {
-      return this.def2elems;
-   }
-
-   public List getDefect2reasons() {
-      return this.defect2reasons;
-   }
-
-   public List getDefects() {
-      return this.defects;
-   }
-
-   public List getElem2mats() {
-      return this.elem2mats;
-   }
-
-   public List getElements() {
-      return this.elements;
-   }
-
-   public List getMaterials() {
-      return this.materials;
-   }
-
-   public List getReason2compensations() {
-      return this.reason2compensations;
-   }
-
-   public List getReasons() {
-      return this.reasons;
+   public void setApiToken(String apiToken2) {
+      this.apiToken = apiToken2;
    }
 
    public User getUser() {
       return this.user;
    }
 
+   public void setUser(User user2) {
+      this.user = user2;
+   }
+
+   public List<Variant> getMaterials() {
+      return this.materials;
+   }
+
+   public void setMaterials(List<Variant> materials2) {
+      this.materials = materials2;
+   }
+
+   public List<Variant> getElements() {
+      return this.elements;
+   }
+
+   public void setElements(List<Variant> elements2) {
+      this.elements = elements2;
+   }
+
+   public List<Elem2Mat> getElem2mats() {
+      return this.elem2mats;
+   }
+
+   public void setElem2mats(List<Elem2Mat> elem2mats2) {
+      this.elem2mats = elem2mats2;
+   }
+
+   public List<Def2Elem> getDef2elems() {
+      return this.def2elems;
+   }
+
+   public void setDef2elems(List<Def2Elem> def2elems2) {
+      this.def2elems = def2elems2;
+   }
+
+   public List<Variant> getDefects() {
+      return this.defects;
+   }
+
+   public void setDefects(List<Variant> defects2) {
+      this.defects = defects2;
+   }
+
+   public List<Defect2Reason> getDefect2reasons() {
+      return this.defect2reasons;
+   }
+
+   public void setDefect2reasons(List<Defect2Reason> defect2reasons2) {
+      this.defect2reasons = defect2reasons2;
+   }
+
+   public List<Variant> getReasons() {
+      return this.reasons;
+   }
+
+   public void setReasons(List<Variant> reasons2) {
+      this.reasons = reasons2;
+   }
+
+   public List<Reason2Compensation> getReason2compensations() {
+      return this.reason2compensations;
+   }
+
+   public void setReason2compensations(List<Reason2Compensation> reason2compensations2) {
+      this.reason2compensations = reason2compensations2;
+   }
+
+   public List<Variant> getCompensations() {
+      return this.compensations;
+   }
+
+   public void setCompensations(List<Variant> compensations2) {
+      this.compensations = compensations2;
+   }
+
    public boolean isEmpty() {
-      boolean var1;
-      if (this.materials.isEmpty() && this.elements.isEmpty() && this.elem2mats.isEmpty() && this.def2elems.isEmpty() && this.defects.isEmpty() && this.defect2reasons.isEmpty() && this.reasons.isEmpty() && this.reason2compensations.isEmpty() && this.compensations.isEmpty()) {
-         var1 = true;
-      } else {
-         var1 = false;
-      }
-
-      return var1;
-   }
-
-   public void setApiToken(String var1) {
-      this.apiToken = var1;
-   }
-
-   public void setCompensations(List var1) {
-      this.compensations = var1;
-   }
-
-   public void setDef2elems(List var1) {
-      this.def2elems = var1;
-   }
-
-   public void setDefect2reasons(List var1) {
-      this.defect2reasons = var1;
-   }
-
-   public void setDefects(List var1) {
-      this.defects = var1;
-   }
-
-   public void setElem2mats(List var1) {
-      this.elem2mats = var1;
-   }
-
-   public void setElements(List var1) {
-      this.elements = var1;
-   }
-
-   public void setMaterials(List var1) {
-      this.materials = var1;
-   }
-
-   public void setReason2compensations(List var1) {
-      this.reason2compensations = var1;
-   }
-
-   public void setReasons(List var1) {
-      this.reasons = var1;
-   }
-
-   public void setUser(User var1) {
-      this.user = var1;
+      return this.materials.isEmpty() && this.elements.isEmpty() && this.elem2mats.isEmpty() && this.def2elems.isEmpty() && this.defects.isEmpty() && this.defect2reasons.isEmpty() && this.reasons.isEmpty() && this.reason2compensations.isEmpty() && this.compensations.isEmpty();
    }
 
    public String toString() {

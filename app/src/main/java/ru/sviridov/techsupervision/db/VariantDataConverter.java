@@ -9,33 +9,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import ru.sviridov.techsupervision.objects.Variant;
 
-public class VariantDataConverter implements FieldConverter {
+public class VariantDataConverter implements FieldConverter<Variant> {
    private static final String PROPERTY_PATTERN = "{\"id\":%s, \"name\":\"%s\", \"manually_added\": %b, \"is_approved\" : %b, \"version\" : \"%s\"}";
 
-   public Variant fromCursorValue(Cursor var1, int var2) {
-      String var5 = var1.getString(var2);
-
-      Variant var6;
+   public Variant fromCursorValue(Cursor cursor, int columnIndex) {
       try {
-         JSONObject var3 = new JSONObject(var5);
-         var6 = new Variant(var3.getInt("id"), var3.getString("name"));
-      } catch (JSONException var4) {
-     //    Mint.logException(var4);
-         var6 = null;
+         JSONObject json = new JSONObject(cursor.getString(columnIndex));
+         return new Variant(json.getInt("id"), json.getString("name"));
+      } catch (JSONException e) {
+       //  Mint.logException(e);
+         return null;
       }
+   }
 
-      return var6;
+   public void toContentValue(Variant value, String key, ContentValues values) {
+      values.put(key, String.format(PROPERTY_PATTERN, new Object[]{Integer.valueOf(value.getId()), value.getName(), Boolean.valueOf(value.isManuallyAdded()), value.getVersion(), Boolean.valueOf(value.isUploaded())}));
    }
 
    public EntityConverter.ColumnType getColumnType() {
       return EntityConverter.ColumnType.TEXT;
    }
-
-   @Override
-   public void toContentValue(Object var1, String var2, ContentValues var3) {
-   }
-
-   public void toContentValue(Variant var1, String var2, ContentValues var3) {
-      var3.put(var2, String.format("{\"id\":%s, \"name\":\"%s\", \"manually_added\": %b, \"is_approved\" : %b, \"version\" : \"%s\"}", var1.getId(), var1.getName(), var1.isManuallyAdded(), var1.getVersion(), var1.isUploaded()));
-   }
 }
+

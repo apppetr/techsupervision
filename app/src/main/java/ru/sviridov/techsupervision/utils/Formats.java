@@ -5,94 +5,66 @@ import java.util.Arrays;
 import org.json.JSONArray;
 import org.json.JSONException;
 import ru.sviridov.techsupervision.objects.Variant;
-
 public class Formats {
-   public static int[] extractIds(Variant[] var0) {
-      int[] var1;
-      if (var0 == null) {
-         var1 = new int[0];
-      } else {
-         int[] var2 = new int[var0.length];
-         int var3 = var0.length;
-         int var4 = 0;
-         int var5 = 0;
-
-         while(true) {
-            var1 = var2;
-            if (var4 >= var3) {
-               break;
-            }
-
-            var2[var5] = var0[var4].getId();
-            ++var4;
-            ++var5;
-         }
+   public static String formatValues(JSONArray jsValues) throws JSONException {
+      StringBuilder builder = new StringBuilder();
+      int count = jsValues.length();
+      for (int i = 0; i < count; i++) {
+         builder.append(jsValues.getJSONObject(i).getString("name"));
+         builder.append(", ");
       }
-
-      return var1;
+      int ind = builder.lastIndexOf(",");
+      if (ind != -1) {
+         builder.deleteCharAt(ind);
+      }
+      return builder.toString();
    }
 
-   public static String formatArray(int[] var0) {
-      String var1;
-      if (var0 == null) {
-         var1 = "";
-      } else {
-         var1 = Arrays.toString(var0).replaceAll("[\\[\\]]", "");
+   public static int[] extractIds(Variant[] properties) {
+      if (properties == null) {
+         return new int[0];
       }
-
-      return var1;
+      int[] result = new int[properties.length];
+      Variant[] arr$ = properties;
+      int len$ = arr$.length;
+      int i$ = 0;
+      int i = 0;
+      while (i$ < len$) {
+         result[i] = arr$[i$].getId();
+         i$++;
+         i++;
+      }
+      return result;
    }
 
-   public static String formatArray(Object[] var0) {
-      String var1;
-      if (var0 == null) {
-         var1 = "";
-      } else {
-         var1 = Arrays.toString(var0).replaceAll("[\\[\\]]", "");
+   public static Variant[] migrateArray(Parcelable[] values) {
+      if (values == null) {
+         return new Variant[0];
       }
-
-      return var1;
+      Variant[] ret = new Variant[values.length];
+      Parcelable[] arr$ = values;
+      int len$ = arr$.length;
+      int i$ = 0;
+      int i = 0;
+      while (i$ < len$) {
+         ret[i] = (Variant) arr$[i$];
+         i$++;
+         i++;
+      }
+      return ret;
    }
 
-   public static String formatValues(JSONArray var0) throws JSONException {
-      StringBuilder var1 = new StringBuilder();
-      int var2 = 0;
-
-      for(int var3 = var0.length(); var2 < var3; ++var2) {
-         var1.append(var0.getJSONObject(var2).getString("name"));
-         var1.append(", ");
+   public static <T> String formatArray(T[] values) {
+      if (values == null) {
+         return "";
       }
-
-      var2 = var1.lastIndexOf(",");
-      if (var2 != -1) {
-         var1.deleteCharAt(var2);
-      }
-
-      return var1.toString();
+      return Arrays.toString(values).replaceAll("[\\[\\]]", "");
    }
 
-   public static Variant[] migrateArray(Parcelable[] var0) {
-      Variant[] var1;
-      if (var0 == null) {
-         var1 = new Variant[0];
-      } else {
-         Variant[] var2 = new Variant[var0.length];
-         int var3 = var0.length;
-         int var4 = 0;
-         int var5 = 0;
-
-         while(true) {
-            var1 = var2;
-            if (var4 >= var3) {
-               break;
-            }
-
-            var2[var5] = (Variant)var0[var4];
-            ++var4;
-            ++var5;
-         }
+   public static String formatArray(int[] values) {
+      if (values == null) {
+         return "";
       }
-
-      return var1;
+      return Arrays.toString(values).replaceAll("[\\[\\]]", "");
    }
 }

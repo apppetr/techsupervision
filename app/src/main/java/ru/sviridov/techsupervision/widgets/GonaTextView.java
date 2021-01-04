@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
@@ -22,15 +23,8 @@ public class GonaTextView extends android.support.v7.widget.AppCompatTextView {
 
 
 
-   public void setText(CharSequence var1, BufferType var2) {
-      super.setText(var1, var2);
-      byte var3;
-      if (TextUtils.isEmpty(var1)) {
-         var3 = 8;
-      } else {
-         var3 = 0;
-      }
-
-      this.setVisibility(var3);
+   public void setText(CharSequence text, TextView.BufferType type) {
+      super.setText(text, type);
+      setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
    }
 }

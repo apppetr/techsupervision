@@ -21,61 +21,30 @@ import ru.sviridov.techsupervision.utils.alerts.Dialogs;
 
 public class PlaceDialogFragment extends DialogFragment {
    public static final String PLACE = "ru.sviridov.techsupervision.PLACE";
+   /* access modifiers changed from: private */
    @Nullable
-   private PlaceDialogFragment.PlaceSelectListener listener;
+   public PlaceSelectListener listener;
    private RadioGroup rgType;
    private Spinner x2spin;
    private Spinner xspin;
    private Spinner y2spin;
    private Spinner yspin;
 
-   private Place getPlace(NumberAdapter var1, LetterAdapter var2) {
-      Object var3;
-      if (this.rgType.getCheckedRadioButtonId() == R.id.rbRectangular) {
-         var3 = new Rectangle(new Point(var1.getItem(this.xspin.getSelectedItemPosition()), var2.getItem(this.yspin.getSelectedItemPosition())), new Point(var1.getItem(this.x2spin.getSelectedItemPosition()), var2.getItem(this.y2spin.getSelectedItemPosition())));
-      } else {
-         var3 = new Point(var1.getItem(this.xspin.getSelectedItemPosition()), var2.getItem(this.yspin.getSelectedItemPosition()));
-      }
-
-      return (Place)var3;
+   /* renamed from: ru.sviridov.techsupervision.defects.place.PlaceDialogFragment$PlaceSelectListener */
+   public interface PlaceSelectListener {
+      void onPlaceSelected(Place place);
    }
 
-   public static PlaceDialogFragment newInstance(Place var0) {
-      PlaceDialogFragment var1 = new PlaceDialogFragment();
-      Bundle var2 = new Bundle();
-      var2.putParcelable("ru.sviridov.techsupervision.PLACE", var0);
-      var1.setArguments(var2);
-      return var1;
+   public static PlaceDialogFragment newInstance(Place place) {
+      PlaceDialogFragment frgmt = new PlaceDialogFragment();
+      Bundle args = new Bundle();
+      args.putParcelable(PLACE, place);
+      frgmt.setArguments(args);
+      return frgmt;
    }
 
-   private void showPlace(@Nullable Place var1) {
-      if (var1 != null) {
-         if (var1.getType() == Type.POINT) {
-            this.rgType.check(R.id.rbPoint);
-            this.showPoint((Point)var1, this.xspin, this.yspin);
-         } else if (var1.getType() == Type.RECTANGLE) {
-            this.rgType.check(R.id.rbRectangular);
-            this.showRect((Rectangle)var1);
-         }
-      }
-
-   }
-
-   private void showPoint(Point var1, Spinner var2, Spinner var3) {
-      int var4 = 0;
-      int var5 = 0;
-      if (var1 != null) {
-         var4 = var1.getX() - 1;
-         var5 = var1.getY() - 1040;
-      }
-
-      var2.setSelection(var4);
-      var3.setSelection(var5);
-   }
-
-   private void showRect(Rectangle var1) {
-      this.showPoint(var1.getStart(), this.xspin, this.yspin);
-      this.showPoint(var1.getFinish(), this.x2spin, this.y2spin);
+   public void setListener(@Nullable PlaceSelectListener listener2) {
+      this.listener = listener2;
    }
 
    public void dismiss() {
@@ -84,57 +53,75 @@ public class PlaceDialogFragment extends DialogFragment {
    }
 
    @NonNull
-   public Dialog onCreateDialog(Bundle var1) {
-      final NumberAdapter var2 = new NumberAdapter(this.getActivity(), 100);
-      final LetterAdapter var3 = new LetterAdapter(this.getActivity(), 32);
-      View var5 = this.getActivity().getLayoutInflater().inflate(R.layout.dialog_coordinates, (ViewGroup)null);
-      this.xspin = (Spinner)var5.findViewById(R.id.xSpinner);
-      this.yspin = (Spinner)var5.findViewById(R.id.ySpinner);
-      this.x2spin = (Spinner)var5.findViewById(R.id.x2Spinner);
-      this.y2spin = (Spinner)var5.findViewById(R.id.y2Spinner);
-      final View var4 = var5.findViewById(R.id.trSecond);
-      this.rgType = (RadioGroup)var5.findViewById(R.id.rgType);
-      this.rgType.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-         public void onCheckedChanged(RadioGroup var1, final int var2) {
-            var4.postDelayed(new Runnable() {
+   public Dialog onCreateDialog(Bundle savedInstanceState) {
+      final NumberAdapter xAdapter = new NumberAdapter(getActivity(), 100);
+      final LetterAdapter yAdapter = new LetterAdapter(getActivity(), 32);
+      View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_coordinates, (ViewGroup) null);
+      this.xspin = (Spinner) view.findViewById(R.id.xSpinner);
+      this.yspin = (Spinner) view.findViewById(R.id.ySpinner);
+      this.x2spin = (Spinner) view.findViewById(R.id.x2Spinner);
+      this.y2spin = (Spinner) view.findViewById(R.id.y2Spinner);
+      final View secondPoint = view.findViewById(R.id.trSecond);
+      this.rgType = (RadioGroup) view.findViewById(R.id.rgType);
+      this.rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+         public void onCheckedChanged(RadioGroup group, final int checkedId) {
+            secondPoint.postDelayed(new Runnable() {
                public void run() {
-                  View var1 = var4;
-                  byte var2x;
-                  if (var2 == R.id.rbRectangular) {
-                     var2x = 0;
-                  } else {
-                     var2x = 8;
-                  }
-
-                  var1.setVisibility(var2x);
+                  secondPoint.setVisibility(checkedId == R.id.rbRectangular ? View.VISIBLE : View.GONE);
                }
-            }, 300L);
+            }, 300);
          }
       });
-      this.xspin.setAdapter(var2);
-      this.x2spin.setAdapter(var2);
-      this.yspin.setAdapter(var3);
-      this.y2spin.setAdapter(var3);
-      this.showPlace((Place)this.getArguments().getParcelable("ru.sviridov.techsupervision.PLACE"));
-      OnClickListener var6 = new OnClickListener() {
-         public void onClick(DialogInterface var1, int var2x) {
-            if (var2x == -1) {
-               Place var3x = PlaceDialogFragment.this.getPlace(var2, var3);
+      this.xspin.setAdapter(xAdapter);
+      this.x2spin.setAdapter(xAdapter);
+      this.yspin.setAdapter(yAdapter);
+      this.y2spin.setAdapter(yAdapter);
+      showPlace((Place) getArguments().getParcelable(PLACE));
+      return Dialogs.showCustomView(getActivity(), R.string.title_coordinates, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
+         public void onClick(DialogInterface dialogInterface, int which) {
+            if (which == -1) {
+               Place place = PlaceDialogFragment.this.getPlace(xAdapter, yAdapter);
                if (PlaceDialogFragment.this.listener != null) {
-                  PlaceDialogFragment.this.listener.onPlaceSelected(var3x);
+                  PlaceDialogFragment.this.listener.onPlaceSelected(place);
                }
             }
-
          }
-      };
-      return Dialogs.showCustomView(this.getActivity(), R.string.title_coordinates, var5, R.string.apply, R.string.cancel, var6);
+      });
    }
 
-   public void setListener(@Nullable PlaceDialogFragment.PlaceSelectListener var1) {
-      this.listener = var1;
+   /* access modifiers changed from: private */
+   public Place getPlace(NumberAdapter xAdapter, LetterAdapter yAdapter) {
+      if (this.rgType.getCheckedRadioButtonId() == R.id.rbRectangular) {
+         return new Rectangle(new Point(xAdapter.getItem(this.xspin.getSelectedItemPosition()).intValue(), yAdapter.getItem(this.yspin.getSelectedItemPosition()).charValue()), new Point(xAdapter.getItem(this.x2spin.getSelectedItemPosition()).intValue(), yAdapter.getItem(this.y2spin.getSelectedItemPosition()).charValue()));
+      }
+      return new Point(xAdapter.getItem(this.xspin.getSelectedItemPosition()).intValue(), yAdapter.getItem(this.yspin.getSelectedItemPosition()).charValue());
    }
 
-   public interface PlaceSelectListener {
-      void onPlaceSelected(Place var1);
+   private void showPlace(@Nullable Place place) {
+      if (place != null) {
+         if (place.getType() == Type.POINT) {
+            this.rgType.check(R.id.rbPoint);
+            showPoint((Point) place, this.xspin, this.yspin);
+         } else if (place.getType() == Type.RECTANGLE) {
+            this.rgType.check(R.id.rbRectangular);
+            showRect((Rectangle) place);
+         }
+      }
+   }
+
+   private void showRect(Rectangle place) {
+      showPoint(place.getStart(), this.xspin, this.yspin);
+      showPoint(place.getFinish(), this.x2spin, this.y2spin);
+   }
+
+   private void showPoint(Point point, Spinner xspin2, Spinner yspin2) {
+      int selectedX = 0;
+      int selectedY = 0;
+      if (point != null) {
+         selectedX = point.getX() - 1;
+         selectedY = point.getY() - 1040;
+      }
+      xspin2.setSelection(selectedX);
+      yspin2.setSelection(selectedY);
    }
 }

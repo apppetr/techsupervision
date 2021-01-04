@@ -30,53 +30,53 @@ import android.widget.TextView;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.widgets.FloatingLabelWatcher;
 
-public class FloatingHintLayout
-        extends LinearLayout {
+public class FloatingHintLayout extends LinearLayout {
    private static final String TAG_HINT = "Hint";
    private TextView tvHint;
 
    public FloatingHintLayout(Context context) {
       super(context);
-      this.init(context, null);
+      init(context, (AttributeSet) null);
    }
 
-   public FloatingHintLayout(Context context, AttributeSet attributeSet) {
-      super(context, attributeSet);
-      this.init(context, attributeSet);
+   public FloatingHintLayout(Context context, AttributeSet attrs) {
+      super(context, attrs);
+      init(context, attrs);
    }
 
-   public FloatingHintLayout(Context context, AttributeSet attributeSet, int n) {
-      super(context, attributeSet, n);
-      this.init(context, attributeSet);
+   public FloatingHintLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+      super(context, attrs, defStyleAttr);
+      init(context, attrs);
    }
 
-   @TargetApi(value=21)
-   public FloatingHintLayout(Context context, AttributeSet attributeSet, int n, int n2) {
-      super(context, attributeSet, n, n2);
-      this.init(context, attributeSet);
+   @TargetApi(21)
+   public FloatingHintLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+      super(context, attrs, defStyleAttr, defStyleRes);
+      init(context, attrs);
    }
 
-   private void addHintView(int n, TextView textView) {
-      this.tvHint = (TextView)LayoutInflater.from((Context)this.getContext()).inflate(R.layout.custom_floating_hint, (ViewGroup)this, false);
+   private void init(Context context, @Nullable AttributeSet attrs) {
+      setOrientation(1);
+   }
+
+   public void addView(View child, int width, int height) {
+      super.addView(child, width, height);
+   }
+
+   public void addView(@NonNull View child, int index, @NonNull ViewGroup.LayoutParams params) {
+      super.addView(child, index, params);
+      if (!TAG_HINT.equals(child.getTag()) && (child instanceof TextView)) {
+         addHintView(index + 1, (TextView) child);
+      }
+   }
+
+   private void addHintView(int index, TextView textView) {
+      this.tvHint = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.custom_floating_hint, this, false);
       this.tvHint.setText(textView.getHint());
-      this.tvHint.setTag((Object)TAG_HINT);
-      this.addView((View)this.tvHint, n);
-      textView.addTextChangedListener((TextWatcher)new FloatingLabelWatcher(this.getContext(), (View)this.tvHint, true, textView));
-   }
-
-   private void init(Context context, @Nullable AttributeSet attributeSet) {
-      this.setOrientation(LinearLayout.VERTICAL);
-   }
-
-   public void addView(View view, int n, int n2) {
-      super.addView(view, n, n2);
-   }
-
-   public void addView(@NonNull View view, int n, @NonNull ViewGroup.LayoutParams layoutParams) {
-      super.addView(view, n, layoutParams);
-      if (TAG_HINT.equals(view.getTag())) return;
-      if (!(view instanceof TextView)) return;
-      this.addHintView(n + 1, (TextView)view);
+      this.tvHint.setTag(TAG_HINT);
+      addView(this.tvHint, index);
+      textView.addTextChangedListener(new FloatingLabelWatcher(getContext(), this.tvHint, true, textView));
    }
 }
+
 

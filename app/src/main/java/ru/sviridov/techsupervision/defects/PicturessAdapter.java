@@ -14,35 +14,29 @@ import nl.qbusict.cupboard.CupboardFactory;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Picture;
 import ru.sviridov.techsupervision.widgets.RVCursorAdapter;
-
-public class PicturessAdapter extends RVCursorAdapter {
+public class PicturessAdapter extends RVCursorAdapter<PicturessAdapter.PicturesViewHoder> {
    private final LayoutInflater inflater;
 
-   public PicturessAdapter(@NonNull Context var1, @Nullable Cursor var2) {
-      super(var1, var2);
-      this.inflater = LayoutInflater.from(var1);
+   public PicturessAdapter(@NonNull Context context, @Nullable Cursor cursor) {
+      super(context, cursor);
+      this.inflater = LayoutInflater.from(context);
    }
 
-   @Override
-   public void onBindViewHolder(RecyclerView.ViewHolder var1, Cursor var2) {
-
+   public void onBindViewHolder(PicturesViewHoder h, Cursor cursor) {
+      Picasso.get().load(((Picture) CupboardFactory.cupboard().withCursor(cursor).get(Picture.class)).getImgUrl()).resizeDimen(R.dimen.width_picture_item, R.dimen.height_picture_item).centerCrop().into(h.ivPicture);
    }
 
-   public void onBindViewHolder(PicturessAdapter.PicturesViewHoder var1, Cursor var2) {
-      Picture var3 = (Picture)CupboardFactory.cupboard().withCursor(var2).get(Picture.class);
-      Picasso.get().load(var3.getImgUrl()).resizeDimen(R.dimen.width_picture_item, R.dimen.height_picture_item).centerCrop().into(var1.ivPicture);
+   public PicturesViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
+      return new PicturesViewHoder(this.inflater.inflate(R.layout.item_picture, parent, false));
    }
 
-   public PicturessAdapter.PicturesViewHoder onCreateViewHolder(ViewGroup var1, int var2) {
-      return new PicturessAdapter.PicturesViewHoder(this.inflater.inflate(R.layout.item_picture, var1, false));
-   }
-
+   /* renamed from: ru.sviridov.techsupervision.defects.PicturessAdapter$PicturesViewHoder */
    public class PicturesViewHoder extends RVCursorAdapter.SelectableViewHolder {
       ImageView ivPicture;
 
-      public PicturesViewHoder(View var2) {
-         super(var2);
-         this.ivPicture = (ImageView)var2.findViewById(R.id.ivPicture);
+      public PicturesViewHoder(View itemView) {
+         super(itemView);
+         this.ivPicture = (ImageView) itemView.findViewById(R.id.ivPicture);
       }
    }
 }

@@ -8,32 +8,17 @@ public enum Type {
 
    private final String storedValue;
 
-   private Type(String var3) {
-      this.storedValue = var3;
+   private Type(String storedValue2) {
+      this.storedValue = storedValue2;
    }
 
-   static Type fromString(@NonNull String var0) {
-      Type[] var1 = values();
-      int var2 = var1.length;
-      int var3 = 0;
-
-      Type var5;
-      while(true) {
-         if (var3 >= var2) {
-            var5 = null;
-            break;
+   static Type fromString(@NonNull String value) {
+      for (Type type : values()) {
+         if (type.storedValue.equals(value)) {
+            return type;
          }
-
-         Type var4 = var1[var3];
-         if (var4.storedValue.equals(var0)) {
-            var5 = var4;
-            break;
-         }
-
-         ++var3;
       }
-
-      return var5;
+      return null;
    }
 
    public String getStoredValue() {

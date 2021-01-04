@@ -17,52 +17,47 @@ public class FloatingLabelWatcher implements TextWatcher {
    private final View label;
    private boolean mHideLabelIfEmpty;
 
-   public FloatingLabelWatcher(Context var1, View var2, boolean var3, TextView var4) {
-      this.context = var1;
-      this.label = var2;
-      this.mHideLabelIfEmpty = var3;
-      this.etText = var4;
+   public FloatingLabelWatcher(Context context2, View label2, boolean mHideLabelIfEmpty2, TextView etText2) {
+      this.context = context2;
+      this.label = label2;
+      this.mHideLabelIfEmpty = mHideLabelIfEmpty2;
+      this.etText = etText2;
    }
 
-   public void afterTextChanged(Editable var1) {
-      byte var2 = 8;
+   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+   }
+
+   public void onTextChanged(CharSequence s, int start, int before, int count) {
+   }
+
+   public void setmHideLabelIfEmpty(boolean mHideLabelIfEmpty2) {
+      this.mHideLabelIfEmpty = mHideLabelIfEmpty2;
+   }
+
+   public void afterTextChanged(Editable s) {
+      int i = 8;
       if (this.label != null) {
          if (!this.mHideLabelIfEmpty) {
-            this.label.setVisibility(View.INVISIBLE);
-         } else {
             this.label.setVisibility(View.VISIBLE);
-            String var3 = this.etText.getText().toString();
-            if (var3.length() != 0 || this.animatedLabel != 1) {
-               this.label.clearAnimation();
-               View var4 = this.label;
-               if (var3.length() != 0) {
-                  var2 = 0;
-               }
-
-               var4.setVisibility(var2);
-               Animation var5;
-               if (var3.length() == 0 && this.animatedLabel != 1) {
-                  this.animatedLabel = 1;
-                  var5 = AnimationUtils.loadAnimation(this.context, R.anim.fadein_to_bottom);
-                  this.label.startAnimation(var5);
-               } else if (this.animatedLabel != 2) {
-                  this.animatedLabel = 2;
-                  var5 = AnimationUtils.loadAnimation(this.context, R.anim.fadein_from_bottom);
-                  this.label.startAnimation(var5);
-               }
+            return;
+         }
+         this.label.setVisibility(View.GONE);
+         String text = this.etText.getText().toString();
+         if (text.length() != 0 || this.animatedLabel != 1) {
+            this.label.clearAnimation();
+            View view = this.label;
+            if (text.length() != 0) {
+               i = 0;
+            }
+            view.setVisibility(i);
+            if (text.length() == 0 && this.animatedLabel != 1) {
+               this.animatedLabel = 1;
+               this.label.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.fadein_to_bottom));
+            } else if (this.animatedLabel != 2) {
+               this.animatedLabel = 2;
+               this.label.startAnimation(AnimationUtils.loadAnimation(this.context, R.anim.fadein_from_bottom));
             }
          }
       }
-
-   }
-
-   public void beforeTextChanged(CharSequence var1, int var2, int var3, int var4) {
-   }
-
-   public void onTextChanged(CharSequence var1, int var2, int var3, int var4) {
-   }
-
-   public void setmHideLabelIfEmpty(boolean var1) {
-      this.mHideLabelIfEmpty = var1;
    }
 }

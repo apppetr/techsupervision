@@ -7,22 +7,16 @@ import nl.qbusict.cupboard.convert.FieldConverter;
 import ru.sviridov.techsupervision.DependencyManager;
 import ru.sviridov.techsupervision.objects.Variant;
 
-public class VariantsArrayDataConverter implements FieldConverter {
-   public Variant[] fromCursorValue(Cursor var1, int var2) {
-      String var3 = var1.getString(var2);
-      return (Variant[])DependencyManager.getGson().fromJson(var3, Variant[].class);
+public class VariantsArrayDataConverter implements FieldConverter<Variant[]> {
+   public Variant[] fromCursorValue(Cursor cursor, int columnIndex) {
+      return (Variant[]) DependencyManager.getGson().fromJson(cursor.getString(columnIndex), Variant[].class);
+   }
+
+   public void toContentValue(Variant[] value, String key, ContentValues values) {
+      values.put(key, DependencyManager.getGson().toJson((Object) value));
    }
 
    public EntityConverter.ColumnType getColumnType() {
       return EntityConverter.ColumnType.TEXT;
-   }
-
-   @Override
-   public void toContentValue(Object var1, String var2, ContentValues var3) {
-
-   }
-
-   public void toContentValue(Variant[] var1, String var2, ContentValues var3) {
-      var3.put(var2, DependencyManager.getGson().toJson((Object)var1));
    }
 }

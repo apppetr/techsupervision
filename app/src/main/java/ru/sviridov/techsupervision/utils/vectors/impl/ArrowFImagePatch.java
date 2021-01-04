@@ -1,5 +1,5 @@
 package ru.sviridov.techsupervision.utils.vectors.impl;
-
+import android.support.v4.internal.view.SupportMenu;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -9,53 +9,45 @@ import ru.sviridov.techsupervision.utils.vectors.ImagePatch;
 import ru.sviridov.techsupervision.utils.vectors.Painting;
 
 public class ArrowFImagePatch implements ImagePatch {
-   private static final float COS120 = (float)Math.cos(Math.toRadians(120.0D));
+   private static final float COS120 = ((float) Math.cos(Math.toRadians(120.0d)));
    private static final Paint PAINT = new Paint(1);
-   private static final float SIN120 = (float)Math.sin(Math.toRadians(120.0D));
-   private final PointF a;
-   private final PointF b;
+   private static final float SIN120 = ((float) Math.sin(Math.toRadians(120.0d)));
+
+   /* renamed from: a */
+   private final PointF f78a;
+
+   /* renamed from: b */
+   private final PointF f79b;
 
    static {
-      PAINT.setColor(-65536);
-      PAINT.setStyle(Style.FILL_AND_STROKE);
+      PAINT.setColor(SupportMenu.CATEGORY_MASK);
+      PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
    }
 
-   public ArrowFImagePatch(PointF var1, PointF var2) {
-      this.a = var1;
-      this.b = var2;
+   public ArrowFImagePatch(PointF a, PointF b) {
+      this.f78a = a;
+      this.f79b = b;
    }
 
-   public void draw(Painting var1, Canvas var2) {
-      PAINT.setStrokeWidth(var1.getDensity() * 2.0F);
-      PAINT.setStrokeJoin(Join.MITER);
-      PAINT.setStrokeMiter(1.0F);
-      var2.drawLine(this.a.x, this.a.y, this.b.x, this.b.y, PAINT);
-      float var3 = (float)Math.sqrt(Math.pow((double)(this.a.x - this.b.x), 2.0D) + Math.pow((double)(this.a.y - this.b.y), 2.0D));
-      float var4 = -(this.a.x - this.b.x) / var3;
-      float var5 = -(this.a.y - this.b.y) / var3;
-      float var6 = COS120;
-      float var7 = SIN120;
-      float var8 = COS120;
-      float var9 = SIN120;
-      float var10 = COS120;
-      float var11 = SIN120;
-      float var12 = COS120;
-      float var13 = SIN120;
-      float var14 = var1.getDensity() * 3.0F;
-      float var15 = this.b.x;
-      float var16 = this.b.y;
-      float var17 = this.b.x;
-      var3 = this.b.y;
-      float var18 = this.b.x;
-      float var19 = this.b.y;
-      float var20 = this.b.x;
-      float var21 = this.b.y;
-      Paint var22 = PAINT;
-      var2.drawLines(new float[]{var4 * var14 + var15, var5 * var14 + var16, (var6 * var4 + var7 * var5) * var14 + var17, (var8 * var5 - var9 * var4) * var14 + var3, (var10 * var4 - var11 * var5) * var14 + var18, (var12 * var5 + var13 * var4) * var14 + var19, var4 * var14 + var20, var5 * var14 + var21}, var22);
+   public void set(PointF a, PointF b) {
+      this.f78a.set(a);
+      this.f79b.set(b);
    }
 
-   public void set(PointF var1, PointF var2) {
-      this.a.set(var1);
-      this.b.set(var2);
+   public void draw(Painting target, Canvas cvs) {
+      PAINT.setStrokeWidth(target.getDensity() * 2.0f);
+      PAINT.setStrokeJoin(Paint.Join.MITER);
+      PAINT.setStrokeMiter(1.0f);
+      cvs.drawLine(this.f78a.x, this.f78a.y, this.f79b.x, this.f79b.y, PAINT);
+      float hypo = (float) Math.sqrt(Math.pow((double) (this.f78a.x - this.f79b.x), 2.0d) + Math.pow((double) (this.f78a.y - this.f79b.y), 2.0d));
+      float sin1 = (-(this.f78a.x - this.f79b.x)) / hypo;
+      float cos1 = (-(this.f78a.y - this.f79b.y)) / hypo;
+      float sin2 = (COS120 * sin1) + (SIN120 * cos1);
+      float cos2 = (COS120 * cos1) - (SIN120 * sin1);
+      float sin3 = (COS120 * sin1) - (SIN120 * cos1);
+      float cos3 = (COS120 * cos1) + (SIN120 * sin1);
+      float radius = target.getDensity() * 3.0f;
+      Canvas canvas = cvs;
+      canvas.drawLines(new float[]{(sin1 * radius) + this.f79b.x, (cos1 * radius) + this.f79b.y, (sin2 * radius) + this.f79b.x, (cos2 * radius) + this.f79b.y, (sin3 * radius) + this.f79b.x, (cos3 * radius) + this.f79b.y, (sin1 * radius) + this.f79b.x, (cos1 * radius) + this.f79b.y}, PAINT);
    }
 }

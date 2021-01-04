@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="abc_action_bar_home_description">Navigate home</string>
+    <string name="abc_action_bar_home_description_format" translatable="false">%1$s, %2$s</string>
+    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
+    <string name="abc_action_bar_up_description">Navigate up</string>
+    <string name="abc_action_menu_overflow_description">More options</string>
+    <string name="abc_action_mode_done">Done</string>
+    <string name="abc_activity_chooser_view_see_all">See all</string>
+    <string name="abc_activitychooserview_choose_application">Choose an app</string>
+    <string name="abc_capital_off">OFF</string>
+    <string name="abc_capital_on">ON</string>
+    <string name="abc_search_hint">Search…</string>
+    <string name="abc_searchview_description_clear">Clear query</string>
+    <string name="abc_searchview_description_query">Search query</string>
+    <string name="abc_searchview_description_search">Search</string>
+    <string name="abc_searchview_description_submit">Submit query</string>
+    <string name="abc_searchview_description_voice">Voice search</string>
+    <string name="abc_shareactionprovider_share_with">Share with</string>
+    <string name="abc_shareactionprovider_share_with_application" translatable="false">Share with %s</string>
+    <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="add" translatable="false">Добавить</string>
+    <string name="add_photo" translatable="false">+ Добавить фотографию</string>
+    <string name="add_photo_to_front" translatable="false">Добавить фотографию на обложку</string>
+    <string name="add_qualifier" translatable="false">Добавить отметку</string>
+    <string name="app_name" translatable="false">Технадзор Free</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="apply" translatable="false">Готово</string>
+    <string name="appointment" translatable="false">Назначение</string>
+    <string name="ask_add_compensation" translatable="false">Предлагаемая компенсация отсутствует. Добавить? Внимание: компенсация будет добавлена ко всем выбранным причинам</string>
+    <string name="ask_add_defect" translatable="false">Предлагаемый дефект отсутствует. Добавить?</string>
+    <string name="ask_add_reason" translatable="false">Предлагаемая причина отсутствует. Добавить? Внимание: причина будет добавлена ко всем, выбранным дефектам</string>
+    <string name="ask_add_variant" translatable="false">Предлагаемый вариант отсутствует. Добавить?</string>
+    <string name="average_volume" translatable="false">Характерный объем</string>
+    <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="cancel" translatable="false">Отмена</string>
+    <string name="category" translatable="false">Категория опасности:</string>
+    <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
+    <string name="choose_element" translatable="false">Выберите конструкцию</string>
+    <string name="choose_problem" translatable="false">Заполните описание дефекта</string>
+    <string name="choose_reasons" translatable="false">Заполните причины возникновения</string>
+    <string name="comments" translatable="false">Комментарии</string>
+    <string name="danger_category" translatable="false">Категория опасности</string>
+    <string name="danger_category_format" translatable="false">Категория опасности: %1$s</string>
+    <string name="defect" translatable="false">Дефект</string>
+    <string name="defect_compentations" translatable="false">Компенсирующие мероприятия</string>
+    <string name="defect_desc" translatable="false">Описание дефекта</string>
+    <string name="defect_reasons" translatable="false">Причины возникновения</string>
+    <string name="delete" translatable="false">Удалить</string>
+    <string name="delete_compensation" translatable="false">Удалить мероприятия?</string>
+    <string name="delete_compensation_message" translatable="false">Выбранные меропрятия будут удалены навсегда!</string>
+    <string name="delete_element" translatable="false">Удалить элемент?</string>
+    <string name="delete_element_message" translatable="false">Будут удалены: элемент, материал и все связанные дефекты, причины и компенсации</string>
+    <string name="delete_markings" translatable="false">Удалить отметки</string>
+    <string name="delete_problem" translatable="false">Удалить описания дефекта?</string>
+    <string name="delete_problem_message" translatable="false">Выбранные описания дефекта будут удалены навсегда!</string>
+    <string name="delete_reason" translatable="false">Удалить Причины?</string>
+    <string name="delete_reason_message" translatable="false">Причины будут удалены навсегда!</string>
+    <string name="deleted_document" translatable="false">Документ удален</string>
+    <string name="description" translatable="false">Описание</string>
+    <string name="documents" translatable="false">Ведомости дефектов</string>
+    <string name="edit" translatable="false">Редактировать</string>
+    <string name="element" translatable="false">Конструкция</string>
+    <string name="empty_document" translatable="false">Добавьте дефект, нажав +</string>
+    <string name="empty_documents" translatable="false">Добавьте дефектную ведомость, нажав +</string>
+    <string name="enter_address" translatable="false">Адрес объекта</string>
+    <string name="enter_build_year" translatable="false">Год постройки</string>
+    <string name="enter_comment_text" translatable="false">Введите комментарий</string>
+    <string name="enter_name" translatable="false">Введите название</string>
+    <string name="enter_responsibility" translatable="false">Уровень ответственности</string>
+    <string name="error_save_doc" translatable="false">Ошибка при сохранении документа</string>
+    <string name="export" translatable="false">Сохранить на диск</string>
+    <string name="floors" translatable="false">Этажность</string>
+    <string name="format_defect_title" translatable="false">%1$s (%2$s) в осях %3$s</string>
+    <string name="format_defect_title_short" translatable="false">%1$s (%2$s)</string>
+    <string name="format_document_list" translatable="false">%1$s, %2$s</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="images" translatable="false">Изображения</string>
+    <string name="information" translatable="false">Информация</string>
+    <string name="issue_material" translatable="false">Конструкция/материал</string>
+    <string name="mark_comment" translatable="false">Комментарий к отметке</string>
+    <string name="material" translatable="false">Элемент и материал</string>
+    <string name="measurement" translatable="false">Измерение</string>
+    <string name="mint_api_key" translatable="false">6ead163a</string>
+    <string name="new_defect" translatable="false">Новый дефект</string>
+    <string name="next" translatable="false">Далее</string>
+    <string name="open_full" translatable="false">Установить полную версию</string>
+    <string name="picture" translatable="false">Картинка</string>
+    <string name="place_type" translatable="false">Тип области:</string>
+    <string name="place_type_point" translatable="false">Точка</string>
+    <string name="place_type_rectangular" translatable="false">Прямоугольник</string>
+    <string name="prepare" translatable="false">Подготовка</string>
+    <string name="save" translatable="false">Сохранить</string>
+    <string name="saved" translatable="false">Документ сохранен</string>
+    <string name="saving_doc" translatable="false">Сохранение документа…</string>
+    <string name="search_hint" translatable="false">Поиск/добавление</string>
+    <string name="select_measure" translatable="false">Укажите величину измерения</string>
+    <string name="send" translatable="false">Отправить</string>
+    <string name="sizes" translatable="false">Габариты в плане</string>
+    <string name="sort" translatable="false">Сортировка</string>
+    <string name="title_coordinates" translatable="false">Расположение в осях</string>
+    <string name="want_delete_doc" translatable="false">Хотите удалить документ?</string>
+    <string name="want_delete_picture" translatable="false">Хотите удалить изображение?</string>
+    <string name="yes" translatable="false">Да</string>
+</resources>

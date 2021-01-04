@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import nl.qbusict.cupboard.CupboardFactory;
 import ru.sviridov.techsupervision.GreatApplication;
+import ru.sviridov.techsupervision.db.UserDataHelper;
 import ru.sviridov.techsupervision.db.UserDataProvider;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Picture;
@@ -27,97 +28,86 @@ import ru.sviridov.techsupervision.pictures.PictureEditActivity;
 import ru.sviridov.techsupervision.utils.alerts.Dialogs;
 import ru.sviridov.techsupervision.widgets.RVCursorAdapter;
 
-public class PicturesListFragment extends Fragment implements LoaderManager.LoaderCallbacks, RVCursorAdapter.onItemSelectedListener {
+public class PicturesListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, RVCursorAdapter.onItemSelectedListener {
    private PicturessAdapter adapter;
+
+   public static PicturesListFragment getInstance(int defectId) {
+      PicturesListFragment fragment = new PicturesListFragment();
+      Bundle args = new Bundle();
+      args.putInt(AddDefectActivity.DEFECT_ID, defectId);
+      fragment.setArguments(args);
+      return fragment;
+   }
+
+   public void onCreate(@Nullable Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      this.adapter = new PicturessAdapter(getActivity(), (Cursor) null);
+      this.adapter.setOnItemSelectedListener(this);
+      this.adapter.setLongClickListener(deleteListener());
+      getLoaderManager().initLoader(1, getArguments(), this);
+   }
 
    private RVCursorAdapter.onItemSelectedListener deleteListener() {
       return new RVCursorAdapter.onItemSelectedListener() {
-         public void onItemSelected(final Cursor var1) {
-            OnClickListener var2 = new OnClickListener() {
-               public void onClick(@NonNull DialogInterface var1x, int var2) {
-                  if (var2 == -1) {
-                     Picture var3 = (Picture)CupboardFactory.cupboard().withCursor(var1).get(Picture.class);
-                     Uri var4 = UserDataProvider.getContentUri("Picture");
-                     CupboardFactory.cupboard().withContext(GreatApplication.getAppContext()).delete(var4, "_id=?", String.valueOf(var3.getId()));
+         public void onItemSelected(final Cursor item) {
+            Dialogs.show(PicturesListFragment.this.getActivity(), R.string.delete, R.string.want_delete_picture, R.string.yes, R.string.cancel, new DialogInterface.OnClickListener() {
+               public void onClick(@NonNull DialogInterface dialog, int which) {
+                  if (which == -1) {
+                     Uri uri = UserDataProvider.getContentUri(UserDataHelper.PICTURE_URL);
+                     CupboardFactory.cupboard().withContext(GreatApplication.getAppContext()).delete(uri, "_id=?", String.valueOf(((Picture) CupboardFactory.cupboard().withCursor(item).get(Picture.class)).getId()));
                   }
-
                }
-            };
-            Dialogs.show(PicturesListFragment.this.getActivity(), R.string.delete, R.string.want_delete_picture, R.string.yes, R.string.cancel, var2);
+            });
          }
       };
    }
 
-   public static PicturesListFragment getInstance(int var0) {
-      PicturesListFragment var1 = new PicturesListFragment();
-      Bundle var2 = new Bundle();
-      var2.putInt("ru.sviridov.techsupervision.DEFECT_ID", var0);
-      var1.setArguments(var2);
-      return var1;
+   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+      return inflater.inflate(R.layout.fragment_pictures, container, false);
    }
 
-   public void onCreate(@Nullable Bundle var1) {
-      super.onCreate(var1);
-      this.adapter = new PicturessAdapter(this.getActivity(), (Cursor)null);
-      this.adapter.setOnItemSelectedListener(this);
-      this.adapter.setLongClickListener(this.deleteListener());
-      this.getLoaderManager().initLoader(1, this.getArguments(), this);
+   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+      super.onViewCreated(view, savedInstanceState);
+      view.findViewById(R.id.ivAdd).setOnClickListener(new View.OnClickListener() {
+         public void onClick(@NonNull View v) {
+         //   Mint.logEvent(Metrics.PRESS_ADD_PICTURE);
+            Intent intent = new Intent(PicturesListFragment.this.getActivity(), PictureEditActivity.class);
+            intent.putExtras(PicturesListFragment.this.getArguments());
+            PicturesListFragment.this.startActivity(intent);
+         }
+      });
+      RecyclerView photos = (RecyclerView) view.findViewById(16908298);
+      photos.setLayoutManager(new LinearLayoutManager(getActivity()));
+      photos.setAdapter(this.adapter);
    }
 
-   public Loader onCreateLoader(int var1, @Nullable Bundle var2) {
-      var1 = 0;
-      if (var2 != null) {
-         var1 = var2.getInt("ru.sviridov.techsupervision.DEFECT_ID", 0);
+   public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+      int defectId = 0;
+      if (args != null) {
+         defectId = args.getInt(AddDefectActivity.DEFECT_ID, 0);
       }
-
-      Uri var3 = UserDataProvider.getContentUri("Picture");
-      return new CursorLoader(this.getActivity(), var3, (String[])null, "defectId=" + var1, (String[])null, (String)null);
+      return new CursorLoader(getActivity(), UserDataProvider.getContentUri(UserDataHelper.PICTURE_URL), (String[]) null, "defectId=" + defectId, (String[]) null, (String) null);
    }
 
-   @Override
-   public void onLoadFinished(Loader var1, Object var2) {
-
+   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+      this.adapter.changeCursor(cursor);
    }
 
-   public View onCreateView(LayoutInflater var1, @Nullable ViewGroup var2, @Nullable Bundle var3) {
-      return var1.inflate(R.layout.fragment_pictures, var2, false);
+   public void onLoaderReset(Loader<Cursor> loader) {
+      this.adapter.changeCursor((Cursor) null);
+   }
+
+   public void onItemSelected(Cursor item) {
+      Intent editIntent = new Intent(getActivity(), PictureEditActivity.class);
+      editIntent.putExtra(PictureEditActivity.PICTURE_ID, ((Picture) CupboardFactory.cupboard().withCursor(item).get(Picture.class)).getId().intValue());
+      startActivity(editIntent);
    }
 
    public void onDestroy() {
       super.onDestroy();
-      this.adapter.setLongClickListener((RVCursorAdapter.onItemSelectedListener)null);
-      this.adapter.setOnItemSelectedListener((RVCursorAdapter.onItemSelectedListener)null);
+      this.adapter.setLongClickListener((RVCursorAdapter.onItemSelectedListener) null);
+      this.adapter.setOnItemSelectedListener((RVCursorAdapter.onItemSelectedListener) null);
       this.adapter = null;
-      this.getLoaderManager().destroyLoader(1);
-   }
-
-   public void onItemSelected(Cursor var1) {
-      Picture var3 = (Picture)CupboardFactory.cupboard().withCursor(var1).get(Picture.class);
-      Intent var2 = new Intent(this.getActivity(), PictureEditActivity.class);
-      var2.putExtra("ru.sviridov.techsupervision.pictures.PICTURE_ID", var3.getId().intValue());
-      this.startActivity(var2);
-   }
-
-   public void onLoadFinished(Loader var1, Cursor var2) {
-      this.adapter.changeCursor(var2);
-   }
-
-   public void onLoaderReset(Loader var1) {
-      this.adapter.changeCursor((Cursor)null);
-   }
-
-   public void onViewCreated(View var1, @Nullable Bundle var2) {
-      super.onViewCreated(var1, var2);
-      var1.findViewById(R.id.ivAdd).setOnClickListener(new android.view.View.OnClickListener() {
-         public void onClick(@NonNull View var1) {
-           // Mint.logEvent("presses add picture");
-            Intent var2 = new Intent(PicturesListFragment.this.getActivity(), PictureEditActivity.class);
-            var2.putExtras(PicturesListFragment.this.getArguments());
-            PicturesListFragment.this.startActivity(var2);
-         }
-      });
-      RecyclerView var3 = (RecyclerView)var1.findViewById(16908298);
-      var3.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-      var3.setAdapter(this.adapter);
+      getLoaderManager().destroyLoader(1);
    }
 }

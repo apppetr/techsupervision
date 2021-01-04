@@ -2,6 +2,9 @@ package ru.sviridov.techsupervision;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import org.apache.commons.lang.time.DateUtils;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +13,7 @@ import ru.sviridov.techsupervision.docx.DefectwithPicture;
 import ru.sviridov.techsupervision.objects.Defect;
 import ru.sviridov.techsupervision.objects.Document;
 import ru.sviridov.techsupervision.objects.Picture;
+import ru.sviridov.techsupervision.values.Values;
 
 public abstract class Metrics {
    public static final String ADDED_VARIANT = "added variant";
@@ -30,92 +34,66 @@ public abstract class Metrics {
    public static final String START_NEW_DEFECT = "start new defect";
    public static final String START_NEW_DOCUMENT = "start new document";
 
-   private static long calcSpentTime(long var0) {
-      return (System.currentTimeMillis() - var0) / 60000L;
+   @NonNull
+   public static HashMap<String, Object> toMetrics(Document doc, long creationTime) {
+      HashMap<String, Object> attrs = new HashMap<>();
+      attrs.put("title", doc.title);
+      attrs.put("responsibility", doc.responsibility.getName());
+      attrs.put("appointment", doc.appointment.getName());
+      attrs.put("year", Integer.valueOf(doc.year));
+      attrs.put("address", doc.address);
+      attrs.put("sizes", doc.sizes);
+      attrs.put("floors", Integer.valueOf(doc.floors));
+      attrs.put(Values.Versions.DATE, new Date(doc.date));
+      attrs.put("spent time", Long.valueOf(calcSpentTime(creationTime)));
+      return attrs;
    }
 
    @NonNull
-   public static HashMap<String, Object> toMetrics(Defect defect, long l, int n) {
-      HashMap<String, Object> hashMap = new HashMap<String, Object>();
-      hashMap.put("material", defect.getMaterial());
-      hashMap.put("element", defect.getElement());
-      String var5;
-      if (defect.place == null) {
-         var5 = "";
-      } else {
-         var5 = defect.place.toString();
-      }
-
-      hashMap.put("place", var5);
-      hashMap.put("category", defect.getCategory());
-      hashMap.put("problems", defect.getNiceProblems());
-      hashMap.put("reasons", defect.getNiceReasons());
-      hashMap.put("compensations", defect.getNiceCompensations());
-      hashMap.put("volume", defect.getVolume());
-      hashMap.put("picture count", n);
-      hashMap.put("spent time", calcSpentTime(l));
-      return hashMap;
+   public static HashMap<String, Object> toMetrics(Defect def, long openedTime, int pictureCount) {
+      HashMap<String, Object> attrs = new HashMap<>();
+      attrs.put("material", def.getMaterial());
+      attrs.put("element", def.getElement());
+      attrs.put("place", def.place == null ? "" : def.place.toString());
+      attrs.put("category", def.getCategory());
+      attrs.put("problems", def.getNiceProblems());
+      attrs.put("reasons", def.getNiceReasons());
+      attrs.put("compensations", def.getNiceCompensations());
+      attrs.put("volume", def.getVolume());
+      attrs.put("picture count", Integer.valueOf(pictureCount));
+      attrs.put("spent time", Long.valueOf(calcSpentTime(openedTime)));
+      return attrs;
    }
 
    @NonNull
-   public static HashMap<String, java.io.Serializable> toMetrics(Document document, long l) {
-      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
-      hashMap.put("title", document.title);
-      hashMap.put("responsibility", document.responsibility.getName());
-      hashMap.put("appointment", document.appointment.getName());
-      hashMap.put("year", document.year);
-      hashMap.put("address", document.address);
-      hashMap.put("sizes", document.sizes);
-      hashMap.put("floors", document.floors);
-      hashMap.put("date", new Date(document.date));
-      hashMap.put("spent time", calcSpentTime(l));
-      return hashMap;
+   public static HashMap<String, Object> toMetrics(@NonNull Picture pict, long openedTime) {
+      HashMap<String, Object> attrs = new HashMap<>();
+      attrs.put("comments count", Integer.valueOf(pict.getComments().size()));
+      attrs.put("geometries count", Integer.valueOf(pict.getGeometries() != null ? pict.getGeometries().length() : 0));
+      attrs.put("image url", TextUtils.isEmpty(pict.getImgUrl()) ? "empty" : "ok");
+      return attrs;
    }
 
-   public static HashMap<String, java.io.Serializable> toMetrics(Document object, List<DefectwithPicture> list) {
-      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
-      hashMap.put("doc title", object.title);
-      hashMap.put("date", new Date(object.date));
-      hashMap.put("defects count", list.size());
-      int n = 0;
-      int n2 = 0;
-      Iterator<DefectwithPicture> objectiter = list.iterator();
+   private static long calcSpentTime(long startTime) {
+      return (System.currentTimeMillis() - startTime) / DateUtils.MILLIS_PER_MINUTE;
+   }
 
-      while(objectiter.hasNext()) {
-         int n5 = (objectiter.next()).getPictures().size();
-         int n6 = n + n5;
-         n = n6;
-         if (n2 < n5) {
-            n2 = n5;
-            n = n6;
+   public static HashMap<String, Object> toMetrics(Document document, List<DefectwithPicture> defects) {
+      HashMap<String, Object> attrs = new HashMap<>();
+      attrs.put("doc title", document.title);
+      attrs.put(Values.Versions.DATE, new Date(document.date));
+      attrs.put("defects count", Integer.valueOf(defects.size()));
+      int picCount = 0;
+      int maxPictureCount = 0;
+      for (DefectwithPicture def : defects) {
+         int count = def.getPictures().size();
+         picCount += count;
+         if (maxPictureCount < count) {
+            maxPictureCount = count;
          }
       }
-
-      hashMap.put("pictures count", n);
-      hashMap.put("max pictures count for defect", n2);
-      return hashMap;
-   }
-
-   @NonNull
-   public static HashMap<String, java.io.Serializable> toMetrics(@NonNull Picture picture, long var1) {
-      HashMap<String, java.io.Serializable> hashMap = new HashMap<>();
-      hashMap.put("comments count", picture.getComments().size());
-      int n4;
-      if (picture.getGeometries() != null) {
-         n4 = picture.getGeometries().length();
-      } else {
-         n4 = 0;
-      }
-
-      hashMap.put("geometries count", n4);
-      String s5;
-      if (TextUtils.isEmpty(picture.getImgUrl())) {
-         s5 = "empty";
-      } else {
-         s5 = "ok";
-      }
-
-      hashMap.put("image url", s5);
-      return hashMap;
+      attrs.put("pictures count", Integer.valueOf(picCount));
+      attrs.put("max pictures count for defect", Integer.valueOf(maxPictureCount));
+      return attrs;
    }
 }

@@ -17,41 +17,41 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ToolbarActivity
-        extends AppCompatActivity {
+public class ToolbarActivity extends AppCompatActivity {
    private void setupToolbar() {
-      this.setSupportActionBar(this.getToolbar());
-      ActionBar actionBar = this.getSupportActionBar();
-      if (actionBar == null) return;
-      actionBar.setDisplayHomeAsUpEnabled(true);
+      setSupportActionBar(getToolbar());
+      ActionBar aBar = getSupportActionBar();
+      if (aBar != null) {
+         aBar.setDisplayHomeAsUpEnabled(true);
+      }
    }
 
    public Toolbar getToolbar() {
-      return (Toolbar) this.findViewById(R.id.action_bar);
+      return (Toolbar) findViewById(R.id.action_bar);
    }
 
-   public boolean onOptionsItemSelected(MenuItem menuItem) {
-      if (menuItem.getItemId() != android.R.id.home) return super.onOptionsItemSelected(menuItem);
+   public boolean onOptionsItemSelected(MenuItem item) {
+
+      if (item.getItemId() != android.R.id.home) {
+         return super.onOptionsItemSelected(item);
+      }
       NavUtils.navigateUpFromSameTask(this);
       return true;
    }
 
-   @Override
-   public void setContentView(int n) {
-      super.setContentView(n);
-      this.setupToolbar();
+   public void setContentView(int layoutResID) {
+      super.setContentView(layoutResID);
+      setupToolbar();
    }
 
-   @Override
    public void setContentView(View view) {
       super.setContentView(view);
-      this.setupToolbar();
+      setupToolbar();
    }
 
-   @Override
-   public void setContentView(View view, ViewGroup.LayoutParams layoutParams) {
-      super.setContentView(view, layoutParams);
-      this.setupToolbar();
+   public void setContentView(View view, ViewGroup.LayoutParams params) {
+      super.setContentView(view, params);
+      setupToolbar();
    }
 }
 

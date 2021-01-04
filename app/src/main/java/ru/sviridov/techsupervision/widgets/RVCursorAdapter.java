@@ -8,138 +8,129 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+public abstract class RVCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-public abstract class RVCursorAdapter extends RecyclerView.Adapter {
-   private static final String ID = "_id";
-   protected final Context context;
-   private Cursor cursor;
+   /* renamed from: ID */
+   private static final String f98ID = "_id";
+   /* access modifiers changed from: protected */
+   public final Context context;
+   /* access modifiers changed from: private */
+   public Cursor cursor;
    private int idIndx = 0;
+   /* access modifiers changed from: private */
    @Nullable
-   private RVCursorAdapter.onItemSelectedListener listener;
-   private RVCursorAdapter.onItemSelectedListener longClickListener;
+   public onItemSelectedListener listener;
+   /* access modifiers changed from: private */
+   public onItemSelectedListener longClickListener;
    private boolean noNotifyOncePlease = false;
 
-   public RVCursorAdapter(@NonNull Context var1, @Nullable Cursor var2) {
-      this.context = var1;
-      this.cursor = var2;
-      if (var2 != null) {
-         this.idIndx = var2.getColumnIndex("_id");
-         this.initIndexes(var2);
-      }
-
-      this.setHasStableIds(true);
+   /* renamed from: ru.sviridov.techsupervision.widgets.RVCursorAdapter$onItemSelectedListener */
+   public interface onItemSelectedListener {
+      void onItemSelected(Cursor cursor);
    }
 
-   public void changeCursor(Cursor var1) {
-      var1 = this.swapCursor(var1);
-      if (var1 != null) {
-         var1.close();
-      }
+   public abstract void onBindViewHolder(VH vh, Cursor cursor2);
 
+   public RVCursorAdapter(@NonNull Context context2, @Nullable Cursor cursor2) {
+      this.context = context2;
+      this.cursor = cursor2;
+      if (cursor2 != null) {
+         this.idIndx = cursor2.getColumnIndex("_id");
+         initIndexes(cursor2);
+      }
+      setHasStableIds(true);
    }
 
-   @Nullable
-   public Cursor getItem(int var1) {
-      if (this.cursor != null) {
-         this.cursor.moveToPosition(var1);
-      }
+   public void setOnItemSelectedListener(@Nullable onItemSelectedListener listener2) {
+      this.listener = listener2;
+   }
 
-      return this.cursor;
+   public void setLongClickListener(@Nullable onItemSelectedListener longClickListener2) {
+      this.longClickListener = longClickListener2;
+   }
+
+   /* access modifiers changed from: protected */
+   public void initIndexes(@NonNull Cursor cursor2) {
+   }
+
+   public final void onBindViewHolder(VH h, int position) {
+      this.cursor.moveToPosition(position);
+      onBindViewHolder(h, this.cursor);
    }
 
    public int getItemCount() {
-      int var1;
       if (this.cursor == null) {
-         var1 = 0;
-      } else {
-         var1 = this.cursor.getCount();
+         return 0;
       }
-
-      return var1;
+      return this.cursor.getCount();
    }
 
-   public long getItemId(int var1) {
-      this.cursor.moveToPosition(var1);
-      return (long)this.cursor.getInt(this.idIndx);
+   public long getItemId(int position) {
+      this.cursor.moveToPosition(position);
+      return (long) this.cursor.getInt(this.idIndx);
    }
 
-   protected void initIndexes(@NonNull Cursor var1) {
+   @Nullable
+   public Cursor getItem(int position) {
+      if (this.cursor != null) {
+         this.cursor.moveToPosition(position);
+      }
+      return this.cursor;
    }
 
-   protected void noNotifyOncePlease() {
+   /* access modifiers changed from: protected */
+   public void noNotifyOncePlease() {
       this.noNotifyOncePlease = true;
    }
 
-   public final void onBindViewHolder(RecyclerView.ViewHolder var1, int var2) {
-      this.cursor.moveToPosition(var2);
-      this.onBindViewHolder(var1, this.cursor);
+   public Cursor swapCursor(@Nullable Cursor cursor2) {
+      if (cursor2 != null) {
+         this.idIndx = cursor2.getColumnIndex("_id");
+         initIndexes(cursor2);
+      }
+      if (this.cursor == cursor2) {
+         return null;
+      }
+      Cursor cursor3 = this.cursor;
+      this.cursor = cursor2;
+      if (this.noNotifyOncePlease) {
+         this.noNotifyOncePlease = false;
+         return cursor3;
+      }
+      notifyDataSetChanged();
+      return cursor3;
    }
 
-   public abstract void onBindViewHolder(RecyclerView.ViewHolder var1, Cursor var2);
-
-   public void setLongClickListener(@Nullable RVCursorAdapter.onItemSelectedListener var1) {
-      this.longClickListener = var1;
+   public void changeCursor(Cursor cursor2) {
+      Cursor old = swapCursor(cursor2);
+      if (old != null) {
+         old.close();
+      }
    }
 
-   public void setOnItemSelectedListener(@Nullable RVCursorAdapter.onItemSelectedListener var1) {
-      this.listener = var1;
-   }
-
-   public Cursor swapCursor(@Nullable Cursor var1) {
-      if (var1 != null) {
-         this.idIndx = var1.getColumnIndex("_id");
-         this.initIndexes(var1);
+   /* renamed from: ru.sviridov.techsupervision.widgets.RVCursorAdapter$SelectableViewHolder */
+   public abstract class SelectableViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+      public SelectableViewHolder(View itemView) {
+         super(itemView);
+         itemView.setOnClickListener(this);
+         itemView.setOnLongClickListener(this);
       }
 
-      if (this.cursor == var1) {
-         var1 = null;
-      } else {
-         Cursor var2 = this.cursor;
-         this.cursor = var1;
-         if (this.noNotifyOncePlease) {
-            this.noNotifyOncePlease = false;
-            var1 = var2;
-         } else {
-            this.notifyDataSetChanged();
-            var1 = var2;
-         }
-      }
-
-      return var1;
-   }
-
-   public abstract class SelectableViewHolder extends RecyclerView.ViewHolder implements OnClickListener, OnLongClickListener {
-      public SelectableViewHolder(View var2) {
-         super(var2);
-         var2.setOnClickListener(this);
-         var2.setOnLongClickListener(this);
-      }
-
-      public void onClick(@NonNull View var1) {
+      public void onClick(@NonNull View v) {
          if (RVCursorAdapter.this.listener != null) {
-            int var2 = this.getAdapterPosition();
-            RVCursorAdapter.this.cursor.moveToPosition(var2);
+            RVCursorAdapter.this.cursor.moveToPosition(getAdapterPosition());
             RVCursorAdapter.this.listener.onItemSelected(RVCursorAdapter.this.cursor);
          }
-
       }
 
-      public boolean onLongClick(@NonNull View var1) {
-         boolean var3;
-         if (RVCursorAdapter.this.longClickListener != null) {
-            int var2 = this.getAdapterPosition();
-            RVCursorAdapter.this.cursor.moveToPosition(var2);
-            RVCursorAdapter.this.longClickListener.onItemSelected(RVCursorAdapter.this.cursor);
-            var3 = true;
-         } else {
-            var3 = false;
+      public boolean onLongClick(@NonNull View v) {
+         if (RVCursorAdapter.this.longClickListener == null) {
+            return false;
          }
-
-         return var3;
+         RVCursorAdapter.this.cursor.moveToPosition(getAdapterPosition());
+         RVCursorAdapter.this.longClickListener.onItemSelected(RVCursorAdapter.this.cursor);
+         return true;
       }
-   }
-
-   public interface onItemSelectedListener {
-      void onItemSelected(Cursor var1);
    }
 }
+

@@ -28,8 +28,7 @@ import ru.sviridov.techsupervision.objects.Appointment;
 import ru.sviridov.techsupervision.objects.Document;
 import ru.sviridov.techsupervision.objects.Responsibility;
 
-public class AddDocumentActivity
-        extends AppCompatActivity {
+public class AddDocumentActivity extends ToolbarActivity {
    private long creationTime;
    protected EditText etAddress;
    protected EditText etFloors;
@@ -38,85 +37,63 @@ public class AddDocumentActivity
    protected EditText etYear;
    protected Spinner responsibility;
    private Spinner sAppointment;
-   private Toolbar toolbar;
-   @Override
-   protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      this.setContentView(R.layout.activity_add_document);
-      Intent intent = getIntent();
-      ActionBar obj = this.getSupportActionBar();
-      if (obj != null) {
-         (obj).setHomeAsUpIndicator(R.drawable.close);
-      }
-      android.app.ActionBar actionBar = getActionBar();
-      toolbar = (Toolbar) this.findViewById(R.id.action_bar);
-      setSupportActionBar(toolbar);
 
-      this.etYear = (EditText)this.findViewById(R.id.etYear);
-      this.etTitle = (EditText)this.findViewById(R.id.etTitle);
-      this.etAddress = (EditText)this.findViewById(R.id.etAddress);
-      this.etSizes = (EditText)this.findViewById(R.id.etSizes);
-      this.etFloors = (EditText)this.findViewById(R.id.etFloors);
-      this.responsibility = (Spinner)this.findViewById(R.id.etResponsibility);
-      this.sAppointment = (Spinner)this.findViewById(R.id.sAppointment);
-      //Mint.logEvent("start new document", MintLogLevel.Info);
+   /* access modifiers changed from: protected */
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView((int) R.layout.activity_add_document);
+      ActionBar actionbar = getSupportActionBar();
+      if (actionbar != null) {
+         actionbar.setHomeAsUpIndicator((int) R.drawable.close);
+      }
+      this.etYear = (EditText) findViewById(R.id.etYear);
+      this.etTitle = (EditText) findViewById(R.id.etTitle);
+      this.etAddress = (EditText) findViewById(R.id.etAddress);
+      this.etSizes = (EditText) findViewById(R.id.etSizes);
+      this.etFloors = (EditText) findViewById(R.id.etFloors);
+      this.responsibility = (Spinner) findViewById(R.id.etResponsibility);
+      this.sAppointment = (Spinner) findViewById(R.id.sAppointment);
+  //    Mint.logEvent(Metrics.START_NEW_DOCUMENT, MintLogLevel.Info);
       this.creationTime = System.currentTimeMillis();
    }
 
-   public boolean onCreateOptionsMenu(Menu menu2) {
-      getMenuInflater().inflate(R.menu.document_add, menu2);
-      return true;
+   public boolean onCreateOptionsMenu(Menu menu) {
+      getMenuInflater().inflate(R.menu.document_add, menu);
+      return super.onCreateOptionsMenu(menu);
    }
 
-   @Override
-   public boolean onOptionsItemSelected(MenuItem object) {
-      boolean bl = true;
-      switch (object.getItemId()) {
-         default: {
-            this.finish();
-            return bl;
-         }
-         case R.id.save: {
-            fillFields();//Method for testing
-            if (TextUtils.isEmpty((CharSequence) this.etTitle.getText())) {
+   public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+         case R.id.save /*2131558598*/:
+            if (TextUtils.isEmpty(this.etTitle.getText())) {
                Toast.makeText(this, "Не указано название", Toast.LENGTH_SHORT).show();
-               return super.onOptionsItemSelected((MenuItem) object);
-            }else{
-               Document objectDocument = new Document();
-                objectDocument.title = this.etTitle.getText().toString();
-               if (this.responsibility.getSelectedItemPosition() > 0) {
-                  objectDocument.responsibility = Responsibility.values()[this.responsibility.getSelectedItemPosition() - 1];
-               }
-               if (this.sAppointment.getSelectedItemPosition() > 0) {
-                  objectDocument.appointment = Appointment.values()[this.sAppointment.getSelectedItemPosition() - 1];
-               }
-               if (!TextUtils.isEmpty((CharSequence) this.etYear.getText())) {
-                  objectDocument.year = Integer.valueOf(this.etYear.getText().toString());
-               }
-               objectDocument.address = this.etAddress.getText().toString();
-               objectDocument.sizes = this.etSizes.getText().toString();
-               if (this.etFloors.length() > 0) {
-                  objectDocument.floors = Integer.parseInt(this.etFloors.getText().toString());
-               }
-               objectDocument.date = System.currentTimeMillis();
-               objectDocument.photo = "";
-               Uri uri = UserDataProvider.getContentUri("Document");
-               CupboardFactory.cupboard().withContext((Context) this).put(uri, objectDocument);
-
-               // Mint.logEvent("created new document", MintLogLevel.Info, Metrics.toMetrics((Document)object, this.creationTime));
-               this.finish();
-               return bl;
+               return super.onOptionsItemSelected(item);
             }
-         }
+            Document document = new Document();
+            document.title = this.etTitle.getText().toString();
+            if (this.responsibility.getSelectedItemPosition() > 0) {
+               document.responsibility = Responsibility.values()[this.responsibility.getSelectedItemPosition() - 1];
+            }
+            if (this.sAppointment.getSelectedItemPosition() > 0) {
+               document.appointment = Appointment.values()[this.sAppointment.getSelectedItemPosition() - 1];
+            }
+            if (!TextUtils.isEmpty(this.etYear.getText())) {
+               document.year = Integer.valueOf(this.etYear.getText().toString()).intValue();
+            }
+            document.address = this.etAddress.getText().toString();
+            document.sizes = this.etSizes.getText().toString();
+            if (this.etFloors.length() > 0) {
+               document.floors = Integer.parseInt(this.etFloors.getText().toString());
+            }
+            document.date = System.currentTimeMillis();
+            document.photo = "";
+            CupboardFactory.cupboard().withContext(this).put(UserDataProvider.getContentUri(UserDataHelper.DOCUMENT_URL), document);
+            //Mint.logEvent(Metrics.CREATED_NEW_DOCUMENT, MintLogLevel.Info, Metrics.toMetrics(document, this.creationTime));
+            finish();
+            return true;
+         default:
+            finish();
+            return true;
       }
    }
-
-   private void fillFields() {
-      this.etTitle.setText("Docoment");
-      this.etYear.setText("2020");
-      this.etAddress.setText("Ufa Gagarina");
-      this.etSizes.setText("678");
-      this.etFloors.setText("9");
-   }
 }
-

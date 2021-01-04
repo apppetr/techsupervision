@@ -2,6 +2,7 @@ package ru.sviridov.techsupervision.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.provider.Settings.Secure;
 import java.util.UUID;
 
@@ -11,17 +12,16 @@ public class StrongMan {
    private static final String USER_THING = "user_thing";
    static String userThing = null;
 
-   private static String createUserThing(Context var0) {
-      return Secure.getString(var0.getContentResolver(), "android_id") + "|" + UUID.randomUUID();
+   public static void init(Context context) {
+      SharedPreferences prefs = context.getSharedPreferences(PREFS, 0);
+      userThing = prefs.getString(USER_THING, (String) null);
+      if (userThing == null) {
+         userThing = createUserThing(context);
+         prefs.edit().putString(USER_THING, userThing).apply();
+      }
    }
 
-   public static void init(Context var0) {
-      SharedPreferences var1 = var0.getSharedPreferences("some", 0);
-      userThing = var1.getString("user_thing", (String)null);
-      if (userThing == null) {
-         userThing = createUserThing(var0);
-         var1.edit().putString("user_thing", userThing).apply();
-      }
-
+   private static String createUserThing(Context context) {
+      return Settings.Secure.getString(context.getContentResolver(), "android_id") + "|" + UUID.randomUUID();
    }
 }

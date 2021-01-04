@@ -1,6 +1,10 @@
 package ru.sviridov.techsupervision;
 
+
+/* renamed from: ru.sviridov.techsupervision.R */
 public final class R {
+
+   /* renamed from: ru.sviridov.techsupervision.R$anim */
    public static final class anim {
       public static final int abc_fade_in = 2130968576;
       public static final int abc_fade_out = 2130968577;
@@ -22,6 +26,7 @@ public final class R {
       public static final int fadein_to_bottom = 2130968593;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$array */
    public static final class array {
       public static final int appointments = 2131427328;
       public static final int danger_categories = 2131427329;
@@ -29,6 +34,7 @@ public final class R {
       public static final int sorts = 2131427331;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$attr */
    public static final class attr {
       public static final int actionBarDivider = 2130772030;
       public static final int actionBarItemBackground = 2130772031;
@@ -325,6 +331,7 @@ public final class R {
       public static final int windowNoTitle = 2130772010;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$bool */
    public static final class bool {
       public static final int abc_action_bar_embed_tabs = 2131165187;
       public static final int abc_action_bar_embed_tabs_pre_jb = 2131165185;
@@ -337,6 +344,7 @@ public final class R {
       public static final int isTablet = 2131165188;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$color */
    public static final class color {
       public static final int abc_background_cache_hint_selector_material_dark = 2131492950;
       public static final int abc_background_cache_hint_selector_material_light = 2131492951;
@@ -438,6 +446,7 @@ public final class R {
       public static final int white = 2131492949;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$dimen */
    public static final class dimen {
       public static final int abc_action_bar_content_inset_material = 2131230733;
       public static final int abc_action_bar_default_height_material = 2131230721;
@@ -568,7 +577,8 @@ public final class R {
       public static final int width_picture_item = 2131230846;
    }
 
-   public static final class drawable {
+   /* renamed from: ru.sviridov.techsupervision.R$drawable */
+   public static final class C0538drawable {
       public static final int abc_ab_share_pack_mtrl_alpha = 2130837504;
       public static final int abc_action_bar_item_background_material = 2130837505;
       public static final int abc_btn_borderless_material = 2130837506;
@@ -687,6 +697,7 @@ public final class R {
       public static final int x_axis = 2130837618;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$id */
    public static final class id {
       public static final int action0 = 2131558581;
       public static final int action_bar = 2131558491;
@@ -888,7 +899,9 @@ public final class R {
       public static final int tvTitle = 2131558569;
       public static final int tvVolume = 2131558566;
       public static final int tvYear = 2131558518;
-      public static final int up = 2131558410;
+
+      /* renamed from: up */
+      public static final int f73up = 2131558410;
       public static final int useLogo = 2131558421;
       public static final int variant = 2131558580;
       public static final int view_offset_helper = 2131558411;
@@ -900,6 +913,7 @@ public final class R {
       public static final int ySpinner = 2131558550;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$integer */
    public static final class integer {
       public static final int abc_config_activityDefaultDur = 2131361794;
       public static final int abc_config_activityShortDur = 2131361795;
@@ -910,6 +924,7 @@ public final class R {
       public static final int status_bar_notification_info_maxnum = 2131361798;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$layout */
    public static final class layout {
       public static final int abc_action_bar_title_item = 2130903040;
       public static final int abc_action_bar_up_container = 2130903041;
@@ -990,7 +1005,8 @@ public final class R {
       public static final int view_add_element = 2130903116;
    }
 
-   public static final class menu {
+   /* renamed from: ru.sviridov.techsupervision.R$menu */
+   public static final class C0540menu {
       public static final int document_add = 2131623936;
       public static final int marks_management = 2131623937;
       public static final int menu_document = 2131623938;
@@ -1000,10 +1016,12 @@ public final class R {
       public static final int popup_menu_documents = 2131623942;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$raw */
    public static final class raw {
       public static final int defect_pattern = 2131034112;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$string */
    public static final class string {
       public static final int abc_action_bar_home_description = 2131099648;
       public static final int abc_action_bar_home_description_format = 2131099649;
@@ -1111,6 +1129,7 @@ public final class R {
       public static final int yes = 2131099751;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$style */
    public static final class style {
       public static final int AlertDialogStyle = 2131296395;
       public static final int AlertDialog_AppCompat = 2131296393;
@@ -1477,9 +1496,10 @@ public final class R {
       public static final int Widget_Design_TextInputLayout = 2131296618;
    }
 
+   /* renamed from: ru.sviridov.techsupervision.R$styleable */
    public static final class styleable {
-      public static final int[] ActionBar = new int[]{2130771969, 2130771971, 2130771972, 2130771973, 2130771974, 2130771975, 2130771976, 2130771977, 2130771978, 2130771979, 2130771980, 2130771981, 2130771982, 2130771983, 2130771984, 2130771985, 2130771986, 2130771987, 2130771988, 2130771989, 2130771990, 2130771991, 2130771992, 2130771993, 2130771994, 2130771995, 2130772055};
-      public static final int[] ActionBarLayout = new int[]{16842931};
+      public static final int[] ActionBar = {R.attr.height, R.attr.title, R.attr.navigationMode, R.attr.displayOptions, R.attr.subtitle, R.attr.titleTextStyle, R.attr.subtitleTextStyle, R.attr.icon, R.attr.logo, R.attr.divider, R.attr.background, R.attr.backgroundStacked, R.attr.backgroundSplit, R.attr.customNavigationLayout, R.attr.homeLayout, R.attr.progressBarStyle, R.attr.indeterminateProgressStyle, R.attr.progressBarPadding, R.attr.itemPadding, R.attr.hideOnContentScroll, R.attr.contentInsetStart, R.attr.contentInsetEnd, R.attr.contentInsetLeft, R.attr.contentInsetRight, R.attr.elevation, R.attr.popupTheme, R.attr.homeAsUpIndicator};
+      public static final int[] ActionBarLayout = {16842931};
       public static final int ActionBarLayout_android_layout_gravity = 0;
       public static final int ActionBar_background = 10;
       public static final int ActionBar_backgroundSplit = 12;
@@ -1508,40 +1528,40 @@ public final class R {
       public static final int ActionBar_subtitleTextStyle = 6;
       public static final int ActionBar_title = 1;
       public static final int ActionBar_titleTextStyle = 5;
-      public static final int[] ActionMenuItemView = new int[]{16843071};
+      public static final int[] ActionMenuItemView = {16843071};
       public static final int ActionMenuItemView_android_minWidth = 0;
       public static final int[] ActionMenuView = new int[0];
-      public static final int[] ActionMode = new int[]{2130771969, 2130771975, 2130771976, 2130771980, 2130771982, 2130771996};
+      public static final int[] ActionMode = {R.attr.height, R.attr.titleTextStyle, R.attr.subtitleTextStyle, R.attr.background, R.attr.backgroundSplit, R.attr.closeItemLayout};
       public static final int ActionMode_background = 3;
       public static final int ActionMode_backgroundSplit = 4;
       public static final int ActionMode_closeItemLayout = 5;
       public static final int ActionMode_height = 0;
       public static final int ActionMode_subtitleTextStyle = 2;
       public static final int ActionMode_titleTextStyle = 1;
-      public static final int[] ActivityChooserView = new int[]{2130771997, 2130771998};
+      public static final int[] ActivityChooserView = {R.attr.initialActivityCount, R.attr.expandActivityOverflowButtonDrawable};
       public static final int ActivityChooserView_expandActivityOverflowButtonDrawable = 1;
       public static final int ActivityChooserView_initialActivityCount = 0;
-      public static final int[] AlertDialog = new int[]{16842994, 2130771999, 2130772000, 2130772001, 2130772002, 2130772003};
+      public static final int[] AlertDialog = {16842994, R.attr.buttonPanelSideLayout, R.attr.listLayout, R.attr.multiChoiceItemLayout, R.attr.singleChoiceItemLayout, R.attr.listItemLayout};
       public static final int AlertDialog_android_layout = 0;
       public static final int AlertDialog_buttonPanelSideLayout = 1;
       public static final int AlertDialog_listItemLayout = 5;
       public static final int AlertDialog_listLayout = 2;
       public static final int AlertDialog_multiChoiceItemLayout = 3;
       public static final int AlertDialog_singleChoiceItemLayout = 4;
-      public static final int[] AppBarLayout = new int[]{16842964, 2130771994, 2130772004};
-      public static final int[] AppBarLayout_LayoutParams = new int[]{2130772005, 2130772006};
+      public static final int[] AppBarLayout = {16842964, R.attr.elevation, R.attr.expanded};
+      public static final int[] AppBarLayout_LayoutParams = {R.attr.layout_scrollFlags, R.attr.layout_scrollInterpolator};
       public static final int AppBarLayout_LayoutParams_layout_scrollFlags = 0;
       public static final int AppBarLayout_LayoutParams_layout_scrollInterpolator = 1;
       public static final int AppBarLayout_android_background = 0;
       public static final int AppBarLayout_elevation = 1;
       public static final int AppBarLayout_expanded = 2;
-      public static final int[] AppCompatImageView = new int[]{16843033, 2130772007};
+      public static final int[] AppCompatImageView = {16843033, R.attr.srcCompat};
       public static final int AppCompatImageView_android_src = 0;
       public static final int AppCompatImageView_srcCompat = 1;
-      public static final int[] AppCompatTextView = new int[]{16842804, 2130772008};
+      public static final int[] AppCompatTextView = {16842804, R.attr.textAllCaps};
       public static final int AppCompatTextView_android_textAppearance = 0;
       public static final int AppCompatTextView_textAllCaps = 1;
-      public static final int[] AppCompatTheme = new int[]{16842839, 16842926, 2130772009, 2130772010, 2130772011, 2130772012, 2130772013, 2130772014, 2130772015, 2130772016, 2130772017, 2130772018, 2130772019, 2130772020, 2130772021, 2130772022, 2130772023, 2130772024, 2130772025, 2130772026, 2130772027, 2130772028, 2130772029, 2130772030, 2130772031, 2130772032, 2130772033, 2130772034, 2130772035, 2130772036, 2130772037, 2130772038, 2130772039, 2130772040, 2130772041, 2130772042, 2130772043, 2130772044, 2130772045, 2130772046, 2130772047, 2130772048, 2130772049, 2130772050, 2130772051, 2130772052, 2130772053, 2130772054, 2130772055, 2130772056, 2130772057, 2130772058, 2130772059, 2130772060, 2130772061, 2130772062, 2130772063, 2130772064, 2130772065, 2130772066, 2130772067, 2130772068, 2130772069, 2130772070, 2130772071, 2130772072, 2130772073, 2130772074, 2130772075, 2130772076, 2130772077, 2130772078, 2130772079, 2130772080, 2130772081, 2130772082, 2130772083, 2130772084, 2130772085, 2130772086, 2130772087, 2130772088, 2130772089, 2130772090, 2130772091, 2130772092, 2130772093, 2130772094, 2130772095, 2130772096, 2130772097, 2130772098, 2130772099, 2130772100, 2130772101, 2130772102, 2130772103, 2130772104, 2130772105, 2130772106, 2130772107, 2130772108, 2130772109, 2130772110, 2130772111, 2130772112, 2130772113, 2130772114, 2130772115, 2130772116, 2130772117, 2130772118};
+      public static final int[] AppCompatTheme = {16842839, 16842926, R.attr.windowActionBar, R.attr.windowNoTitle, R.attr.windowActionBarOverlay, R.attr.windowActionModeOverlay, R.attr.windowFixedWidthMajor, R.attr.windowFixedHeightMinor, R.attr.windowFixedWidthMinor, R.attr.windowFixedHeightMajor, R.attr.windowMinWidthMajor, R.attr.windowMinWidthMinor, R.attr.actionBarTabStyle, R.attr.actionBarTabBarStyle, R.attr.actionBarTabTextStyle, R.attr.actionOverflowButtonStyle, R.attr.actionOverflowMenuStyle, R.attr.actionBarPopupTheme, R.attr.actionBarStyle, R.attr.actionBarSplitStyle, R.attr.actionBarTheme, R.attr.actionBarWidgetTheme, R.attr.actionBarSize, R.attr.actionBarDivider, R.attr.actionBarItemBackground, R.attr.actionMenuTextAppearance, R.attr.actionMenuTextColor, R.attr.actionModeStyle, R.attr.actionModeCloseButtonStyle, R.attr.actionModeBackground, R.attr.actionModeSplitBackground, R.attr.actionModeCloseDrawable, R.attr.actionModeCutDrawable, R.attr.actionModeCopyDrawable, R.attr.actionModePasteDrawable, R.attr.actionModeSelectAllDrawable, R.attr.actionModeShareDrawable, R.attr.actionModeFindDrawable, R.attr.actionModeWebSearchDrawable, R.attr.actionModePopupWindowStyle, R.attr.textAppearanceLargePopupMenu, R.attr.textAppearanceSmallPopupMenu, R.attr.dialogTheme, R.attr.dialogPreferredPadding, R.attr.listDividerAlertDialog, R.attr.actionDropDownStyle, R.attr.dropdownListPreferredItemHeight, R.attr.spinnerDropDownItemStyle, R.attr.homeAsUpIndicator, R.attr.actionButtonStyle, R.attr.buttonBarStyle, R.attr.buttonBarButtonStyle, R.attr.selectableItemBackground, R.attr.selectableItemBackgroundBorderless, R.attr.borderlessButtonStyle, R.attr.dividerVertical, R.attr.dividerHorizontal, R.attr.activityChooserViewStyle, R.attr.toolbarStyle, R.attr.toolbarNavigationButtonStyle, R.attr.popupMenuStyle, R.attr.popupWindowStyle, R.attr.editTextColor, R.attr.editTextBackground, R.attr.imageButtonStyle, R.attr.textAppearanceSearchResultTitle, R.attr.textAppearanceSearchResultSubtitle, R.attr.textColorSearchUrl, R.attr.searchViewStyle, R.attr.listPreferredItemHeight, R.attr.listPreferredItemHeightSmall, R.attr.listPreferredItemHeightLarge, R.attr.listPreferredItemPaddingLeft, R.attr.listPreferredItemPaddingRight, R.attr.dropDownListViewStyle, R.attr.listPopupWindowStyle, R.attr.textAppearanceListItem, R.attr.textAppearanceListItemSmall, R.attr.panelBackground, R.attr.panelMenuListWidth, R.attr.panelMenuListTheme, R.attr.listChoiceBackgroundIndicator, R.attr.colorPrimary, R.attr.colorPrimaryDark, R.attr.colorAccent, R.attr.colorControlNormal, R.attr.colorControlActivated, R.attr.colorControlHighlight, R.attr.colorButtonNormal, R.attr.colorSwitchThumbNormal, R.attr.controlBackground, R.attr.alertDialogStyle, R.attr.alertDialogButtonGroupStyle, R.attr.alertDialogCenterButtons, R.attr.alertDialogTheme, R.attr.textColorAlertDialogListItem, R.attr.buttonBarPositiveButtonStyle, R.attr.buttonBarNegativeButtonStyle, R.attr.buttonBarNeutralButtonStyle, R.attr.autoCompleteTextViewStyle, R.attr.buttonStyle, R.attr.buttonStyleSmall, R.attr.checkboxStyle, R.attr.checkedTextViewStyle, R.attr.editTextStyle, R.attr.radioButtonStyle, R.attr.ratingBarStyle, R.attr.ratingBarStyleIndicator, R.attr.ratingBarStyleSmall, R.attr.seekBarStyle, R.attr.spinnerStyle, R.attr.switchStyle};
       public static final int AppCompatTheme_actionBarDivider = 23;
       public static final int AppCompatTheme_actionBarItemBackground = 24;
       public static final int AppCompatTheme_actionBarPopupTheme = 17;
@@ -1654,12 +1674,12 @@ public final class R {
       public static final int AppCompatTheme_windowMinWidthMajor = 10;
       public static final int AppCompatTheme_windowMinWidthMinor = 11;
       public static final int AppCompatTheme_windowNoTitle = 3;
-      public static final int[] BottomSheetBehavior_Params = new int[]{2130772119, 2130772120};
+      public static final int[] BottomSheetBehavior_Params = {R.attr.behavior_peekHeight, R.attr.behavior_hideable};
       public static final int BottomSheetBehavior_Params_behavior_hideable = 1;
       public static final int BottomSheetBehavior_Params_behavior_peekHeight = 0;
-      public static final int[] ButtonBarLayout = new int[]{2130772121};
+      public static final int[] ButtonBarLayout = {R.attr.allowStacking};
       public static final int ButtonBarLayout_allowStacking = 0;
-      public static final int[] CardView = new int[]{16843071, 16843072, 2130772122, 2130772123, 2130772124, 2130772125, 2130772126, 2130772127, 2130772128, 2130772129, 2130772130, 2130772131, 2130772132};
+      public static final int[] CardView = {16843071, 16843072, R.attr.cardBackgroundColor, R.attr.cardCornerRadius, R.attr.cardElevation, R.attr.cardMaxElevation, R.attr.cardUseCompatPadding, R.attr.cardPreventCornerOverlap, R.attr.contentPadding, R.attr.contentPaddingLeft, R.attr.contentPaddingRight, R.attr.contentPaddingTop, R.attr.contentPaddingBottom};
       public static final int CardView_android_minHeight = 1;
       public static final int CardView_android_minWidth = 0;
       public static final int CardView_cardBackgroundColor = 2;
@@ -1673,10 +1693,12 @@ public final class R {
       public static final int CardView_contentPaddingLeft = 9;
       public static final int CardView_contentPaddingRight = 10;
       public static final int CardView_contentPaddingTop = 11;
-      public static final int[] CollapsingAppBarLayout_LayoutParams = new int[]{2130772133, 2130772134};
+      public static final int[] CollapsingAppBarLayout_LayoutParams = {R.attr.layout_collapseMode, R.attr.layout_collapseParallaxMultiplier};
       public static final int CollapsingAppBarLayout_LayoutParams_layout_collapseMode = 0;
-      public static final int CollapsingAppBarLayout_LayoutParams_layout_collapseParallaxMultiplier = 1;
-      public static final int[] CollapsingToolbarLayout = new int[]{2130771971, 2130772135, 2130772136, 2130772137, 2130772138, 2130772139, 2130772140, 2130772141, 2130772142, 2130772143, 2130772144, 2130772145, 2130772146, 2130772147};
+
+      /* renamed from: CollapsingAppBarLayout_LayoutParams_layout_collapseParallaxMultiplier */
+      public static final int f74xad49a364 = 1;
+      public static final int[] CollapsingToolbarLayout = {R.attr.title, R.attr.expandedTitleMargin, R.attr.expandedTitleMarginStart, R.attr.expandedTitleMarginTop, R.attr.expandedTitleMarginEnd, R.attr.expandedTitleMarginBottom, R.attr.expandedTitleTextAppearance, R.attr.collapsedTitleTextAppearance, R.attr.contentScrim, R.attr.statusBarScrim, R.attr.toolbarId, R.attr.collapsedTitleGravity, R.attr.expandedTitleGravity, R.attr.titleEnabled};
       public static final int CollapsingToolbarLayout_collapsedTitleGravity = 11;
       public static final int CollapsingToolbarLayout_collapsedTitleTextAppearance = 7;
       public static final int CollapsingToolbarLayout_contentScrim = 8;
@@ -1691,12 +1713,12 @@ public final class R {
       public static final int CollapsingToolbarLayout_title = 0;
       public static final int CollapsingToolbarLayout_titleEnabled = 13;
       public static final int CollapsingToolbarLayout_toolbarId = 10;
-      public static final int[] CompoundButton = new int[]{16843015, 2130772148, 2130772149};
+      public static final int[] CompoundButton = {16843015, R.attr.buttonTint, R.attr.buttonTintMode};
       public static final int CompoundButton_android_button = 0;
       public static final int CompoundButton_buttonTint = 1;
       public static final int CompoundButton_buttonTintMode = 2;
-      public static final int[] CoordinatorLayout = new int[]{2130772150, 2130772151};
-      public static final int[] CoordinatorLayout_LayoutParams = new int[]{16842931, 2130772152, 2130772153, 2130772154, 2130772155};
+      public static final int[] CoordinatorLayout = {R.attr.keylines, R.attr.statusBarBackground};
+      public static final int[] CoordinatorLayout_LayoutParams = {16842931, R.attr.layout_behavior, R.attr.layout_anchor, R.attr.layout_keyline, R.attr.layout_anchorGravity};
       public static final int CoordinatorLayout_LayoutParams_android_layout_gravity = 0;
       public static final int CoordinatorLayout_LayoutParams_layout_anchor = 2;
       public static final int CoordinatorLayout_LayoutParams_layout_anchorGravity = 4;
@@ -1704,11 +1726,11 @@ public final class R {
       public static final int CoordinatorLayout_LayoutParams_layout_keyline = 3;
       public static final int CoordinatorLayout_keylines = 0;
       public static final int CoordinatorLayout_statusBarBackground = 1;
-      public static final int[] DesignTheme = new int[]{2130772156, 2130772157, 2130772158};
+      public static final int[] DesignTheme = {R.attr.bottomSheetDialogTheme, R.attr.bottomSheetStyle, R.attr.textColorError};
       public static final int DesignTheme_bottomSheetDialogTheme = 0;
       public static final int DesignTheme_bottomSheetStyle = 1;
       public static final int DesignTheme_textColorError = 2;
-      public static final int[] DrawerArrowToggle = new int[]{2130772159, 2130772160, 2130772161, 2130772162, 2130772163, 2130772164, 2130772165, 2130772166};
+      public static final int[] DrawerArrowToggle = {R.attr.color, R.attr.spinBars, R.attr.drawableSize, R.attr.gapBetweenBars, R.attr.arrowHeadLength, R.attr.arrowShaftLength, R.attr.barLength, R.attr.thickness};
       public static final int DrawerArrowToggle_arrowHeadLength = 4;
       public static final int DrawerArrowToggle_arrowShaftLength = 5;
       public static final int DrawerArrowToggle_barLength = 6;
@@ -1717,7 +1739,7 @@ public final class R {
       public static final int DrawerArrowToggle_gapBetweenBars = 3;
       public static final int DrawerArrowToggle_spinBars = 1;
       public static final int DrawerArrowToggle_thickness = 7;
-      public static final int[] FloatingActionButton = new int[]{2130771994, 2130772167, 2130772168, 2130772169, 2130772170, 2130772171, 2130772259, 2130772260};
+      public static final int[] FloatingActionButton = {R.attr.elevation, R.attr.rippleColor, R.attr.fabSize, R.attr.pressedTranslationZ, R.attr.borderWidth, R.attr.useCompatPadding, R.attr.backgroundTint, R.attr.backgroundTintMode};
       public static final int FloatingActionButton_backgroundTint = 6;
       public static final int FloatingActionButton_backgroundTintMode = 7;
       public static final int FloatingActionButton_borderWidth = 4;
@@ -1726,12 +1748,12 @@ public final class R {
       public static final int FloatingActionButton_pressedTranslationZ = 3;
       public static final int FloatingActionButton_rippleColor = 1;
       public static final int FloatingActionButton_useCompatPadding = 5;
-      public static final int[] ForegroundLinearLayout = new int[]{16843017, 16843264, 2130772172};
+      public static final int[] ForegroundLinearLayout = {16843017, 16843264, R.attr.foregroundInsidePadding};
       public static final int ForegroundLinearLayout_android_foreground = 0;
       public static final int ForegroundLinearLayout_android_foregroundGravity = 1;
       public static final int ForegroundLinearLayout_foregroundInsidePadding = 2;
-      public static final int[] LinearLayoutCompat = new int[]{16842927, 16842948, 16843046, 16843047, 16843048, 2130771979, 2130772173, 2130772174, 2130772175};
-      public static final int[] LinearLayoutCompat_Layout = new int[]{16842931, 16842996, 16842997, 16843137};
+      public static final int[] LinearLayoutCompat = {16842927, 16842948, 16843046, 16843047, 16843048, R.attr.divider, R.attr.measureWithLargestChild, R.attr.showDividers, R.attr.dividerPadding};
+      public static final int[] LinearLayoutCompat_Layout = {16842931, 16842996, 16842997, 16843137};
       public static final int LinearLayoutCompat_Layout_android_layout_gravity = 0;
       public static final int LinearLayoutCompat_Layout_android_layout_height = 2;
       public static final int LinearLayoutCompat_Layout_android_layout_weight = 3;
@@ -1745,17 +1767,17 @@ public final class R {
       public static final int LinearLayoutCompat_dividerPadding = 8;
       public static final int LinearLayoutCompat_measureWithLargestChild = 6;
       public static final int LinearLayoutCompat_showDividers = 7;
-      public static final int[] ListPopupWindow = new int[]{16843436, 16843437};
+      public static final int[] ListPopupWindow = {16843436, 16843437};
       public static final int ListPopupWindow_android_dropDownHorizontalOffset = 0;
       public static final int ListPopupWindow_android_dropDownVerticalOffset = 1;
-      public static final int[] MenuGroup = new int[]{16842766, 16842960, 16843156, 16843230, 16843231, 16843232};
+      public static final int[] MenuGroup = {16842766, 16842960, 16843156, 16843230, 16843231, 16843232};
       public static final int MenuGroup_android_checkableBehavior = 5;
       public static final int MenuGroup_android_enabled = 0;
       public static final int MenuGroup_android_id = 1;
       public static final int MenuGroup_android_menuCategory = 3;
       public static final int MenuGroup_android_orderInCategory = 4;
       public static final int MenuGroup_android_visible = 2;
-      public static final int[] MenuItem = new int[]{16842754, 16842766, 16842960, 16843014, 16843156, 16843230, 16843231, 16843233, 16843234, 16843235, 16843236, 16843237, 16843375, 2130772176, 2130772177, 2130772178, 2130772179};
+      public static final int[] MenuItem = {16842754, 16842766, 16842960, 16843014, 16843156, 16843230, 16843231, 16843233, 16843234, 16843235, 16843236, 16843237, 16843375, R.attr.showAsAction, R.attr.actionLayout, R.attr.actionViewClass, R.attr.actionProviderClass};
       public static final int MenuItem_actionLayout = 14;
       public static final int MenuItem_actionProviderClass = 16;
       public static final int MenuItem_actionViewClass = 15;
@@ -1773,7 +1795,7 @@ public final class R {
       public static final int MenuItem_android_titleCondensed = 8;
       public static final int MenuItem_android_visible = 4;
       public static final int MenuItem_showAsAction = 13;
-      public static final int[] MenuView = new int[]{16842926, 16843052, 16843053, 16843054, 16843055, 16843056, 16843057, 2130772180};
+      public static final int[] MenuView = {16842926, 16843052, 16843053, 16843054, 16843055, 16843056, 16843057, R.attr.preserveIconSpacing};
       public static final int MenuView_android_headerBackground = 4;
       public static final int MenuView_android_horizontalDivider = 2;
       public static final int MenuView_android_itemBackground = 5;
@@ -1782,7 +1804,7 @@ public final class R {
       public static final int MenuView_android_verticalDivider = 3;
       public static final int MenuView_android_windowAnimationStyle = 0;
       public static final int MenuView_preserveIconSpacing = 7;
-      public static final int[] NavigationView = new int[]{16842964, 16842973, 16843039, 2130771994, 2130772181, 2130772182, 2130772183, 2130772184, 2130772185, 2130772186};
+      public static final int[] NavigationView = {16842964, 16842973, 16843039, R.attr.elevation, R.attr.menu, R.attr.itemIconTint, R.attr.itemTextColor, R.attr.itemBackground, R.attr.itemTextAppearance, R.attr.headerLayout};
       public static final int NavigationView_android_background = 0;
       public static final int NavigationView_android_fitsSystemWindows = 1;
       public static final int NavigationView_android_maxWidth = 2;
@@ -1793,22 +1815,22 @@ public final class R {
       public static final int NavigationView_itemTextAppearance = 8;
       public static final int NavigationView_itemTextColor = 6;
       public static final int NavigationView_menu = 4;
-      public static final int[] PopupWindow = new int[]{16843126, 2130772187};
-      public static final int[] PopupWindowBackgroundState = new int[]{2130772188};
+      public static final int[] PopupWindow = {16843126, R.attr.overlapAnchor};
+      public static final int[] PopupWindowBackgroundState = {R.attr.state_above_anchor};
       public static final int PopupWindowBackgroundState_state_above_anchor = 0;
       public static final int PopupWindow_android_popupBackground = 0;
       public static final int PopupWindow_overlapAnchor = 1;
-      public static final int[] RecyclerView = new int[]{16842948, 2130772189, 2130772190, 2130772191, 2130772192};
+      public static final int[] RecyclerView = {16842948, R.attr.layoutManager, R.attr.spanCount, R.attr.reverseLayout, R.attr.stackFromEnd};
       public static final int RecyclerView_android_orientation = 0;
       public static final int RecyclerView_layoutManager = 1;
       public static final int RecyclerView_reverseLayout = 3;
       public static final int RecyclerView_spanCount = 2;
       public static final int RecyclerView_stackFromEnd = 4;
-      public static final int[] ScrimInsetsFrameLayout = new int[]{2130772193};
+      public static final int[] ScrimInsetsFrameLayout = {R.attr.insetForeground};
       public static final int ScrimInsetsFrameLayout_insetForeground = 0;
-      public static final int[] ScrollingViewBehavior_Params = new int[]{2130772194};
+      public static final int[] ScrollingViewBehavior_Params = {R.attr.behavior_overlapTop};
       public static final int ScrollingViewBehavior_Params_behavior_overlapTop = 0;
-      public static final int[] SearchView = new int[]{16842970, 16843039, 16843296, 16843364, 2130772195, 2130772196, 2130772197, 2130772198, 2130772199, 2130772200, 2130772201, 2130772202, 2130772203, 2130772204, 2130772205, 2130772206, 2130772207};
+      public static final int[] SearchView = {16842970, 16843039, 16843296, 16843364, R.attr.layout, R.attr.iconifiedByDefault, R.attr.queryHint, R.attr.defaultQueryHint, R.attr.closeIcon, R.attr.goIcon, R.attr.searchIcon, R.attr.searchHintIcon, R.attr.voiceIcon, R.attr.commitIcon, R.attr.suggestionRowLayout, R.attr.queryBackground, R.attr.submitBackground};
       public static final int SearchView_android_focusable = 0;
       public static final int SearchView_android_imeOptions = 3;
       public static final int SearchView_android_inputType = 2;
@@ -1826,17 +1848,17 @@ public final class R {
       public static final int SearchView_submitBackground = 16;
       public static final int SearchView_suggestionRowLayout = 14;
       public static final int SearchView_voiceIcon = 12;
-      public static final int[] SnackbarLayout = new int[]{16843039, 2130771994, 2130772208};
+      public static final int[] SnackbarLayout = {16843039, R.attr.elevation, R.attr.maxActionInlineWidth};
       public static final int SnackbarLayout_android_maxWidth = 0;
       public static final int SnackbarLayout_elevation = 1;
       public static final int SnackbarLayout_maxActionInlineWidth = 2;
-      public static final int[] Spinner = new int[]{16842930, 16843126, 16843131, 16843362, 2130771995};
+      public static final int[] Spinner = {16842930, 16843126, 16843131, 16843362, R.attr.popupTheme};
       public static final int Spinner_android_dropDownWidth = 3;
       public static final int Spinner_android_entries = 0;
       public static final int Spinner_android_popupBackground = 1;
       public static final int Spinner_android_prompt = 2;
       public static final int Spinner_popupTheme = 4;
-      public static final int[] SwitchCompat = new int[]{16843044, 16843045, 16843074, 2130772209, 2130772210, 2130772211, 2130772212, 2130772213, 2130772214, 2130772215};
+      public static final int[] SwitchCompat = {16843044, 16843045, 16843074, R.attr.track, R.attr.thumbTextPadding, R.attr.switchTextAppearance, R.attr.switchMinWidth, R.attr.switchPadding, R.attr.splitTrack, R.attr.showText};
       public static final int SwitchCompat_android_textOff = 1;
       public static final int SwitchCompat_android_textOn = 0;
       public static final int SwitchCompat_android_thumb = 2;
@@ -1847,11 +1869,11 @@ public final class R {
       public static final int SwitchCompat_switchTextAppearance = 5;
       public static final int SwitchCompat_thumbTextPadding = 4;
       public static final int SwitchCompat_track = 3;
-      public static final int[] TabItem = new int[]{16842754, 16842994, 16843087};
+      public static final int[] TabItem = {16842754, 16842994, 16843087};
       public static final int TabItem_android_icon = 0;
       public static final int TabItem_android_layout = 1;
       public static final int TabItem_android_text = 2;
-      public static final int[] TabLayout = new int[]{2130772216, 2130772217, 2130772218, 2130772219, 2130772220, 2130772221, 2130772222, 2130772223, 2130772224, 2130772225, 2130772226, 2130772227, 2130772228, 2130772229, 2130772230, 2130772231};
+      public static final int[] TabLayout = {R.attr.tabIndicatorColor, R.attr.tabIndicatorHeight, R.attr.tabContentStart, R.attr.tabBackground, R.attr.tabMode, R.attr.tabGravity, R.attr.tabMinWidth, R.attr.tabMaxWidth, R.attr.tabTextAppearance, R.attr.tabTextColor, R.attr.tabSelectedTextColor, R.attr.tabPaddingStart, R.attr.tabPaddingTop, R.attr.tabPaddingEnd, R.attr.tabPaddingBottom, R.attr.tabPadding};
       public static final int TabLayout_tabBackground = 3;
       public static final int TabLayout_tabContentStart = 2;
       public static final int TabLayout_tabGravity = 5;
@@ -1868,7 +1890,7 @@ public final class R {
       public static final int TabLayout_tabSelectedTextColor = 10;
       public static final int TabLayout_tabTextAppearance = 8;
       public static final int TabLayout_tabTextColor = 9;
-      public static final int[] TextAppearance = new int[]{16842901, 16842902, 16842903, 16842904, 16843105, 16843106, 16843107, 16843108, 2130772008};
+      public static final int[] TextAppearance = {16842901, 16842902, 16842903, 16842904, 16843105, 16843106, 16843107, 16843108, R.attr.textAllCaps};
       public static final int TextAppearance_android_shadowColor = 4;
       public static final int TextAppearance_android_shadowDx = 5;
       public static final int TextAppearance_android_shadowDy = 6;
@@ -1878,7 +1900,7 @@ public final class R {
       public static final int TextAppearance_android_textStyle = 2;
       public static final int TextAppearance_android_typeface = 1;
       public static final int TextAppearance_textAllCaps = 8;
-      public static final int[] TextInputLayout = new int[]{16842906, 16843088, 2130772232, 2130772233, 2130772234, 2130772235, 2130772236, 2130772237, 2130772238, 2130772239, 2130772240};
+      public static final int[] TextInputLayout = {16842906, 16843088, R.attr.hintTextAppearance, R.attr.hintEnabled, R.attr.errorEnabled, R.attr.errorTextAppearance, R.attr.counterEnabled, R.attr.counterMaxLength, R.attr.counterTextAppearance, R.attr.counterOverflowTextAppearance, R.attr.hintAnimationEnabled};
       public static final int TextInputLayout_android_hint = 1;
       public static final int TextInputLayout_android_textColorHint = 0;
       public static final int TextInputLayout_counterEnabled = 6;
@@ -1890,7 +1912,7 @@ public final class R {
       public static final int TextInputLayout_hintAnimationEnabled = 10;
       public static final int TextInputLayout_hintEnabled = 3;
       public static final int TextInputLayout_hintTextAppearance = 2;
-      public static final int[] Toolbar = new int[]{16842927, 16843072, 2130771971, 2130771974, 2130771978, 2130771990, 2130771991, 2130771992, 2130771993, 2130771995, 2130772241, 2130772242, 2130772243, 2130772244, 2130772245, 2130772246, 2130772247, 2130772248, 2130772249, 2130772250, 2130772251, 2130772252, 2130772253, 2130772254, 2130772255};
+      public static final int[] Toolbar = {16842927, 16843072, R.attr.title, R.attr.subtitle, R.attr.logo, R.attr.contentInsetStart, R.attr.contentInsetEnd, R.attr.contentInsetLeft, R.attr.contentInsetRight, R.attr.popupTheme, R.attr.titleTextAppearance, R.attr.subtitleTextAppearance, R.attr.titleMargins, R.attr.titleMarginStart, R.attr.titleMarginEnd, R.attr.titleMarginTop, R.attr.titleMarginBottom, R.attr.maxButtonHeight, R.attr.collapseIcon, R.attr.collapseContentDescription, R.attr.navigationIcon, R.attr.navigationContentDescription, R.attr.logoDescription, R.attr.titleTextColor, R.attr.subtitleTextColor};
       public static final int Toolbar_android_gravity = 0;
       public static final int Toolbar_android_minHeight = 1;
       public static final int Toolbar_collapseContentDescription = 19;
@@ -1916,12 +1938,12 @@ public final class R {
       public static final int Toolbar_titleMargins = 12;
       public static final int Toolbar_titleTextAppearance = 10;
       public static final int Toolbar_titleTextColor = 23;
-      public static final int[] View = new int[]{16842752, 16842970, 2130772256, 2130772257, 2130772258};
-      public static final int[] ViewBackgroundHelper = new int[]{16842964, 2130772259, 2130772260};
+      public static final int[] View = {16842752, 16842970, R.attr.paddingStart, R.attr.paddingEnd, R.attr.theme};
+      public static final int[] ViewBackgroundHelper = {16842964, R.attr.backgroundTint, R.attr.backgroundTintMode};
       public static final int ViewBackgroundHelper_android_background = 0;
       public static final int ViewBackgroundHelper_backgroundTint = 1;
       public static final int ViewBackgroundHelper_backgroundTintMode = 2;
-      public static final int[] ViewStubCompat = new int[]{16842960, 16842994, 16842995};
+      public static final int[] ViewStubCompat = {16842960, 16842994, 16842995};
       public static final int ViewStubCompat_android_id = 0;
       public static final int ViewStubCompat_android_inflatedId = 2;
       public static final int ViewStubCompat_android_layout = 1;

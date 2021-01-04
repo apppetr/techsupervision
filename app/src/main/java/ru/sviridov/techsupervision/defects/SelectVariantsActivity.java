@@ -1,5 +1,6 @@
 package ru.sviridov.techsupervision.defects;
 
+import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -21,15 +22,18 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+
+import fr.opensagres.xdocreport.document.docx.DocxConstants;
 import ru.sviridov.techsupervision.Helper;
 import ru.sviridov.techsupervision.ToolbarActivity;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Variant;
 import ru.sviridov.techsupervision.utils.Formats;
 import ru.sviridov.techsupervision.utils.FreeWrapperAdapter;
+import ru.sviridov.techsupervision.values.Values;
 import ru.sviridov.techsupervision.values.ValuesProvider;
 
-public class SelectVariantsActivity extends ToolbarActivity implements LoaderCallbacks {
+public class SelectVariantsActivity extends ToolbarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
    public static final int MODE_COMPENSATIONS = 2;
    public static final int MODE_DEFECTS = 0;
    public static final int MODE_REASONS = 1;
@@ -41,365 +45,320 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderCal
    private static final int VARIANT_LOADER = 3;
    private VariantsAdapter adapter;
    private View addVariantLayout;
-   private SearchView searchView;
+   /* access modifiers changed from: private */
+   public SearchView searchView;
 
-   private void addVariant(String var1) {
-      Bundle var2 = this.getIntent().getExtras();
-      ContentResolver var3 = this.getContentResolver();
-      ContentValues var4 = new ContentValues();
-      var4.put("name", var1);
-      var4.put("manually_added", true);
-      var4.put("uploaded", false);
-      String var5 = var2.getString("ru.sviridov.techsupervision.URI");
-      long var6 = Long.parseLong(var3.insert(ValuesProvider.uri(var5), var4).getLastPathSegment());
-      int[] var8 = var2.getIntArray("ru.sviridov.techsupervision.ROOTS");
-      ContentValues[] var9 = new ContentValues[var8.length];
-      String[] var12 = getFeildsForInsert(var5);
-
-      for(int var10 = 0; var10 < var8.length; ++var10) {
-         var9[var10] = new ContentValues();
-         var9[var10].put(var12[1], var8[var10]);
-         var9[var10].put(var12[2], var6);
-         var9[var10].put("manually_added", true);
-         var9[var10].put("uploaded", false);
-      }
-
-      var3.bulkInsert(ValuesProvider.uri(var12[0]), var9);
-      HashMap var11 = new HashMap();
-      var11.put("type", var5);
-      var11.put("name", var1);
-      var11.put("roots", var2.getString("ru.sviridov.techsupervision.ROOTS_STRING"));
-    //  Mint.logEvent("added variant", MintLogLevel.Info, var11);
-      this.getLoaderManager().restartLoader(3, var2, this);
-   }
-
-   private boolean canAddValues(int var1) {
-      boolean var2;
-      if (var1 == 0 && this.searchView.getQuery().length() != 0) {
-         var2 = true;
-      } else {
-         var2 = false;
-      }
-
-      return var2;
-   }
-
-   private RecyclerView.Adapter getAdapter(VariantsAdapter var1) {
-      Object var2 = var1;
-      if (Helper.isFree()) {
-         var2 = new FreeWrapperAdapter(this, var1, true, new OnClickListener() {
-            public void onClick(View var1) {
-               Helper.openApp(SelectVariantsActivity.this);
+   private static String[] getFeildsForInsert(String uri) {
+      char c = 65535;
+      switch (uri.hashCode()) {
+         case 1080866479:
+            if (uri.equals("reasons")) {
+               c = 1;
+               break;
             }
-         });
+            break;
+         case 1544906018:
+            if (uri.equals("defects")) {
+               c = 0;
+               break;
+            }
+            break;
+         case 1769711449:
+            if (uri.equals("compensations")) {
+               c = 2;
+               break;
+            }
+            break;
       }
-
-      return (RecyclerView.Adapter)var2;
+      switch (c) {
+         case 0:
+            return new String[]{"defects2elements", "mat_elem_id", "defect_id"};
+         case 1:
+            return new String[]{"defects2reasons", "defect_id", "reason_id"};
+         case 2:
+            return new String[]{"reasons2compensations", "reason_id", Values.R2C.COMPENSATION_ID};
+         default:
+            return null;
+      }
    }
 
-   @StringRes
-   private int getAddVariantText(String var1) {
-      byte var2 = -1;
-      switch(var1.hashCode()) {
-      case R.id.ivPicture:
-         if (var1.equals("reasons")) {
-            var2 = 1;
-         }
-         break;
-
-      case 1544906018:
-         if (var1.equals("defects")) {
-            var2 = 0;
-         }
-         break;
-      case 1769711449:
-         if (var1.equals("compensations")) {
-            var2 = 2;
-         }
+   private static String getLinker(String uriPath) {
+      char c = 65535;
+      switch (uriPath.hashCode()) {
+         case 1080866479:
+            if (uriPath.equals("reasons")) {
+               c = 1;
+               break;
+            }
+            break;
+         case 1544906018:
+            if (uriPath.equals("defects")) {
+               c = 0;
+               break;
+            }
+            break;
+         case 1769711449:
+            if (uriPath.equals("compensations")) {
+               c = 2;
+               break;
+            }
+            break;
       }
-
-      int var3;
-      switch(var2) {
-      case 0:
-         var3 = R.string.ask_add_defect;
-         break;
-      case 1:
-         var3 = R.string.ask_add_reason;
-         break;
-      case 2:
-         var3 = R.string.ask_add_compensation;
-         break;
-      default:
-         var3 = R.string.ask_add_variant;
+      switch (c) {
+         case 0:
+            return "mat_elem_id";
+         case 1:
+            return "defect_id";
+         case 2:
+            return "reason_id";
+         default:
+            return "mat_elem_id";
       }
-
-      return var3;
    }
 
-   private static String[] getFeildsForInsert(String var0) {
-      byte var1 = -1;
-      switch(var0.hashCode()) {
-      case 1080866479:
-         if (var0.equals("reasons")) {
-            var1 = 1;
-         }
-         break;
-      case 1544906018:
-         if (var0.equals("defects")) {
-            var1 = 0;
-         }
-         break;
-      case 1769711449:
-         if (var0.equals("compensations")) {
-            var1 = 2;
-         }
+   private static String getUriForSelection(String uriPath) {
+      char c = 65535;
+      switch (uriPath.hashCode()) {
+         case 1080866479:
+            if (uriPath.equals("reasons")) {
+               c = 1;
+               break;
+            }
+            break;
+         case 1544906018:
+            if (uriPath.equals("defects")) {
+               c = 0;
+               break;
+            }
+            break;
+         case 1769711449:
+            if (uriPath.equals("compensations")) {
+               c = 2;
+               break;
+            }
+            break;
       }
-
-      String[] var2;
-      switch(var1) {
-      case 0:
-         var2 = new String[]{"defects2elements", "mat_elem_id", "defect_id"};
-         break;
-      case 1:
-         var2 = new String[]{"defects2reasons", "defect_id", "reason_id"};
-         break;
-      case 2:
-         var2 = new String[]{"reasons2compensations", "reason_id", "compensation_id"};
-         break;
-      default:
-         var2 = null;
+      switch (c) {
+         case 0:
+            return Values.Defects.URI_FOR_SELECTION;
+         case 1:
+            return Values.Reasons.URI_FOR_SELECTION;
+         case 2:
+            return Values.Compensations.URI_FOR_SELECTION;
+         default:
+            return Values.Defects.URI_FOR_SELECTION;
       }
-
-      return var2;
    }
 
-   private static String getLinker(String var0) {
-      byte var1 = -1;
-      switch(var0.hashCode()) {
-      case 1080866479:
-         if (var0.equals("reasons")) {
-            var1 = 1;
-         }
-         break;
-      case 1544906018:
-         if (var0.equals("defects")) {
-            var1 = 0;
-         }
-         break;
-      case 1769711449:
-         if (var0.equals("compensations")) {
-            var1 = 2;
-         }
+   /* access modifiers changed from: protected */
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView((int) R.layout.activity_select_variants);
+      ActionBar actionbar = getSupportActionBar();
+      if (actionbar != null) {
+         actionbar.setHomeAsUpIndicator((int) R.drawable.close);
       }
-
-      switch(var1) {
-      case 0:
-         var0 = "mat_elem_id";
-         break;
-      case 1:
-         var0 = "defect_id";
-         break;
-      case 2:
-         var0 = "reason_id";
-         break;
-      default:
-         var0 = "mat_elem_id";
+      Bundle args = getIntent().getExtras();
+      String uriPath = args.getString(URI, "defects");
+      if (getSupportActionBar() != null) {
+         getSupportActionBar().setTitle(selectTitle(uriPath));
       }
-
-      return var0;
-   }
-
-   private static String getUriForSelection(String var0) {
-      byte var1 = -1;
-      switch(var0.hashCode()) {
-      case 1080866479:
-         if (var0.equals("reasons")) {
-            var1 = 1;
-         }
-         break;
-      case 1544906018:
-         if (var0.equals("defects")) {
-            var1 = 0;
-         }
-         break;
-      case 1769711449:
-         if (var0.equals("compensations")) {
-            var1 = 2;
-         }
-      }
-
-      switch(var1) {
-      case 0:
-         var0 = "select_defects";
-         break;
-      case 1:
-         var0 = "select_reasons";
-         break;
-      case 2:
-         var0 = "select_compensations";
-         break;
-      default:
-         var0 = "select_defects";
-      }
-
-      return var0;
-   }
-
-   private int selectTitle(String var1) {
-      int var2 = R.string.defect_desc;
-      byte var3 = -1;
-      switch(var1.hashCode()) {
-      case 1080866479:
-         if (var1.equals("reasons")) {
-            var3 = 1;
-         }
-         break;
-      case 1544906018:
-         if (var1.equals("defects")) {
-            var3 = 0;
-         }
-         break;
-      case 1769711449:
-         if (var1.equals("compensations")) {
-            var3 = 2;
-         }
-      }
-
-      int var4 = var2;
-      switch(var3) {
-      case 0:
-         break;
-      case 1:
-         var4 = R.string.defect_reasons;
-         break;
-      case 2:
-         var4 = R.string.defect_compentations;
-         break;
-      default:
-         var4 = var2;
-      }
-
-      return var4;
-   }
-
-   private void selectVariants() {
-      List var1 = this.adapter.getSelected();
-      this.getIntent().putExtra("ru.sviridov.techsupervision.SELECTED_VALUES", (Parcelable[])this.adapter.getSelected().toArray(new Variant[var1.size()]));
-      this.setResult(-1, this.getIntent());
-      this.finish();
-   }
-
-   protected void onCreate(Bundle var1) {
-      super.onCreate(var1);
-      this.setContentView(R.layout.activity_select_variants);
-      ActionBar var4 = this.getSupportActionBar();
-      if (var4 != null) {
-         var4.setHomeAsUpIndicator(R.drawable.close);
-      }
-
-      var1 = this.getIntent().getExtras();
-      String var2 = var1.getString("ru.sviridov.techsupervision.URI", "defects");
-      if (this.getSupportActionBar() != null) {
-         this.getSupportActionBar().setTitle(this.selectTitle(var2));
-      }
-
-      int[] var3 = var1.getIntArray("ru.sviridov.techsupervision.SELECTED_VALUES");
-      this.adapter = new VariantsAdapter(this, (Cursor)null);
-      this.adapter.setSelectedIds(var3);
-      RecyclerView var5 = (RecyclerView)this.findViewById(android.R.id.list);
-      var5.setLayoutManager(new LinearLayoutManager(this));
-      var5.setAdapter(this.getAdapter(this.adapter));
-      this.searchView = (SearchView)this.findViewById(R.id.svQuery);
+      int[] selectedValues = args.getIntArray(SELECTED_VALUES);
+      this.adapter = new VariantsAdapter(this, (Cursor) null);
+      this.adapter.setSelectedIds(selectedValues);
+      RecyclerView recyclerView = (RecyclerView) findViewById(16908298);
+      recyclerView.setLayoutManager(new LinearLayoutManager(this));
+      recyclerView.setAdapter(getAdapter(this.adapter));
+      this.searchView = (SearchView) findViewById(R.id.svQuery);
       this.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-         public boolean onQueryTextChange(String var1) {
-            Bundle var2 = SelectVariantsActivity.this.getIntent().getExtras();
-            if (var1.length() > 2) {
-               var2.putString("ru.sviridov.techsupervision.TEXT", var1);
-            }
-
-            SelectVariantsActivity.this.getLoaderManager().restartLoader(3, var2, SelectVariantsActivity.this);
-            return true;
-         }
-
-         public boolean onQueryTextSubmit(String var1) {
+         public boolean onQueryTextSubmit(String query) {
             return false;
          }
+
+         public boolean onQueryTextChange(String newText) {
+            Bundle args = SelectVariantsActivity.this.getIntent().getExtras();
+            if (newText.length() > 2) {
+               args.putString(SelectVariantsActivity.TEXT, newText);
+            }
+            SelectVariantsActivity.this.getLoaderManager().restartLoader(3, args, SelectVariantsActivity.this);
+            return true;
+         }
       });
-      this.addVariantLayout = this.findViewById(R.id.llAddVariant);
-      this.findViewById(R.id.btnAdd).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      this.addVariantLayout = findViewById(R.id.llAddVariant);
+      findViewById(R.id.btnAdd).setOnClickListener(new View.OnClickListener() {
+         public void onClick(View v) {
             if (Helper.isFree()) {
                Helper.openApp(SelectVariantsActivity.this);
             } else {
                SelectVariantsActivity.this.addVariant(SelectVariantsActivity.this.searchView.getQuery().toString());
             }
-
          }
       });
-      ((TextView)this.findViewById(R.id.tvAddVariant)).setText(this.getAddVariantText(var2));
+      ((TextView) findViewById(R.id.tvAddVariant)).setText(getAddVariantText(uriPath));
       this.searchView.post(new Runnable() {
          public void run() {
             SelectVariantsActivity.this.searchView.clearFocus();
          }
       });
-      this.getLoaderManager().initLoader(3, var1, this);
-     // Mint.logEvent("open select variants", MintLogLevel.Info, "type", String.valueOf(var2));
+      getLoaderManager().initLoader(3, args, this);
+      //Mint.logEvent(Metrics.OPEN_SELECT_VARIANTS, MintLogLevel.Info, DocxConstants.TYPE_ATTR, String.valueOf(uriPath));
    }
 
-   public Loader onCreateLoader(int var1, Bundle var2) {
-      String var3 = var2.getString("ru.sviridov.techsupervision.URI");
-      String var4 = null;
-      if (var2 != null) {
-         int[] var5 = var2.getIntArray("ru.sviridov.techsupervision.ROOTS");
-         StringBuilder var6 = new StringBuilder();
-         var6.append(String.format("%1$s in (%2$s)", getLinker(var3), Formats.formatArray(var5)));
-         if (var2.containsKey("ru.sviridov.techsupervision.TEXT")) {
-            var6.append("AND name LIKE '%");
-            var6.append(var2.getString("ru.sviridov.techsupervision.TEXT"));
-            var6.append("%' ");
+   private RecyclerView.Adapter<VariantsAdapter.VariantViewHolder> getAdapter(VariantsAdapter variantsAdapter) {
+      if (Helper.isFree()) {
+         return new FreeWrapperAdapter(this, variantsAdapter, true, new View.OnClickListener() {
+            public void onClick(View v) {
+               Helper.openApp(SelectVariantsActivity.this);
+            }
+         });
+      }
+      return variantsAdapter;
+   }
+
+   @StringRes
+   private int getAddVariantText(String uriPath) {
+      char c = 65535;
+      switch (uriPath.hashCode()) {
+         case 1080866479:
+            if (uriPath.equals("reasons")) {
+               c = 1;
+               break;
+            }
+            break;
+         case 1544906018:
+            if (uriPath.equals("defects")) {
+               c = 0;
+               break;
+            }
+            break;
+         case 1769711449:
+            if (uriPath.equals("compensations")) {
+               c = 2;
+               break;
+            }
+            break;
+      }
+      switch (c) {
+         case 0:
+            return R.string.ask_add_defect;
+         case 1:
+            return R.string.ask_add_reason;
+         case 2:
+            return R.string.ask_add_compensation;
+         default:
+            return R.string.ask_add_variant;
+      }
+   }
+
+   /* access modifiers changed from: private */
+   public void addVariant(String name) {
+      Bundle args = getIntent().getExtras();
+      ContentResolver cr = getContentResolver();
+      ContentValues values = new ContentValues();
+      values.put("name", name);
+      values.put("manually_added", true);
+      values.put("uploaded", false);
+      String uri = args.getString(URI);
+      long newId = Long.parseLong(cr.insert(ValuesProvider.uri(uri), values).getLastPathSegment());
+      int[] roots = args.getIntArray(ROOTS);
+      ContentValues[] cvs = new ContentValues[roots.length];
+      String[] fields = getFeildsForInsert(uri);
+      for (int i = 0; i < roots.length; i++) {
+         cvs[i] = new ContentValues();
+         cvs[i].put(fields[1], Integer.valueOf(roots[i]));
+         cvs[i].put(fields[2], Long.valueOf(newId));
+         cvs[i].put("manually_added", true);
+         cvs[i].put("uploaded", false);
+      }
+      cr.bulkInsert(ValuesProvider.uri(fields[0]), cvs);
+      HashMap<String, Object> attrs = new HashMap<>();
+      attrs.put(DocxConstants.TYPE_ATTR, uri);
+      attrs.put("name", name);
+      attrs.put("roots", args.getString(ROOTS_STRING));
+      //Mint.logEvent(Metrics.ADDED_VARIANT, MintLogLevel.Info, attrs);
+      getLoaderManager().restartLoader(3, args, this);
+   }
+
+   private int selectTitle(String uriPath) {
+      char c = 65535;
+      switch (uriPath.hashCode()) {
+         case 1080866479:
+            if (uriPath.equals("reasons")) {
+               c = 1;
+               break;
+            }
+            break;
+         case 1544906018:
+            if (uriPath.equals("defects")) {
+               c = 0;
+               break;
+            }
+            break;
+         case 1769711449:
+            if (uriPath.equals("compensations")) {
+               c = 2;
+               break;
+            }
+            break;
+      }
+      switch (c) {
+         case 1:
+            return R.string.defect_reasons;
+         case 2:
+            return R.string.defect_compentations;
+         default:
+            return R.string.defect_desc;
+      }
+   }
+
+   public boolean onCreateOptionsMenu(Menu menu) {
+      getMenuInflater().inflate(R.menu.marks_management, menu);
+      return super.onCreateOptionsMenu(menu);
+   }
+
+   public boolean onOptionsItemSelected(MenuItem item) {
+      int id = item.getItemId();
+      if (id == R.id.ready) {
+         selectVariants();
+      } else if (id == 16908332) {
+         finish();
+      }
+      return super.onOptionsItemSelected(item);
+   }
+
+   private void selectVariants() {
+      getIntent().putExtra(SELECTED_VALUES, (Parcelable[]) this.adapter.getSelected().toArray(new Variant[this.adapter.getSelected().size()]));
+      setResult(-1, getIntent());
+      finish();
+   }
+
+   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+      String uriPath = args.getString(URI);
+      String selection = null;
+      if (args != null) {
+         int[] roots = args.getIntArray(ROOTS);
+         StringBuilder sBuilder = new StringBuilder();
+         sBuilder.append(String.format("%1$s in (%2$s)", new Object[]{getLinker(uriPath), Formats.formatArray(roots)}));
+         if (args.containsKey(TEXT)) {
+            sBuilder.append("AND name LIKE '%");
+            sBuilder.append(args.getString(TEXT));
+            sBuilder.append("%' ");
          }
-
-         var4 = var6.toString();
+         selection = sBuilder.toString();
       }
-
-      return new CursorLoader(this, ValuesProvider.uri(getUriForSelection(var3)), (String[])null, var4, (String[])null, (String)null);
+      return new CursorLoader(this, ValuesProvider.uri(getUriForSelection(uriPath)), (String[]) null, selection, (String[]) null, (String) null);
    }
 
-   @Override
-   public void onLoadFinished(Loader loader, Object data) {
-
+   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+      this.adapter.swapCursor(cursor);
+      this.addVariantLayout.setVisibility(canAddValues(cursor.getCount()) ? View.VISIBLE : View.GONE);
    }
 
-   public boolean onCreateOptionsMenu(Menu var1) {
-      this.getMenuInflater().inflate(R.menu.marks_management, var1);
-      return super.onCreateOptionsMenu(var1);
+   private boolean canAddValues(int itemsCount) {
+      return itemsCount == 0 && this.searchView.getQuery().length() != 0;
    }
 
-   public void onLoadFinished(Loader var1, Cursor var2) {
-      this.adapter.swapCursor(var2);
-      View var4 = this.addVariantLayout;
-      byte var3;
-      if (this.canAddValues(var2.getCount())) {
-         var3 = 0;
-      } else {
-         var3 = 8;
-      }
-
-      var4.setVisibility(var3);
-   }
-
-   public void onLoaderReset(Loader var1) {
-      this.adapter.swapCursor((Cursor)null);
-   }
-
-   public boolean onOptionsItemSelected(MenuItem var1) {
-      int var2 = var1.getItemId();
-      if (var2 == R.id.ready) {
-         this.selectVariants();
-      } else if (var2 == android.R.id.home) {
-         this.finish();
-      }
-
-      return super.onOptionsItemSelected(var1);
+   public void onLoaderReset(Loader<Cursor> loader) {
+      this.adapter.swapCursor((Cursor) null);
    }
 }

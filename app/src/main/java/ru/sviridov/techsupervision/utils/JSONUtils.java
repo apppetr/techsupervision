@@ -4,28 +4,21 @@ import java.util.Iterator;
 import org.json.JSONArray;
 
 public class JSONUtils {
-   public static Iterable iterate(final JSONArray var0) {
-      return new Iterable() {
-         public Iterator iterator() {
-            return new Iterator() {
+   public static <X> Iterable<X> iterate(final JSONArray what) {
+      return new Iterable<X>() {
+         public Iterator<X> iterator() {
+            return new Iterator<X>() {
                int index = -1;
 
                public boolean hasNext() {
-                  boolean var1;
-                  if (this.index + 1 < var0.length()) {
-                     var1 = true;
-                  } else {
-                     var1 = false;
-                  }
-
-                  return var1;
+                  return this.index + 1 < what.length();
                }
 
-               public Object next() {
-                  JSONArray var1 = var0;
-                  int var2 = this.index + 1;
-                  this.index = var2;
-                  return var1.opt(var2);
+               public X next() {
+                  JSONArray jSONArray = what;
+                  int i = this.index + 1;
+                  this.index = i;
+                  return (X) jSONArray.opt(i);
                }
 
                public void remove() {
@@ -35,28 +28,21 @@ public class JSONUtils {
       };
    }
 
-   public static Iterable reiterate(final JSONArray var0) {
-      return new Iterable() {
-         public Iterator iterator() {
-            return new Iterator() {
-               int index = var0.length();
+   public static <X> Iterable<X> reiterate(final JSONArray what) {
+      return new Iterable<X>() {
+         public Iterator<X> iterator() {
+            return new Iterator<X>() {
+               int index = what.length();
 
                public boolean hasNext() {
-                  boolean var1;
-                  if (this.index > 0) {
-                     var1 = true;
-                  } else {
-                     var1 = false;
-                  }
-
-                  return var1;
+                  return this.index > 0;
                }
 
-               public Object next() {
-                  JSONArray var1 = var0;
-                  int var2 = this.index - 1;
-                  this.index = var2;
-                  return var1.opt(var2);
+               public X next() {
+                  JSONArray jSONArray = what;
+                  int i = this.index - 1;
+                  this.index = i;
+                  return (X) jSONArray.opt(i);
                }
 
                public void remove() {
@@ -66,45 +52,28 @@ public class JSONUtils {
       };
    }
 
-   public static int[] toIntArray(Object var0) {
-      int[] var4;
-      if (var0 == null) {
-         var4 = new int[0];
-      } else {
-         int[] var1;
-         if (var0 instanceof Integer) {
-            var1 = new int[]{(Integer)var0};
-            var4 = var1;
-         } else {
-            JSONArray var2 = (JSONArray)var0;
-            var1 = new int[var2.length()];
-            int var3 = 0;
-
-            while(true) {
-               var4 = var1;
-               if (var3 >= var2.length()) {
-                  break;
-               }
-
-               var1[var3] = var2.optInt(var3, -1);
-               ++var3;
-            }
-         }
+   public static int[] toIntArray(Object arr) {
+      if (arr == null) {
+         return new int[0];
       }
-
-      return var4;
+      if (arr instanceof Integer) {
+         return new int[]{((Integer) arr).intValue()};
+      }
+      JSONArray array = (JSONArray) arr;
+      int[] out = new int[array.length()];
+      for (int i = 0; i < array.length(); i++) {
+         out[i] = array.optInt(i, -1);
+      }
+      return out;
    }
 
-   public static JSONArray toJSONArray(int[] var0) {
-      JSONArray var1 = new JSONArray();
-      if (var0 != null) {
-         int var2 = var0.length;
-
-         for(int var3 = 0; var3 < var2; ++var3) {
-            var1.put(var0[var3]);
+   public static JSONArray toJSONArray(int[] array) {
+      JSONArray out = new JSONArray();
+      if (array != null) {
+         for (int i : array) {
+            out.put(i);
          }
       }
-
-      return var1;
+      return out;
    }
 }

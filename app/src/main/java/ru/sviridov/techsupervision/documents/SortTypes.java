@@ -1,6 +1,6 @@
 package ru.sviridov.techsupervision.documents;
 
 public interface SortTypes {
-   int DATE = 0;
-   int ELEMENTS = 1;
+   public static final int DATE = 0;
+   public static final int ELEMENTS = 1;
 }

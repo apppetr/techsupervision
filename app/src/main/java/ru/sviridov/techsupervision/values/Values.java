@@ -1,115 +1,139 @@
 package ru.sviridov.techsupervision.values;
 
 public interface Values {
-   String MANUALLY_ADDED = "manually_added";
-   String UPLOADED = "uploaded";
-   String VERSION = "version";
+   public static final String MANUALLY_ADDED = "manually_added";
+   public static final String UPLOADED = "uploaded";
+   public static final String VERSION = "version";
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Compensations */
    public interface Compensations {
-      String ID = "_id";
-      String LINKER = "reason_id";
-      String MANUALLY_ADDED = "manually_added";
-      String NAME = "name";
-      String RAW_QUERY = "SELECT  * FROM compensations c where c._id in (select r2c.compensation_id from reasons2compensations r2c WHERE %s)";
-      String TABLE = "compensations";
-      String UPLOADED = "uploaded";
-      String URI = "compensations";
-      String URI_FOR_SELECTION = "select_compensations";
-      String VERSION = "version";
+
+      /* renamed from: ID */
+      public static final String f91ID = "_id";
+      public static final String LINKER = "reason_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String NAME = "name";
+      public static final String RAW_QUERY = "SELECT  * FROM compensations c where c._id in (select r2c.compensation_id from reasons2compensations r2c WHERE %s)";
+      public static final String TABLE = "compensations";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "compensations";
+      public static final String URI_FOR_SELECTION = "select_compensations";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$D2E */
    public interface D2E {
-      String DEFECT_ID = "defect_id";
-      String MANUALLY_ADDED = "manually_added";
-      String MAT_ELEM_ID = "mat_elem_id";
-      String TABLE = "defects2elements";
-      String UPLOADED = "uploaded";
-      String URI = "defects2elements";
-      String VERSION = "version";
+      public static final String DEFECT_ID = "defect_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String MAT_ELEM_ID = "mat_elem_id";
+      public static final String TABLE = "defects2elements";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "defects2elements";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$D2R */
    public interface D2R {
-      String DEFECT_ID = "defect_id";
-      String MANUALLY_ADDED = "manually_added";
-      String REASON_ID = "reason_id";
-      String TABLE = "defects2reasons";
-      String UPLOADED = "uploaded";
-      String URI = "defects2reasons";
-      String VERSION = "version";
+      public static final String DEFECT_ID = "defect_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String REASON_ID = "reason_id";
+      public static final String TABLE = "defects2reasons";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "defects2reasons";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Defects */
    public interface Defects {
-      String ID = "_id";
-      String LINKER = "mat_elem_id";
-      String MANUALLY_ADDED = "manually_added";
-      String NAME = "name";
-      String TABLE = "defects";
-      String UPLOADED = "uploaded";
-      String URI = "defects";
-      String URI_FOR_SELECTION = "select_defects";
-      String VERSION = "version";
+
+      /* renamed from: ID */
+      public static final String f92ID = "_id";
+      public static final String LINKER = "mat_elem_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String NAME = "name";
+      public static final String TABLE = "defects";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "defects";
+      public static final String URI_FOR_SELECTION = "select_defects";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$E2M */
    public interface E2M {
-      String ELEMENT_ID = "element_id";
-      String ID = "mat_elem_id";
-      String MANUALLY_ADDED = "manually_added";
-      String MATERIAL_ID = "material_id";
-      String TABLE = "elements2materials";
-      String UPLOADED = "uploaded";
-      String URI = "elements2materials";
-      String VERSION = "version";
+      public static final String ELEMENT_ID = "element_id";
+
+      /* renamed from: ID */
+      public static final String f93ID = "mat_elem_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String MATERIAL_ID = "material_id";
+      public static final String TABLE = "elements2materials";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "elements2materials";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Elements */
    public interface Elements {
-      String ID = "_id";
-      String MANUALLY_ADDED = "manually_added";
-      String NAME = "name";
-      String TABLE = "elements";
-      String UPLOADED = "uploaded";
-      String URI = "elements";
-      String VERSION = "version";
+
+      /* renamed from: ID */
+      public static final String f94ID = "_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String NAME = "name";
+      public static final String TABLE = "elements";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "elements";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Materials */
    public interface Materials {
-      String ID = "_id";
-      String MANUALLY_ADDED = "manually_added";
-      String NAME = "name";
-      String TABLE = "materials";
-      String UPLOADED = "uploaded";
-      String URI = "materials";
-      String URI_FOR_SELECTION = "select_materials";
-      String VERSION = "version";
+
+      /* renamed from: ID */
+      public static final String f95ID = "_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String NAME = "name";
+      public static final String TABLE = "materials";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "materials";
+      public static final String URI_FOR_SELECTION = "select_materials";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$R2C */
    public interface R2C {
-      String COMPENSATION_ID = "compensation_id";
-      String MANUALLY_ADDED = "manually_added";
-      String REASON_ID = "reason_id";
-      String TABLE = "reasons2compensations";
-      String UPLOADED = "uploaded";
-      String URI = "reasons2compensations";
-      String VERSION = "version";
+      public static final String COMPENSATION_ID = "compensation_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String REASON_ID = "reason_id";
+      public static final String TABLE = "reasons2compensations";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "reasons2compensations";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Reasons */
    public interface Reasons {
-      String ID = "_id";
-      String LINKER = "defect_id";
-      String MANUALLY_ADDED = "manually_added";
-      String NAME = "name";
-      String RAW_QUERY = "SELECT  * FROM reasons r where r._id in (select d2r.reason_id from defects2reasons d2r WHERE %s)";
-      String TABLE = "reasons";
-      String UPLOADED = "uploaded";
-      String URI = "reasons";
-      String URI_FOR_SELECTION = "select_reasons";
-      String VERSION = "version";
+
+      /* renamed from: ID */
+      public static final String f96ID = "_id";
+      public static final String LINKER = "defect_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String NAME = "name";
+      public static final String RAW_QUERY = "SELECT  * FROM reasons r where r._id in (select d2r.reason_id from defects2reasons d2r WHERE %s)";
+      public static final String TABLE = "reasons";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "reasons";
+      public static final String URI_FOR_SELECTION = "select_reasons";
+      public static final String VERSION = "version";
    }
 
+   /* renamed from: ru.sviridov.techsupervision.values.Values$Versions */
    public interface Versions {
-      String DATE = "date";
-      String ID = "id";
-      String NAME = "name";
-      String TABLE = "versions";
-      String URI = "versions";
+      public static final String DATE = "date";
+
+      /* renamed from: ID */
+      public static final String f97ID = "id";
+      public static final String NAME = "name";
+      public static final String TABLE = "versions";
+      public static final String URI = "versions";
    }
 }

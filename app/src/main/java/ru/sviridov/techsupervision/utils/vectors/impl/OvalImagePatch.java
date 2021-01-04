@@ -13,15 +13,16 @@ public class OvalImagePatch implements ImagePatch {
 
    static {
       PAINT.setColor(-1426080769);
-      PAINT.setStyle(Style.STROKE);
+      PAINT.setStyle(Paint.Style.STROKE);
    }
 
-   public OvalImagePatch(RectF var1) {
-      this.rect = var1;
+   public OvalImagePatch(RectF rect2) {
+      this.rect = rect2;
    }
 
-   public void draw(Painting var1, Canvas var2) {
-      PAINT.setStrokeWidth(var1.getDensity());
-      var2.drawOval(this.rect, PAINT);
+   public void draw(Painting target, Canvas cvs) {
+      PAINT.setStrokeWidth(target.getDensity());
+      cvs.drawOval(this.rect, PAINT);
    }
 }
+

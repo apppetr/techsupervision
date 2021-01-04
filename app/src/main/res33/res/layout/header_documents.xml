@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:textSize="@dimen/text_small" android:textColor="@color/subheader_color" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/tvHeader" android:background="@color/light2_grey" android:paddingLeft="@dimen/padding_normal" android:layout_width="match_parent" android:layout_height="@dimen/height_subheader" android:text="@string/documents"/>
+    <include layout="@layout/separator"/>
+</LinearLayout>

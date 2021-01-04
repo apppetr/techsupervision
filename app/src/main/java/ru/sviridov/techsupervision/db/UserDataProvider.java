@@ -1,6 +1,7 @@
 package ru.sviridov.techsupervision.db;
 
 import android.content.ContentProvider;
+import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -9,6 +10,7 @@ import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.DatabaseUtils.InsertHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -22,10 +24,9 @@ import nl.qbusict.cupboard.CupboardFactory;
 import ru.sviridov.techsupervision.objects.Defect;
 import ru.sviridov.techsupervision.objects.Document;
 import ru.sviridov.techsupervision.objects.Picture;
-
 public class UserDataProvider extends ContentProvider {
    public static String AUTHORITY = "ru.sviridov.techsupervision.free.AUTHORITY";
-   public static Uri BASE_URI;
+   public static Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
    public static final String FRAGMENT_NO_NOTIFY = "no-notify";
    protected static final int MATCH_DEFECT_URI_CONTENT = 4130;
    protected static final int MATCH_DEFECT_URI_CONTENT_ITEM = 4129;
@@ -40,435 +41,326 @@ public class UserDataProvider extends ContentProvider {
    protected static final int MATCH_TYPE_MASK = 15;
    public static final String QUERY_GROUP_BY = "groupBy";
    public static final String QUERY_LIMIT = "limit";
-   protected static final UriMatcher matcher;
+   protected static final UriMatcher matcher = new UriMatcher(-1);
    protected ContentResolver contentResolver;
    protected SQLiteOpenHelper dbHelper;
 
    static {
-      BASE_URI = Uri.parse("content://" + AUTHORITY);
-      matcher = new UriMatcher(-1);
-      matcher.addURI(AUTHORITY, "Document", 4098);
-      matcher.addURI(AUTHORITY, "Document/#", 4113);
-      matcher.addURI(AUTHORITY, "Defect", 4130);
-      matcher.addURI(AUTHORITY, "Defect/#", 4129);
-      matcher.addURI(AUTHORITY, "Picture", 4146);
-      matcher.addURI(AUTHORITY, "Picture/#", 4145);
-      matcher.addURI(AUTHORITY, "document_with_defects", 4162);
-      matcher.addURI(AUTHORITY, "defect_with_picture", 4178);
-   }
-
-   public static Uri getContentUri(String var0) {
-      Uri var1;
-      if (TextUtils.isEmpty(var0)) {
-         var1 = null;
-      } else {
-         var1 = BASE_URI.buildUpon().appendPath(var0).build();
-      }
-
-      return var1;
-   }
-
-   public static Uri getContentUri(String var0, long var1) {
-      Uri var3;
-      if (TextUtils.isEmpty(var0)) {
-         var3 = null;
-      } else {
-         var3 = BASE_URI.buildUpon().appendPath(var0).appendPath(String.valueOf(var1)).build();
-      }
-
-      return var3;
-   }
-
-   public static Uri getContentUri(String var0, String var1) {
-      Uri var2;
-      if (TextUtils.isEmpty(var0)) {
-         var2 = null;
-      } else {
-         var2 = BASE_URI.buildUpon().appendPath(var0).appendPath(var1).build();
-      }
-
-      return var2;
-   }
-
-   public static Uri getContentUriGroupBy(String var0, String var1) {
-      Uri var2;
-      if (TextUtils.isEmpty(var0)) {
-         var2 = null;
-      } else {
-         var2 = BASE_URI.buildUpon().appendPath(var0).appendQueryParameter("groupBy", var1).build();
-      }
-
-      return var2;
-   }
-
-   public static Uri getContentWithLimitUri(String var0, int var1) {
-      Uri var2;
-      if (TextUtils.isEmpty(var0)) {
-         var2 = null;
-      } else {
-         var2 = BASE_URI.buildUpon().appendPath(var0).appendQueryParameter("limit", String.valueOf(var1)).build();
-      }
-
-      return var2;
-   }
-
-   public static Uri getNoNotifyContentUri(String var0) {
-      Uri var1;
-      if (TextUtils.isEmpty(var0)) {
-         var1 = null;
-      } else {
-         var1 = BASE_URI.buildUpon().appendPath(var0).fragment("no-notify").build();
-      }
-
-      return var1;
-   }
-
-   public static Uri getNoNotifyContentUri(String var0, long var1) {
-      Uri var3;
-      if (TextUtils.isEmpty(var0)) {
-         var3 = null;
-      } else {
-         var3 = BASE_URI.buildUpon().appendPath(var0).appendPath(String.valueOf(var1)).fragment("no-notify").build();
-      }
-
-      return var3;
-   }
-
-   protected static boolean ignoreNotify(Uri var0) {
-      return "no-notify".equals(var0.getFragment());
-   }
-
-   public static void notifyUri(ContentResolver var0, Uri var1) {
-      var0.notifyChange(var1, (ContentObserver)null);
-      switch(matcher.match(var1)) {
-      case 4129:
-      case 4130:
-         var0.notifyChange(getContentUri("defect_with_picture"), (ContentObserver)null);
-      case 4098:
-      case 4113:
-         var0.notifyChange(getContentUri("document_with_defects"), (ContentObserver)null);
-         break;
-      case 4145:
-      case 4146:
-         var0.notifyChange(getContentUri("defect_with_picture"), (ContentObserver)null);
-      }
-
-   }
-
-   @NonNull
-   public ContentProviderResult[] applyBatch(@NonNull ArrayList var1) throws OperationApplicationException {
-      SQLiteDatabase var2 = this.dbHelper.getWritableDatabase();
-      var2.beginTransaction();
-
-      ContentProviderResult[] var5;
-      try {
-         var5 = super.applyBatch(var1);
-         var2.setTransactionSuccessful();
-      } finally {
-         var2.endTransaction();
-      }
-
-      return var5;
-   }
-
-   public int bulkInsert(Uri var1, @NonNull ContentValues[] var2) {
-      String var3;
-      switch(matcher.match(var1)) {
-      case 4098:
-         var3 = CupboardFactory.cupboard().getTable(Document.class);
-         break;
-      case 4130:
-         var3 = CupboardFactory.cupboard().getTable(Defect.class);
-         break;
-      case 4146:
-         var3 = CupboardFactory.cupboard().getTable(Picture.class);
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
-      }
-
-      SQLiteDatabase var4 = this.dbHelper.getWritableDatabase();
-      var4.beginTransaction();
-      int var5 = 0;
-
-      label187: {
-         Throwable var10000;
-         label191: {
-            InsertHelper var6;
-            int var7;
-            boolean var10001;
-            try {
-               var6 = new InsertHelper(var4, var3);
-               var7 = var2.length;
-            } catch (Throwable var20) {
-               var10000 = var20;
-               var10001 = false;
-               break label191;
-            }
-
-            for(int var8 = 0; var8 < var7; ++var8) {
-               try {
-                  var6.replace(var2[var8]);
-               } catch (Throwable var19) {
-                  var10000 = var19;
-                  var10001 = false;
-                  break label191;
-               }
-
-               ++var5;
-            }
-
-            label174:
-            try {
-               var6.close();
-               var4.setTransactionSuccessful();
-               break label187;
-            } catch (Throwable var18) {
-               var10000 = var18;
-               var10001 = false;
-               break label174;
-            }
-         }
-
-         Throwable var21 = var10000;
-         var4.endTransaction();
-         try {
-            throw var21;
-         } catch (Throwable throwable) {
-            throwable.printStackTrace();
-         }
-      }
-
-      var4.endTransaction();
-      if (!ignoreNotify(var1)) {
-         notifyUri(this.contentResolver, var1);
-      }
-
-      return var5;
-   }
-
-   protected String composeIdSelection(String var1, String var2, String var3) {
-      StringBuffer var4 = new StringBuffer();
-      var4.append(var3).append('=').append(var2);
-      if (!TextUtils.isEmpty(var1)) {
-         var4.append(" AND (").append(var1).append(')');
-      }
-
-      return var4.toString();
-   }
-
-   public int delete(@NonNull Uri var1, String var2, String[] var3) {
-      String var4 = var2;
-      String var6;
-      switch(matcher.match(var1)) {
-      case 4098:
-         var2 = CupboardFactory.cupboard().getTable(Document.class);
-         break;
-      case 4113:
-         var6 = CupboardFactory.cupboard().getTable(Document.class);
-         var4 = this.composeIdSelection(var2, var1.getLastPathSegment(), "_id");
-         var2 = var6;
-         break;
-      case 4129:
-         var6 = CupboardFactory.cupboard().getTable(Defect.class);
-         var4 = this.composeIdSelection(var2, var1.getLastPathSegment(), "_id");
-         var2 = var6;
-         break;
-      case 4130:
-         var2 = CupboardFactory.cupboard().getTable(Defect.class);
-         break;
-      case 4145:
-         var6 = CupboardFactory.cupboard().getTable(Picture.class);
-         var4 = this.composeIdSelection(var2, var1.getLastPathSegment(), "_id");
-         var2 = var6;
-         break;
-      case 4146:
-         var2 = CupboardFactory.cupboard().getTable(Picture.class);
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
-      }
-
-      int var5 = this.dbHelper.getWritableDatabase().delete(var2, var4, var3);
-      if (!ignoreNotify(var1)) {
-         notifyUri(this.contentResolver, var1);
-      }
-
-      return var5;
-   }
-
-   public String getType(Uri var1) {
-      String var2;
-      switch(matcher.match(var1) & 15) {
-      case 1:
-         var2 = "vnd.android.cursor.item/vnd." + AUTHORITY + ".item";
-         break;
-      case 2:
-         var2 = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".dir";
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
-      }
-
-      return var2;
-   }
-
-   public Uri insert(@NonNull Uri var1, ContentValues var2) {
-      String var3;
-      switch(matcher.match(var1)) {
-      case 4098:
-         var3 = CupboardFactory.cupboard().getTable(Document.class);
-         break;
-      case 4130:
-         var3 = CupboardFactory.cupboard().getTable(Defect.class);
-         break;
-      case 4146:
-         var3 = CupboardFactory.cupboard().getTable(Picture.class);
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
-      }
-
-      long var4 = this.dbHelper.getWritableDatabase().insertWithOnConflict(var3, (String)null, var2, 5);
-      if (!ignoreNotify(var1)) {
-         notifyUri(this.contentResolver, var1);
-      }
-
-      return Uri.withAppendedPath(var1, String.valueOf(var4));
+      matcher.addURI(AUTHORITY, UserDataHelper.DOCUMENT_URL, 4098);
+      matcher.addURI(AUTHORITY, "Document/#", MATCH_DOCUMENT_URI_CONTENT_ITEM);
+      matcher.addURI(AUTHORITY, UserDataHelper.DEFECT_URL, MATCH_DEFECT_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "Defect/#", MATCH_DEFECT_URI_CONTENT_ITEM);
+      matcher.addURI(AUTHORITY, UserDataHelper.PICTURE_URL, MATCH_PICTURE_URL_CONTENT);
+      matcher.addURI(AUTHORITY, "Picture/#", MATCH_PICTURE_URL_CONTENT_ITEM);
+      matcher.addURI(AUTHORITY, UserDataHelper.DOCUMENT_WITH_DEFECTS.URI, MATCH_DOCUMENT_WITH_DEFECT_URI_CONTENT);
+      matcher.addURI(AUTHORITY, UserDataHelper.DEFECT_WITH_PICTURE.URI, MATCH_DEFECT_WITH_PICTURE_URI_CONTENT);
    }
 
    public boolean onCreate() {
-      Context var1 = this.getContext();
-      this.dbHelper = new UserDataHelper(var1);
-      this.contentResolver = var1.getContentResolver();
+      Context context = getContext();
+      this.dbHelper = new UserDataHelper(context);
+      this.contentResolver = context.getContentResolver();
       return true;
    }
 
-   @NonNull
-   public Cursor query(@NonNull Uri var1, String[] var2, String var3, String[] var4, String var5) {
-      SQLiteQueryBuilder var6 = new SQLiteQueryBuilder();
-      Cursor var9;
-      String var10;
-      StringBuilder var11;
-      Cursor var12;
-      SQLiteDatabase var13;
-      switch(matcher.match(var1)) {
-      case 4098:
-         var6.setTables(CupboardFactory.cupboard().getTable(Document.class));
-         break;
-      case 4113:
-         var6.setTables(CupboardFactory.cupboard().getTable(Document.class));
-         var6.appendWhere("_id = " + var1.getLastPathSegment());
-         break;
-      case 4129:
-         var6.setTables(CupboardFactory.cupboard().getTable(Defect.class));
-         var6.appendWhere("_id = " + var1.getLastPathSegment());
-         break;
-      case 4130:
-         var6.setTables(CupboardFactory.cupboard().getTable(Defect.class));
-         break;
-      case 4145:
-         var6.setTables(CupboardFactory.cupboard().getTable(Picture.class));
-         var6.appendWhere("_id = " + var1.getLastPathSegment());
-         break;
-      case 4146:
-         var6.setTables(CupboardFactory.cupboard().getTable(Picture.class));
-         break;
-      case 4162:
-         var13 = this.dbHelper.getReadableDatabase();
-         StringBuilder var14 = (new StringBuilder()).append("SELECT d.*, count(def.documentId) as defect_count FROM Document as d LEFT JOIN Defect as def ON d._id=def.documentId GROUP BY d._id");
-         if (TextUtils.isEmpty(var3)) {
-            var10 = "";
-         } else {
-            var10 = " where " + var3;
-         }
-
-         var11 = var14.append(var10);
-         if (TextUtils.isEmpty(var5)) {
-            var10 = "";
-         } else {
-            var10 = " order by " + var5;
-         }
-
-         var12 = var13.rawQuery(var11.append(var10).toString(), var4);
-         var12.setNotificationUri(this.contentResolver, var1);
-         var9 = var12;
-         return var9;
-      case 4178:
-         String var7 = var1.getQueryParameter("groupBy");
-         var13 = this.dbHelper.getReadableDatabase();
-         StringBuilder var8 = (new StringBuilder()).append("SELECT d.*, p.imgUrl as imgUrl FROM Defect as d LEFT JOIN Picture as p ON d._id=p.defectId");
-         if (TextUtils.isEmpty(var3)) {
-            var10 = "";
-         } else {
-            var10 = " where " + var3;
-         }
-
-         var11 = var8.append(var10);
-         if (TextUtils.isEmpty(var7)) {
-            var10 = "";
-         } else {
-            var10 = " GROUP BY " + var7;
-         }
-
-         var11 = var11.append(var10);
-         if (TextUtils.isEmpty(var5)) {
-            var10 = "";
-         } else {
-            var10 = " order by " + var5;
-         }
-
-         var12 = var13.rawQuery(var11.append(var10).toString(), var4);
-         var12.setNotificationUri(this.contentResolver, var1);
-         var9 = var12;
-         return var9;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
+   public String getType(Uri uri) {
+      switch (matcher.match(uri) & 15) {
+         case 1:
+            return "vnd.android.cursor.item/vnd." + AUTHORITY + ".item";
+         case 2:
+            return "vnd.android.cursor.dir/vnd." + AUTHORITY + ".dir";
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
       }
-
-      var12 = var6.query(this.dbHelper.getReadableDatabase(), var2, var3, var4, var1.getQueryParameter("groupBy"), (String)null, var5, var1.getQueryParameter("limit"));
-      var12.setNotificationUri(this.contentResolver, var1);
-      var9 = var12;
-      return var9;
    }
 
-   public int update(Uri var1, ContentValues var2, String var3, String[] var4) {
-      String var5 = var3;
-      String var7;
-      switch(matcher.match(var1)) {
-      case 4098:
-         var3 = CupboardFactory.cupboard().getTable(Document.class);
-         break;
-      case 4113:
-         var7 = CupboardFactory.cupboard().getTable(Document.class);
-         var5 = this.composeIdSelection(var3, var1.getLastPathSegment(), "_id");
-         var3 = var7;
-         break;
-      case 4129:
-         var7 = CupboardFactory.cupboard().getTable(Defect.class);
-         var5 = this.composeIdSelection(var3, var1.getLastPathSegment(), "_id");
-         var3 = var7;
-         break;
-      case 4130:
-         var3 = CupboardFactory.cupboard().getTable(Defect.class);
-         break;
-      case 4145:
-         var7 = CupboardFactory.cupboard().getTable(Picture.class);
-         var5 = this.composeIdSelection(var3, var1.getLastPathSegment(), "_id");
-         var3 = var7;
-         break;
-      case 4146:
-         var3 = CupboardFactory.cupboard().getTable(Picture.class);
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
+   @NonNull
+   public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+      String str;
+      String str2;
+      String str3;
+      SQLiteQueryBuilder query = new SQLiteQueryBuilder();
+      switch (matcher.match(uri)) {
+         case 4098:
+            query.setTables(CupboardFactory.cupboard().getTable(Document.class));
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Document.class));
+            query.appendWhere("_id = " + uri.getLastPathSegment());
+            break;
+         case MATCH_DEFECT_URI_CONTENT_ITEM /*4129*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Defect.class));
+            query.appendWhere("_id = " + uri.getLastPathSegment());
+            break;
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Defect.class));
+            break;
+         case MATCH_PICTURE_URL_CONTENT_ITEM /*4145*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Picture.class));
+            query.appendWhere("_id = " + uri.getLastPathSegment());
+            break;
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Picture.class));
+            break;
+         case MATCH_DOCUMENT_WITH_DEFECT_URI_CONTENT /*4162*/:
+            Cursor c = this.dbHelper.getReadableDatabase().rawQuery(UserDataHelper.DOCUMENT_WITH_DEFECTS.QUERY + (TextUtils.isEmpty(selection) ? "" : " where " + selection) + (TextUtils.isEmpty(sortOrder) ? "" : " order by " + sortOrder), selectionArgs);
+            c.setNotificationUri(this.contentResolver, uri);
+            return c;
+         case MATCH_DEFECT_WITH_PICTURE_URI_CONTENT /*4178*/:
+            String groupBy = uri.getQueryParameter(QUERY_GROUP_BY);
+            SQLiteDatabase readableDatabase = this.dbHelper.getReadableDatabase();
+            StringBuilder append = new StringBuilder().append(UserDataHelper.DEFECT_WITH_PICTURE.QUERY);
+            if (TextUtils.isEmpty(selection)) {
+               str = "";
+            } else {
+               str = " where " + selection;
+            }
+            StringBuilder append2 = append.append(str);
+            if (TextUtils.isEmpty(groupBy)) {
+               str2 = "";
+            } else {
+               str2 = " GROUP BY " + groupBy;
+            }
+            StringBuilder append3 = append2.append(str2);
+            if (TextUtils.isEmpty(sortOrder)) {
+               str3 = "";
+            } else {
+               str3 = " order by " + sortOrder;
+            }
+            Cursor c2 = readableDatabase.rawQuery(append3.append(str3).toString(), selectionArgs);
+            c2.setNotificationUri(this.contentResolver, uri);
+            return c2;
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
       }
+      Cursor c3 = query.query(this.dbHelper.getReadableDatabase(), projection, selection, selectionArgs, uri.getQueryParameter(QUERY_GROUP_BY), (String) null, sortOrder, uri.getQueryParameter(QUERY_LIMIT));
+      c3.setNotificationUri(this.contentResolver, uri);
+      return c3;
+   }
 
-      int var6 = this.dbHelper.getWritableDatabase().update(var3, var2, var5, var4);
-      if (!ignoreNotify(var1)) {
-         notifyUri(this.contentResolver, var1);
+   @NonNull
+   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations) throws OperationApplicationException {
+      SQLiteDatabase sql = this.dbHelper.getWritableDatabase();
+      sql.beginTransaction();
+      try {
+         ContentProviderResult[] res = super.applyBatch(operations);
+         sql.setTransactionSuccessful();
+         return res;
+      } finally {
+         sql.endTransaction();
       }
+   }
 
-      return var6;
+   /* JADX INFO: finally extract failed */
+   public int bulkInsert(Uri uri, @NonNull ContentValues[] valuesAr) {
+      String table;
+      switch (matcher.match(uri)) {
+         case 4098:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            break;
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            break;
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            break;
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
+      }
+      SQLiteDatabase sql = this.dbHelper.getWritableDatabase();
+      sql.beginTransaction();
+      int count = 0;
+      try {
+         DatabaseUtils.InsertHelper ih = new DatabaseUtils.InsertHelper(sql, table);
+         for (ContentValues values : valuesAr) {
+            ih.replace(values);
+            count++;
+         }
+         ih.close();
+         sql.setTransactionSuccessful();
+         sql.endTransaction();
+         if (!ignoreNotify(uri)) {
+            notifyUri(this.contentResolver, uri);
+         }
+         return count;
+      } catch (Throwable th) {
+         sql.endTransaction();
+         throw th;
+      }
+   }
+
+   public Uri insert(@NonNull Uri uri, ContentValues values) {
+      String table;
+      switch (matcher.match(uri)) {
+         case 4098:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            break;
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            break;
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            break;
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
+      }
+      long id = this.dbHelper.getWritableDatabase().insertWithOnConflict(table, (String) null, values, 5);
+      if (!ignoreNotify(uri)) {
+         notifyUri(this.contentResolver, uri);
+      }
+      return Uri.withAppendedPath(uri, String.valueOf(id));
+   }
+
+   public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+      String table;
+      String processedSelection = selection;
+      switch (matcher.match(uri)) {
+         case 4098:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DEFECT_URI_CONTENT_ITEM /*4129*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            break;
+         case MATCH_PICTURE_URL_CONTENT_ITEM /*4145*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            break;
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
+      }
+      int count = this.dbHelper.getWritableDatabase().update(table, values, processedSelection, selectionArgs);
+      if (!ignoreNotify(uri)) {
+         notifyUri(this.contentResolver, uri);
+      }
+      return count;
+   }
+
+   public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+      String table;
+      String processedSelection = selection;
+      switch (matcher.match(uri)) {
+         case 4098:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
+            table = CupboardFactory.cupboard().getTable(Document.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DEFECT_URI_CONTENT_ITEM /*4129*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            table = CupboardFactory.cupboard().getTable(Defect.class);
+            break;
+         case MATCH_PICTURE_URL_CONTENT_ITEM /*4145*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            table = CupboardFactory.cupboard().getTable(Picture.class);
+            break;
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
+      }
+      int count = this.dbHelper.getWritableDatabase().delete(table, processedSelection, selectionArgs);
+      if (!ignoreNotify(uri)) {
+         notifyUri(this.contentResolver, uri);
+      }
+      return count;
+   }
+
+   public static void notifyUri(ContentResolver cr, Uri uri) {
+      cr.notifyChange(uri, (ContentObserver) null);
+      switch (matcher.match(uri)) {
+         case 4098:
+         case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
+            break;
+         case MATCH_DEFECT_URI_CONTENT_ITEM /*4129*/:
+         case MATCH_DEFECT_URI_CONTENT /*4130*/:
+            cr.notifyChange(getContentUri(UserDataHelper.DEFECT_WITH_PICTURE.URI), (ContentObserver) null);
+            break;
+         case MATCH_PICTURE_URL_CONTENT_ITEM /*4145*/:
+         case MATCH_PICTURE_URL_CONTENT /*4146*/:
+            cr.notifyChange(getContentUri(UserDataHelper.DEFECT_WITH_PICTURE.URI), (ContentObserver) null);
+            return;
+         default:
+            return;
+      }
+      cr.notifyChange(getContentUri(UserDataHelper.DOCUMENT_WITH_DEFECTS.URI), (ContentObserver) null);
+   }
+
+   protected static boolean ignoreNotify(Uri uri) {
+      return FRAGMENT_NO_NOTIFY.equals(uri.getFragment());
+   }
+
+   /* access modifiers changed from: protected */
+   public String composeIdSelection(String originalSelection, String id, String idColumn) {
+      StringBuffer sb = new StringBuffer();
+      sb.append(idColumn).append('=').append(id);
+      if (!TextUtils.isEmpty(originalSelection)) {
+         sb.append(" AND (").append(originalSelection).append(')');
+      }
+      return sb.toString();
+   }
+
+   public static Uri getContentUri(String path) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).build();
+   }
+
+   public static Uri getContentUriGroupBy(String path, String groupBy) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).appendQueryParameter(QUERY_GROUP_BY, groupBy).build();
+   }
+
+   public static Uri getContentUri(String path, long id) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).appendPath(String.valueOf(id)).build();
+   }
+
+   public static Uri getContentUri(String path, String id) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).appendPath(id).build();
+   }
+
+   public static Uri getContentWithLimitUri(String path, int limit) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).appendQueryParameter(QUERY_LIMIT, String.valueOf(limit)).build();
+   }
+
+   public static Uri getNoNotifyContentUri(String path) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).fragment(FRAGMENT_NO_NOTIFY).build();
+   }
+
+   public static Uri getNoNotifyContentUri(String path, long id) {
+      if (TextUtils.isEmpty(path)) {
+         return null;
+      }
+      return BASE_URI.buildUpon().appendPath(path).appendPath(String.valueOf(id)).fragment(FRAGMENT_NO_NOTIFY).build();
    }
 }

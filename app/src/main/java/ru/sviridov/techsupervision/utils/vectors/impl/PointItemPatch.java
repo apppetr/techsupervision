@@ -14,11 +14,11 @@ public class PointItemPatch implements ImagePatch {
       PAINT.setColor(-1426115789);
    }
 
-   public PointItemPatch(Point var1) {
-      this.position = var1;
+   public PointItemPatch(Point position2) {
+      this.position = position2;
    }
 
-   public void draw(Painting var1, Canvas var2) {
-      var2.drawCircle((float)this.position.x, (float)this.position.y, var1.getDensity() * 5.0F, PAINT);
+   public void draw(Painting target, Canvas cvs) {
+      cvs.drawCircle((float) this.position.x, (float) this.position.y, target.getDensity() * 5.0f, PAINT);
    }
 }

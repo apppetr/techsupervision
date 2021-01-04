@@ -11,10 +11,9 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 public class ValuesProvider extends ContentProvider {
    public static String AUTHORITY = "ru.sviridov.techsupervision.free.PROPERTIES";
-   static final Uri BASE_URI;
+   static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
    protected static final int MATCH_TYPE_DIR = 2;
    protected static final int MATCH_TYPE_ITEM = 1;
    protected static final int MATCH_TYPE_MASK = 15;
@@ -36,134 +35,115 @@ public class ValuesProvider extends ContentProvider {
    private ValuesDataHelper dbHelper;
 
    static {
-      BASE_URI = Uri.parse("content://" + AUTHORITY);
-      matcher.addURI(AUTHORITY, "elements", 8242);
-      matcher.addURI(AUTHORITY, "materials", 8258);
-      matcher.addURI(AUTHORITY, "select_materials", 12338);
+      matcher.addURI(AUTHORITY, "elements", VALUES_ELEMENT_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "materials", VALUES_MATERIAL_URI_CONTENT);
+      matcher.addURI(AUTHORITY, Values.Materials.URI_FOR_SELECTION, VALUES_MATERIAL_URI_FORSELECTION_CONTENT);
       matcher.addURI(AUTHORITY, "defects", 8194);
-      matcher.addURI(AUTHORITY, "select_defects", 12290);
-      matcher.addURI(AUTHORITY, "reasons", 8210);
-      matcher.addURI(AUTHORITY, "select_reasons", 12306);
-      matcher.addURI(AUTHORITY, "compensations", 8226);
-      matcher.addURI(AUTHORITY, "select_compensations", 12322);
-      matcher.addURI(AUTHORITY, "defects2elements", 8274);
-      matcher.addURI(AUTHORITY, "elements2materials", 8290);
-      matcher.addURI(AUTHORITY, "defects2reasons", 8306);
-      matcher.addURI(AUTHORITY, "reasons2compensations", 8322);
+      matcher.addURI(AUTHORITY, Values.Defects.URI_FOR_SELECTION, VALUES_DEFECTS_URI_FORSELECTION_CONTENT);
+      matcher.addURI(AUTHORITY, "reasons", VALUES_REASONS_URI_CONTENT);
+      matcher.addURI(AUTHORITY, Values.Reasons.URI_FOR_SELECTION, VALUES_REASONS_URI_FORSELECTION_CONTENT);
+      matcher.addURI(AUTHORITY, "compensations", VALUES_COMPENSATIONS_URI_CONTENT);
+      matcher.addURI(AUTHORITY, Values.Compensations.URI_FOR_SELECTION, VALUES_COMPENSATIONS_URI_FORSELECTION_CONTENT);
+      matcher.addURI(AUTHORITY, "defects2elements", VALUES_D2E_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "elements2materials", VALUES_E2M_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "defects2reasons", VALUES_D2R_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "reasons2compensations", VALUES_R2C_URI_CONTENT);
    }
 
-   public static void notifyUri(ContentResolver var0, Uri var1) {
-      var0.notifyChange(var1, (ContentObserver)null);
-      switch(matcher.match(var1)) {
-      case 8194:
-      case 8274:
-         var0.notifyChange(uri("defects"), (ContentObserver)null);
-      default:
+   public static Uri uri(String uriPath) {
+      return BASE_URI.buildUpon().appendPath(uriPath).build();
+   }
+
+   public static void notifyUri(ContentResolver cr, Uri uri) {
+      cr.notifyChange(uri, (ContentObserver) null);
+      switch (matcher.match(uri)) {
+         case 8194:
+         case VALUES_D2E_URI_CONTENT /*8274*/:
+            cr.notifyChange(uri("defects"), (ContentObserver) null);
+            return;
+         default:
+            return;
       }
-   }
-
-   public static Uri uri(String var0) {
-      return BASE_URI.buildUpon().appendPath(var0).build();
-   }
-
-   public int delete(@NonNull Uri var1, String var2, String[] var3) {
-      return this.dbHelper.getWritableDatabase().delete(var1.getLastPathSegment(), var2, var3);
-   }
-
-   @NonNull
-   public String getType(@NonNull Uri var1) {
-      String var2;
-      switch(matcher.match(var1) & 15) {
-      case 1:
-         var2 = "vnd.android.cursor.item/vnd." + AUTHORITY + ".item";
-         break;
-      case 2:
-         var2 = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".dir";
-         break;
-      default:
-         throw new IllegalArgumentException("Unsupported uri " + var1);
-      }
-
-      return var2;
-   }
-
-   public Uri insert(@NonNull Uri var1, ContentValues var2) {
-      long var3 = this.dbHelper.getWritableDatabase().insert(var1.getLastPathSegment(), (String)null, var2);
-      notifyUri(this.contentResolver, var1);
-      return var1.buildUpon().appendPath(String.valueOf(var3)).build();
    }
 
    public boolean onCreate() {
-      ValuesDataHelper.niceFileJob(this.getContext());
-      this.contentResolver = this.getContext().getContentResolver();
-      this.dbHelper = new ValuesDataHelper(this.getContext());
-      this.dbHelper.getReadableDatabase().getVersion();
+      ValuesDataHelper.niceFileJob(getContext());
+      this.contentResolver = getContext().getContentResolver();
+      this.dbHelper = new ValuesDataHelper(getContext());
+      int version = this.dbHelper.getReadableDatabase().getVersion();
       return true;
    }
 
    @NonNull
-   public Cursor query(@NonNull Uri var1, String[] var2, String var3, String[] var4, String var5) {
-      SQLiteQueryBuilder var6 = new SQLiteQueryBuilder();
-      Cursor var7;
-      String var8;
-      StringBuilder var9;
-      Cursor var10;
-      SQLiteDatabase var11;
-      switch(matcher.match(var1)) {
-      case 8194:
-      case 8210:
-      case 8226:
-      case 8242:
-      case 8258:
-      case 8274:
-      case 8290:
-      case 8306:
-      case 8322:
-         var6.setTables(var1.getLastPathSegment());
-         break;
-      case 12290:
-         var6.setTables("defects d LEFT JOIN defects2elements d2e ON (d._id = d2e.defect_id)");
-         break;
-      case 12306:
-         var11 = this.dbHelper.getReadableDatabase();
-         var9 = (new StringBuilder()).append(String.format("SELECT  * FROM reasons r where r._id in (select d2r.reason_id from defects2reasons d2r WHERE %s)", var3));
-         if (TextUtils.isEmpty(var5)) {
-            var8 = "";
-         } else {
-            var8 = " order by " + var5;
-         }
-
-         var10 = var11.rawQuery(var9.append(var8).toString(), (String[])null);
-         var10.setNotificationUri(this.contentResolver, var1);
-         var7 = var10;
-         return var7;
-      case 12322:
-         var11 = this.dbHelper.getReadableDatabase();
-         var9 = (new StringBuilder()).append(String.format("SELECT  * FROM compensations c where c._id in (select r2c.compensation_id from reasons2compensations r2c WHERE %s)", var3));
-         if (TextUtils.isEmpty(var5)) {
-            var8 = "";
-         } else {
-            var8 = " order by " + var5;
-         }
-
-         var10 = var11.rawQuery(var9.append(var8).toString(), (String[])null);
-         var10.setNotificationUri(this.contentResolver, var1);
-         var7 = var10;
-         return var7;
-      case 12338:
-         var6.setTables("materials m LEFT JOIN elements2materials e2m ON (m._id = e2m.material_id)");
-         break;
-      default:
-         var6.setTables(var1.getLastPathSegment());
+   public String getType(@NonNull Uri uri) {
+      switch (matcher.match(uri) & 15) {
+         case 1:
+            return "vnd.android.cursor.item/vnd." + AUTHORITY + ".item";
+         case 2:
+            return "vnd.android.cursor.dir/vnd." + AUTHORITY + ".dir";
+         default:
+            throw new IllegalArgumentException("Unsupported uri " + uri);
       }
-
-      var10 = var6.query(this.dbHelper.getReadableDatabase(), var2, var3, var4, (String)null, (String)null, var5);
-      var10.setNotificationUri(this.contentResolver, var1);
-      var7 = var10;
-      return var7;
    }
 
-   public int update(Uri var1, ContentValues var2, String var3, String[] var4) {
-      return this.dbHelper.getWritableDatabase().update(var1.getLastPathSegment(), var2, var3, var4);
+   @NonNull
+   public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+      String str;
+      SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+      switch (matcher.match(uri)) {
+         case 8194:
+         case VALUES_REASONS_URI_CONTENT /*8210*/:
+         case VALUES_COMPENSATIONS_URI_CONTENT /*8226*/:
+         case VALUES_ELEMENT_URI_CONTENT /*8242*/:
+         case VALUES_MATERIAL_URI_CONTENT /*8258*/:
+         case VALUES_D2E_URI_CONTENT /*8274*/:
+         case VALUES_E2M_URI_CONTENT /*8290*/:
+         case VALUES_D2R_URI_CONTENT /*8306*/:
+         case VALUES_R2C_URI_CONTENT /*8322*/:
+            builder.setTables(uri.getLastPathSegment());
+            break;
+         case VALUES_DEFECTS_URI_FORSELECTION_CONTENT /*12290*/:
+            builder.setTables("defects d LEFT JOIN defects2elements d2e ON (d._id = d2e.defect_id)");
+            break;
+         case VALUES_REASONS_URI_FORSELECTION_CONTENT /*12306*/:
+            Cursor c = this.dbHelper.getReadableDatabase().rawQuery(String.format(Values.Reasons.RAW_QUERY, new Object[]{selection}) + (TextUtils.isEmpty(sortOrder) ? "" : " order by " + sortOrder), (String[]) null);
+            c.setNotificationUri(this.contentResolver, uri);
+            return c;
+         case VALUES_COMPENSATIONS_URI_FORSELECTION_CONTENT /*12322*/:
+            SQLiteDatabase readableDatabase = this.dbHelper.getReadableDatabase();
+            StringBuilder append = new StringBuilder().append(String.format(Values.Compensations.RAW_QUERY, new Object[]{selection}));
+            if (TextUtils.isEmpty(sortOrder)) {
+               str = "";
+            } else {
+               str = " order by " + sortOrder;
+            }
+            Cursor c1 = readableDatabase.rawQuery(append.append(str).toString(), (String[]) null);
+            c1.setNotificationUri(this.contentResolver, uri);
+            return c1;
+         case VALUES_MATERIAL_URI_FORSELECTION_CONTENT /*12338*/:
+            builder.setTables("materials m LEFT JOIN elements2materials e2m ON (m._id = e2m.material_id)");
+            break;
+         default:
+            builder.setTables(uri.getLastPathSegment());
+            break;
+      }
+      Cursor c2 = builder.query(this.dbHelper.getReadableDatabase(), projection, selection, selectionArgs, (String) null, (String) null, sortOrder);
+      c2.setNotificationUri(this.contentResolver, uri);
+      return c2;
+   }
+
+   public Uri insert(@NonNull Uri uri, ContentValues values) {
+      long id = this.dbHelper.getWritableDatabase().insert(uri.getLastPathSegment(), (String) null, values);
+      notifyUri(this.contentResolver, uri);
+      return uri.buildUpon().appendPath(String.valueOf(id)).build();
+   }
+
+   public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+      return this.dbHelper.getWritableDatabase().delete(uri.getLastPathSegment(), selection, selectionArgs);
+   }
+
+   public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+      return this.dbHelper.getWritableDatabase().update(uri.getLastPathSegment(), values, selection, selectionArgs);
    }
 }
+

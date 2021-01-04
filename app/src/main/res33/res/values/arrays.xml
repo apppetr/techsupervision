@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="appointments">
+        <item>@string/appointment</item>
+        <item>Административное</item>
+        <item>Производственное</item>
+        <item>Жилое</item>
+    </array>
+    <array name="danger_categories">
+        <item>А</item>
+        <item>Б</item>
+        <item>В</item>
+    </array>
+    <array name="responsibilities">
+        <item>@string/enter_responsibility</item>
+        <item>Пониженный</item>
+        <item>Нормальный</item>
+        <item>Повышенный</item>
+    </array>
+    <array name="sorts">
+        <item>По конструкциям</item>
+        <item>По дате добавления</item>
+    </array>
+
+</resources>

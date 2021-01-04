@@ -1,110 +1,133 @@
 package ru.sviridov.techsupervision.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import java.io.File;
-import java.util.Iterator;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 public class ImageChooser {
    private static final int CHOOSE_PHOTO = 1;
-   private static final String[] ITEMS = new String[]{"Сфотографировать", "Выбрать из галереи"};
+   private static final String[] ITEMS = {"Сфотографировать", "Выбрать из галереи"};
    private static final int REQUEST_CODE_CHOOSE_PHOTO = 9814;
    private static final int REQUEST_CODE_TAKE_PHOTO = 9812;
    private static final int TAKE_PHOTO = 0;
-   private Activity act;
+   /* access modifiers changed from: private */
+   public Activity act;
    File subtarget;
 
-   public ImageChooser(Activity var1) {
-      this.act = var1;
+   public ImageChooser(Activity act2) {
+      this.act = act2;
    }
 
-   private static Uri extractGooglePhoto(Uri var0) {
-      Uri var1 = var0;
-      if ("com.google.android.apps.photos.contentprovider".equals(var0.getAuthority())) {
-         Iterator var2 = var0.getPathSegments().iterator();
-
-         while(true) {
-            var1 = var0;
-            if (!var2.hasNext()) {
-               break;
-            }
-
-            String var3 = (String)var2.next();
-            if (var3.startsWith("content://media/external/images/media")) {
-               var1 = Uri.parse(var3);
-               break;
-            }
+   private static Uri extractGooglePhoto(Uri uri) {
+      if (!"com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
+         return uri;
+      }
+      for (String segment : uri.getPathSegments()) {
+         if (segment.startsWith("content://media/external/images/media")) {
+            return Uri.parse(segment);
          }
       }
-
-      return var1;
+      return uri;
    }
 
-   private static Uri writeToTempImageAndGetPathUri(Context param0, Uri param1) {
-     return null;
+   private static Uri writeToTempImageAndGetPathUri(Context context, Uri uri) {
+      InputStream is = null;
+      try {
+         is = context.getContentResolver().openInputStream(uri);
+         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+         Bitmap bmp = BitmapFactory.decodeStream(is);
+         bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+         uri = Uri.parse(MediaStore.Images.Media.insertImage(context.getContentResolver(), bmp, "Title", (String) null));
+         if (is != null) {
+            try {
+               is.close();
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+         }
+      } catch (FileNotFoundException e2) {
+         e2.printStackTrace();
+         if (is != null) {
+            try {
+               is.close();
+            } catch (IOException e3) {
+               e3.printStackTrace();
+            }
+         }
+      } catch (Throwable th) {
+         if (is != null) {
+            try {
+               is.close();
+            } catch (IOException e4) {
+               e4.printStackTrace();
+            }
+         }
+         throw th;
+      }
+      return uri;
+   }
+
+   public void requestImageSelection(final boolean urgent) {
+      new AlertDialog.Builder(this.act).setItems(ITEMS, new DialogInterface.OnClickListener() {
+         public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+               case 0:
+                  File store = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), ImageChooser.this.act.getPackageName());
+                  if (store.exists() || store.mkdirs()) {
+                     ImageChooser.this.subtarget = new File(store, "RAW_IMAGE_" + System.currentTimeMillis() + ".png");
+                     Intent takePictureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
+                     takePictureIntent.putExtra("output", Uri.fromFile(ImageChooser.this.subtarget));
+                     ImageChooser.this.act.startActivityForResult(takePictureIntent, ImageChooser.REQUEST_CODE_TAKE_PHOTO);
+                     return;
+                  }
+                  throw new RuntimeException("Cannot create pictures dir");
+               case 1:
+                  Intent choosePhotoIntent = new Intent("android.intent.action.GET_CONTENT");
+                  choosePhotoIntent.setType("image/*");
+                  ImageChooser.this.act.startActivityForResult(choosePhotoIntent, ImageChooser.REQUEST_CODE_CHOOSE_PHOTO);
+                  return;
+               default:
+                  return;
+            }
+         }
+      }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+         public void onCancel(DialogInterface dialog) {
+            if (urgent) {
+               ImageChooser.this.act.finish();
+            }
+         }
+      }).show();
    }
 
    @Nullable
-   public Uri handleResponce(int var1, int var2, Intent var3) {
-      Object var4 = null;
-      Uri var5;
-      if (var2 != -1) {
-         var5 = (Uri)var4;
-      } else {
-         switch(var1) {
-         case 9812:
-            var5 = Uri.fromFile(this.subtarget);
-            break;
-         case 9813:
-         default:
-            var5 = (Uri)var4;
-            break;
-         case 9814:
-            var5 = writeToTempImageAndGetPathUri(this.act, extractGooglePhoto(var3.getData()));
-         }
+   public Uri handleResponce(int requestCode, int responseCode, Intent data) {
+      if (responseCode != -1) {
+         return null;
       }
-
-      return var5;
-   }
-
-   public void requestImageSelection(final boolean var1) {
-      (new Builder(this.act)).setItems(ITEMS, new OnClickListener() {
-         public void onClick(DialogInterface var1, int var2) {
-            Intent var3;
-            switch(var2) {
-            case 0:
-               File var4 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), ImageChooser.this.act.getPackageName());
-               if (!var4.exists() && !var4.mkdirs()) {
-                  throw new RuntimeException("Cannot create pictures dir");
-               }
-
-               ImageChooser.this.subtarget = new File(var4, "RAW_IMAGE_" + System.currentTimeMillis() + ".png");
-               var3 = new Intent("android.media.action.IMAGE_CAPTURE");
-               var3.putExtra("output", Uri.fromFile(ImageChooser.this.subtarget));
-               ImageChooser.this.act.startActivityForResult(var3, 9812);
-               break;
-            case 1:
-               var3 = new Intent("android.intent.action.GET_CONTENT");
-               var3.setType("image/*");
-               ImageChooser.this.act.startActivityForResult(var3, 9814);
-            }
-
-         }
-      }).setOnCancelListener(new OnCancelListener() {
-         public void onCancel(DialogInterface var1x) {
-            if (var1) {
-               ImageChooser.this.act.finish();
-            }
-
-         }
-      }).show();
+      switch (requestCode) {
+         case REQUEST_CODE_TAKE_PHOTO /*9812*/:
+            return Uri.fromFile(this.subtarget);
+         case REQUEST_CODE_CHOOSE_PHOTO /*9814*/:
+            return writeToTempImageAndGetPathUri(this.act, extractGooglePhoto(data.getData()));
+         default:
+            return null;
+      }
    }
 }

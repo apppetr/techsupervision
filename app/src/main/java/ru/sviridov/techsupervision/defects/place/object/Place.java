@@ -7,14 +7,14 @@ public abstract class Place implements Parcelable {
    @NonNull
    private final Type type;
 
-   public Place(@NonNull Type var1) {
-      this.type = var1;
+   public abstract String toStoredValue();
+
+   public Place(@NonNull Type type2) {
+      this.type = type2;
    }
 
    @NonNull
    public Type getType() {
       return this.type;
    }
-
-   public abstract String toStoredValue();
 }
