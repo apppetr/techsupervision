@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 public class ToolbarActivity extends AppCompatActivity {
    private void setupToolbar() {
-      setSupportActionBar(getToolbar());
+      setSupportActionBar((Toolbar) findViewById(ru.sviridov.techsupervision.free.R.id.action_bar));
       ActionBar aBar = getSupportActionBar();
       if (aBar != null) {
          aBar.setDisplayHomeAsUpEnabled(true);

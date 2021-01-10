@@ -35,7 +35,6 @@ public class ElementController implements DialogInterface.OnClickListener {
    public Variant element = null;
    List<ElementListener> listeners = new ArrayList();
 
-   /* renamed from: ru.sviridov.techsupervision.defects.ElementController$ElementListener */
    public interface ElementListener {
       void elementChanged(Variant variant, MaterialVariant materialVariant);
    }
@@ -61,7 +60,7 @@ public class ElementController implements DialogInterface.OnClickListener {
          materials.add(ADD_MATERIAL);
          this.adapter.clear();
          this.adapter.addAll(materials);
-         this.dialog.setTitle((int) R.string.material);
+         this.dialog.setTitle (R.string.material);
          return;
       }
       MaterialVariant material = (MaterialVariant) this.adapter.getItem(position);
@@ -112,7 +111,7 @@ public class ElementController implements DialogInterface.OnClickListener {
       AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
       builder.setTitle((int) R.string.element);
       this.adapter = new ArrayAdapter<>(this.context, R.layout.support_simple_spinner_dropdown_item, elements);
-      builder.setSingleChoiceItems((ListAdapter) this.adapter, -1, (DialogInterface.OnClickListener) this);
+      builder.setSingleChoiceItems(this.adapter, -1, (DialogInterface.OnClickListener) this);
       this.dialog = builder.show();
    }
 
@@ -120,7 +119,7 @@ public class ElementController implements DialogInterface.OnClickListener {
       AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
       View rootView = LayoutInflater.from(this.context).inflate(R.layout.view_add_element, (ViewGroup) null, false);
       final EditText etTitle = (EditText) rootView.findViewById(R.id.etTitle);
-      builder.setTitle((CharSequence) "Новая конструкция").setView(rootView).setPositiveButton((CharSequence) "Добавить", new DialogInterface.OnClickListener() {
+      builder.setTitle("Новая конструкция").setView(rootView).setPositiveButton((CharSequence) "Добавить", new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int which) {
             Variant newElement = new Variant();
             newElement.setName(etTitle.getText().toString());

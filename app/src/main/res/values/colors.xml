@@ -12,6 +12,14 @@
     <color name="background_material_dark">@color/material_grey_850</color>
     <color name="background_material_light">@color/material_grey_50</color>
     <color name="black">#212121</color>
+    <color name="pale_grey">#fff1f5f7</color>
+    <color name="pale_grey_two">#ffdfe5e8</color>
+    <color name="pinkish_red">#ffe81123</color>
+    <color name="dusty_blue">#ff6591b3</color>
+    <color name="azure">#ff2196f3</color>
+    <color name="azure_20">#332196f3</color>
+    <color name="azure_50">#802196f3</color>
+    <color name="azure_dark">#ff1976d2</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
     <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
@@ -86,4 +94,116 @@
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
     <color name="white">#ffffff</color>
+    <color name="brownish_grey">#ff616161</color>
+    <color name="brownish_grey_80">#cc616161</color>
+    <color name="browser_actions_bg_grey">#fff5f5f5</color>
+    <color name="browser_actions_divider_color">#1e000000</color>
+    <color name="browser_actions_text_color">#de000000</color>
+    <color name="browser_actions_title_color">#ff646464</color>
+    <color name="button_default">#ffdfdfdf</color>
+
+    <color name="common_google_signin_btn_text_dark_default">@android:color/white</color>
+    <color name="common_google_signin_btn_text_dark_disabled">#1f000000</color>
+    <color name="common_google_signin_btn_text_dark_focused">@android:color/black</color>
+    <color name="common_google_signin_btn_text_dark_pressed">@android:color/white</color>
+    <color name="common_google_signin_btn_text_light_default">#90000000</color>
+    <color name="common_google_signin_btn_text_light_disabled">#1f000000</color>
+    <color name="common_google_signin_btn_text_light_focused">#90000000</color>
+    <color name="common_google_signin_btn_text_light_pressed">#de000000</color>
+    <color name="dark_lime">#ff7fba00</color>
+    <color name="default_circle_indicator_fill_color">#ffffffff</color>
+    <color name="default_circle_indicator_page_color">#00000000</color>
+    <color name="default_circle_indicator_stroke_color">#ffdddddd</color>
+    <color name="default_line_indicator_selected_color">#ff33b5e5</color>
+    <color name="default_line_indicator_unselected_color">#ffbbbbbb</color>
+    <color name="default_title_indicator_footer_color">#ff33b5e5</color>
+    <color name="default_title_indicator_selected_color">#ffffffff</color>
+    <color name="default_title_indicator_text_color">#bbffffff</color>
+    <color name="default_underline_indicator_selected_color">#ff33b5e5</color>
+    <color name="design_bottom_navigation_shadow_color">#14000000</color>
+    <color name="design_dark_default_color_background">#ff121212</color>
+    <color name="design_dark_default_color_error">#ffcf6679</color>
+    <color name="design_dark_default_color_on_background">#ffffffff</color>
+    <color name="design_dark_default_color_on_error">#ff000000</color>
+    <color name="design_dark_default_color_on_primary">#ff000000</color>
+    <color name="design_dark_default_color_on_secondary">#ff000000</color>
+    <color name="design_dark_default_color_on_surface">#ffffffff</color>
+    <color name="design_dark_default_color_primary">#ffbb86fc</color>
+    <color name="design_dark_default_color_primary_dark">#ff000000</color>
+    <color name="design_dark_default_color_primary_variant">#ff3700b3</color>
+    <color name="design_dark_default_color_secondary">#ff03dac6</color>
+    <color name="design_dark_default_color_secondary_variant">#ff03dac6</color>
+    <color name="design_dark_default_color_surface">#ff121212</color>
+    <color name="design_default_color_background">#ffffffff</color>
+    <color name="design_default_color_error">#ffb00020</color>
+    <color name="design_default_color_on_background">#ff000000</color>
+    <color name="design_default_color_on_error">#ffffffff</color>
+    <color name="design_default_color_on_primary">#ffffffff</color>
+    <color name="design_default_color_on_secondary">#ff000000</color>
+    <color name="design_default_color_on_surface">#ff000000</color>
+    <color name="design_default_color_primary">#ff6200ee</color>
+    <color name="design_default_color_primary_dark">#ff3700b3</color>
+    <color name="design_default_color_primary_variant">#ff3700b3</color>
+    <color name="design_default_color_secondary">#ff03dac6</color>
+    <color name="design_default_color_secondary_variant">#ff018786</color>
+    <color name="design_default_color_surface">#ffffffff</color>
+
+    <color name="disabled_color">#44000000</color>
+    <color name="divider">#ffe1e1e1</color>
+
+    <color name="ef_black_alpha_50">#80000000</color>
+    <color name="ef_black_alpha_aa">#aa000000</color>
+    <color name="ef_colorAccent">#ffff4081</color>
+    <color name="ef_colorPrimary">#ff3f51b5</color>
+    <color name="ef_colorPrimaryDark">#ff303f9f</color>
+    <color name="ef_colorTextPrimary">#ffffffff</color>
+    <color name="ef_grey">#ff9e9e9e</color>
+    <color name="ef_teal">#ff009688</color>
+    <color name="ef_white">#ffffffff</color>
+    <color name="error_color">#ffe7492e</color>
+    <color name="error_color_material_dark">#ffff7043</color>
+    <color name="error_color_material_light">#ffff5722</color>
+
+    <color name="golden_yellow">#fffcd116</color>
+
+    <color name="greyapple">#9c444242</color>
+    <color name="greyish">#ffb3b3b3</color>
+    <color name="greyjoy">#fff1f1f1</color>
+    <color name="greytext">#ff4d4d4d</color>
+
+    <color name="light_blue_grey">#ffdde8f0</color>
+
+    <color name="mtrl_btn_text_color_disabled">#61000000</color>
+    <color name="mtrl_btn_transparent_bg_color">#00ffffff</color>
+    <color name="mtrl_scrim_color">#52000000</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#6b000000</color>
+    <color name="mtrl_textinput_disabled_color">#1f000000</color>
+    <color name="mtrl_textinput_filled_box_default_background_color">#0a000000</color>
+    <color name="mtrl_textinput_focused_box_stroke_color">#00000000</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color">#de000000</color>
+    <color name="notification_action_color_filter">@color/secondary_text_default_material_light</color>
+    <color name="notification_icon_bg_color">#ff9e9e9e</color>
+    <color name="notification_material_background_media_default_color">#ff424242</color>
+
+    <color name="place_background_light">#ffededed</color>
+
+    <color name="red">#ffe80707</color>
+
+
+    <color name="snow">#fff9f9f9</color>
+
+    <color name="text_complete">#ff000000</color>
+    <color name="tooltip_background_dark">#e6616161</color>
+    <color name="tooltip_background_light">#e6ffffff</color>
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
+    <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+
+    <color name="white_80">#ccffffff</color>
+    <color name="whitestgrey">#ffd8d8d8</color>
 </resources>

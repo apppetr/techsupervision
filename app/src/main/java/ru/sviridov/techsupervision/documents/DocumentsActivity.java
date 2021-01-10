@@ -48,9 +48,11 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderManager.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_documents);
+
         ActionBar aBar = getSupportActionBar();
         if (aBar != null) {
             aBar.setDisplayHomeAsUpEnabled(false);
+            aBar.setTitle("Технадзор"); // hide the title bar
         }
         LayoutInflater inflater = LayoutInflater.from(this);
         ListView list = (ListView) findViewById(android.R.id.list);
@@ -61,7 +63,7 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderManager.
         list.setAdapter(this.adapter);
         list.setOnItemClickListener(this);
         getLoaderManager().initLoader(1, (Bundle) null, this);
-        findViewById(R.id.fabAdd).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imageAddDefect).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 DocumentsActivity.this.startActivity(new Intent(DocumentsActivity.this, AddDocumentActivity.class));
             }
@@ -83,7 +85,7 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderManager.
         if (this.adapter != null) {
             Cursor oldCursor = this.adapter.getCursor();
             if (!(oldCursor == null || oldCursor == cursor || (cursor != null && cursor.getCount() >= oldCursor.getCount()))) {
-                Snackbar.make(findViewById(R.id.fabAdd), (int) R.string.deleted_document, 0).show();
+                Snackbar.make(findViewById(R.id.imageAddDefect), (int) R.string.deleted_document, Snackbar.LENGTH_LONG).show();
             }
             this.adapter.changeCursor(cursor);
         }

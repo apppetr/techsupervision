@@ -2,6 +2,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="ru.sviridov.techsupervision.GreatApplication" android:theme="@style/AppTheme">
         <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.sviridov.techsupervision.documents.DocumentsActivity">

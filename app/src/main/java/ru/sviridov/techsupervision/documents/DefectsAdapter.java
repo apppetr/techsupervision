@@ -52,19 +52,19 @@ public class DefectsAdapter extends RVCursorAdapter<DefectsAdapter.DefectHolder>
       setImage(this.context, h.ivImage, cursor.getString(this.imgIndx));
       Defect defect = (Defect) CupboardFactory.cupboard().withCursor(cursor).get(Defect.class);
       if (defect.place != null) {
-         h.tvTitle.setText(this.context.getString(R.string.format_defect_title, new Object[]{defect.getElement(), defect.getMaterial(), defect.place}));
+         h.tvTitle.setText(this.context.getString(R.string.format_defect_title, defect.getElement(), defect.getMaterial(), defect.place));
       } else if (defect.getElement() != null) {
-         h.tvTitle.setText(this.context.getString(R.string.format_defect_title_short, new Object[]{defect.getElement(), defect.getMaterial()}));
+         h.tvTitle.setText(this.context.getString(R.string.format_defect_title_short, defect.getElement(), defect.getMaterial()));
       } else {
          h.tvTitle.setText(R.string.new_defect);
       }
       h.tvDate.setText(this.format.format(new Date(defect.updated)));
-      h.tvCategory.setText(this.context.getString(R.string.danger_category_format, new Object[]{defect.getCategory()}));
+      h.tvCategory.setText(this.context.getString(R.string.danger_category_format, defect.getCategory()));
       h.tvDesc.setText(defect.getNiceProblems());
       int id = defect._id.intValue();
-      h.tvEdit.setTag(Integer.valueOf(id));
-      h.tvAddPhoto.setTag(Integer.valueOf(id));
-      h.ivImage.setTag(Integer.valueOf(id));
+      h.tvEdit.setTag(id);
+      h.tvAddPhoto.setTag(id);
+      h.ivImage.setTag(id);
    }
 
    private void setImage(Context context, ImageView ivImage, String imageUrl) {

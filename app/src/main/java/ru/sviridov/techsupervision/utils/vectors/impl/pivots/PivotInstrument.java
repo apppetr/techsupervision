@@ -13,9 +13,12 @@ import com.cab404.jsonm.impl.SimpleJSONMaker;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ru.sviridov.techsupervision.utils.JSONParcelable;
+import ru.sviridov.techsupervision.utils.JSONUtils;
 import ru.sviridov.techsupervision.utils.vectors.ImagePatch;
 import ru.sviridov.techsupervision.utils.vectors.Painter;
 import ru.sviridov.techsupervision.utils.vectors.Painting;
@@ -32,14 +35,33 @@ public abstract class PivotInstrument implements Painter, Parcelable, ImagePatch
    };
    protected static final int FIGURE_DRAGGED = 65536;
    public static final JSONParcelable.Creator JSON_CREATOR = new JSONParcelable.Creator() {
-      public PivotInstrument createFromJSONObject(JSONObject param1) {
-         return null;
+
+
+      public PivotInstrument createFromJSONObject(JSONObject object) {
+         try {
+            PivotInstrument instrument = (PivotInstrument) Class.forName(object.optString("class")).newInstance();
+            JSONArray pivots = object.optJSONArray("pivots");
+            instrument.pivots = new ArrayList();
+            for (Object point : JSONUtils.iterate(pivots)) {
+               JSONObject  jobj = (JSONObject)point;
+               instrument.pivots.add(new PointF((float) jobj.optDouble("x"), (float)jobj.optDouble("y")));
+            }
+            instrument.onDeserialized(object.opt("dat"));
+            return instrument;
+         } catch (InstantiationException e) {
+            throw new RuntimeException("", e);
+         } catch (IllegalAccessException e2) {
+            throw new RuntimeException("", e2);
+         } catch (ClassNotFoundException e3) {
+            throw new RuntimeException("", e3);
+         }
       }
+
    };
    protected Paint paint = new Paint(1);
    PointF pax = new PointF();
    PointF pbx = new PointF();
-   public List pivots;
+   public List<PointF> pivots;
    protected int pressedPivotIndex = -1;
    RectF rax = new RectF();
    JSONMaker thing = new SimpleJSONMaker();

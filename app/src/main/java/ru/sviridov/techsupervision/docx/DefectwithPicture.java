@@ -2,27 +2,38 @@ package ru.sviridov.techsupervision.docx;
 
 import java.util.List;
 import ru.sviridov.techsupervision.objects.Defect;
+import ru.sviridov.techsupervision.objects.Picture;
 import ru.sviridov.techsupervision.objects.Variant;
 import ru.sviridov.techsupervision.utils.Formats;
 
+/* renamed from: ru.sviridov.techsupervision.docx.DefectwithPicture */
 public class DefectwithPicture {
    private Defect defect;
    private int order;
-   private List pictures;
+   private List<Picture> pictures;
 
-   public String getCategory() {
-      return this.defect.getCategory();
+   public List<Picture> getPictures() {
+      return this.pictures;
    }
 
-   public String getCoordinates() {
-      String var1;
-      if (this.defect.place == null) {
-         var1 = "";
-      } else {
-         var1 = String.format("в осях %s", this.defect.place);
-      }
+   public void setPictures(List<Picture> pictures2) {
+      this.pictures = pictures2;
+   }
 
-      return var1;
+   public void setDefect(Defect defect2) {
+      this.defect = defect2;
+   }
+
+   public String getVolume() {
+      return this.defect.getVolume() == null ? "" : this.defect.getVolume();
+   }
+
+   public int getOrder() {
+      return this.order;
+   }
+
+   public void setOrder(int order2) {
+      this.order = order2;
    }
 
    public Variant getElement() {
@@ -33,46 +44,15 @@ public class DefectwithPicture {
       return this.defect.getMaterial();
    }
 
-   public String getNiceCompensations() {
-      return Formats.formatArray((Object[])this.defect.compensations);
+   public String getCategory() {
+      return this.defect.getCategory();
    }
 
-   public String getNiceProblems() {
-      return Formats.formatArray((Object[])this.defect.problems);
-   }
 
-   public String getNiceReasons() {
-      return Formats.formatArray((Object[])this.defect.reasons);
-   }
-
-   public int getOrder() {
-      return this.order;
-   }
-
-   public List getPictures() {
-      return this.pictures;
-   }
-
-   public String getVolume() {
-      String var1;
-      if (this.defect.getVolume() == null) {
-         var1 = "";
-      } else {
-         var1 = this.defect.getVolume();
+   public String getCoordinates() {
+      if (this.defect.place == null) {
+         return "";
       }
-
-      return var1;
-   }
-
-   public void setDefect(Defect var1) {
-      this.defect = var1;
-   }
-
-   public void setOrder(int var1) {
-      this.order = var1;
-   }
-
-   public void setPictures(List var1) {
-      this.pictures = var1;
+      return String.format("в осях %s", new Object[]{this.defect.place});
    }
 }

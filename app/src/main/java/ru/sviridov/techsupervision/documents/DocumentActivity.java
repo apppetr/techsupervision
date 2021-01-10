@@ -61,6 +61,7 @@ public class DocumentActivity extends ToolbarActivity implements LoaderManager.L
       rv.setItemAnimator(new DefaultItemAnimator());
       this.adapter = new DefectsAdapter(this, (Cursor) null, this);
       rv.setAdapter(getAdapter(this.adapter));
+
       this.document = (Document) CupboardFactory.cupboard().withContext(this).get(ContentUris.withAppendedId(UserDataProvider.getContentUri(UserDataHelper.DOCUMENT_URL), savedInstanceState == null ? getIntent().getLongExtra("ru.sviridov.techsupervision.DOCUMENT_ID", -1) : savedInstanceState.getLong("ru.sviridov.techsupervision.DOCUMENT_ID", -1)), Document.class);
       setTitle(this.document.title);
       findViewById(R.id.ivAdd).setOnClickListener(new View.OnClickListener() {
@@ -147,8 +148,8 @@ public class DocumentActivity extends ToolbarActivity implements LoaderManager.L
    }
 
    private void checkAndRequestPermissions(int requestCode) {
-      if (!this.permissionController.isPermissionGranted(PermissionType.GOOGLE_PHOTOS) || !this.permissionController.isPermissionGranted(PermissionType.WRITE_EXTERNAL_STORAGE)) {
-         this.permissionController.requestGroupOfUserGrantPermission(requestCode, PermissionType.GOOGLE_PHOTOS, PermissionType.WRITE_EXTERNAL_STORAGE);
+   if (!this.permissionController.isPermissionGranted(PermissionType.GOOGLE_PHOTOS) || !this.permissionController.isPermissionGranted(PermissionType.WRITE_EXTERNAL_STORAGE)) {
+        this.permissionController.requestGroupOfUserGrantPermission(requestCode, PermissionType.GOOGLE_PHOTOS, PermissionType.WRITE_EXTERNAL_STORAGE);
          return;
       }
       onPermissionGranted(requestCode);

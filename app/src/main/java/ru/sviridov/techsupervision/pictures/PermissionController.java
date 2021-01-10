@@ -1,64 +1,51 @@
 package ru.sviridov.techsupervision.pictures;
 
 import android.app.Activity;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import java.util.ArrayList;
+import java.util.List;
 
+/* renamed from: ru.sviridov.techsupervision.pictures.PermissionController */
 public class PermissionController {
    private final Activity activity;
 
-   public PermissionController(@NonNull Activity var1) {
-      this.activity = var1;
+   public PermissionController(@NonNull Activity activity2) {
+      this.activity = activity2;
    }
 
-   public boolean isPermissionGranted(@NonNull PermissionType var1) {
-      boolean var2;
-      if (VERSION.SDK_INT >= 23 && (VERSION.SDK_INT < 23 || ContextCompat.checkSelfPermission(this.activity, var1.permissionName) != 0)) {
-         var2 = false;
-      } else {
-         var2 = true;
+   public boolean isPermissionGranted(@NonNull PermissionType permissionType) {
+      //return Build.VERSION.SDK_INT < 23 || (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this.activity, permissionType.permissionName) == 0);
+  return true;
+   }
+
+   public void requestUserGrantPermission(@NonNull PermissionType permissionType) {
+      if (!isPermissionGranted(permissionType)) {
+         ActivityCompat.requestPermissions(this.activity, new String[]{permissionType.permissionName}, permissionType.requestCode.intValue());
       }
-
-      return var2;
    }
 
-   public void onRequestPermissionsResult(int var1, @NonNull String[] var2, int[] var3, @NonNull RequestPermissionCallback var4) {
-      if (var3.length > 0 && var3[0] == 0) {
-         var4.onPermissionGranted(var1);
-      } else {
-         var4.onPermissionDenied(var1);
-      }
-
-   }
-
-   public void requestGroupOfUserGrantPermission(int var1, @NonNull PermissionType... var2) {
-      if (VERSION.SDK_INT >= 23 && var2 != null && var2.length != 0) {
-         ArrayList var3 = new ArrayList();
-
-         for(int var4 = 0; var4 < var2.length; ++var4) {
-            PermissionType var5 = var2[var4];
-            if (!this.isPermissionGranted(var5)) {
-               var3.add(var5.permissionName);
+   public void requestGroupOfUserGrantPermission(int requestCode, @NonNull PermissionType... permissionType) {
+      if (Build.VERSION.SDK_INT >= 23 && permissionType != null && permissionType.length != 0) {
+         List<String> permissionTypeList = new ArrayList<>();
+         for (PermissionType permission : permissionType) {
+            if (!isPermissionGranted(permission)) {
+               permissionTypeList.add(permission.permissionName);
             }
          }
-
-         if (var3.size() > 0) {
-            ActivityCompat.requestPermissions(this.activity, (String[])var3.toArray(new String[var3.size()]), var1);
+         if (permissionTypeList.size() > 0) {
+            ActivityCompat.requestPermissions(this.activity, (String[]) permissionTypeList.toArray(new String[permissionTypeList.size()]), requestCode);
          }
       }
-
    }
 
-   public void requestUserGrantPermission(@NonNull PermissionType var1) {
-      if (!this.isPermissionGranted(var1)) {
-         Activity var2 = this.activity;
-         String var3 = var1.permissionName;
-         int var4 = var1.requestCode;
-         ActivityCompat.requestPermissions(var2, new String[]{var3}, var4);
+   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults, @NonNull RequestPermissionCallback requestPermissionCallback) {
+      if (grantResults.length <= 0 || grantResults[0] != 0) {
+         requestPermissionCallback.onPermissionDenied(requestCode);
+      } else {
+         requestPermissionCallback.onPermissionGranted(requestCode);
       }
-
    }
 }

@@ -76,7 +76,8 @@ public class PicturesListFragment extends Fragment implements LoaderManager.Load
             PicturesListFragment.this.startActivity(intent);
          }
       });
-      RecyclerView photos = (RecyclerView) view.findViewById(16908298);
+
+      RecyclerView photos = (RecyclerView) view.findViewById(android.R.id.list);
       photos.setLayoutManager(new LinearLayoutManager(getActivity()));
       photos.setAdapter(this.adapter);
    }

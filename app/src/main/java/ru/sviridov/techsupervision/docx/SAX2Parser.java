@@ -1,7 +1,12 @@
 package ru.sviridov.techsupervision.docx;
 
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DTDHandler;
@@ -19,6 +24,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+/* renamed from: ru.sviridov.techsupervision.docx.SAX2Parser */
 public class SAX2Parser implements Locator, XMLReader, Attributes {
    protected static final String APACHE_DYNAMIC_VALIDATION_FEATURE = "http://apache.org/xml/features/validation/dynamic";
    protected static final String APACHE_SCHEMA_VALIDATION_FEATURE = "http://apache.org/xml/features/validation/schema";
@@ -29,422 +35,322 @@ public class SAX2Parser implements Locator, XMLReader, Attributes {
    protected static final String VALIDATION_FEATURE = "http://xml.org/sax/features/validation";
    protected ContentHandler contentHandler = new DefaultHandler();
    protected ErrorHandler errorHandler = new DefaultHandler();
-   protected XmlPullParser pp;
+
+   /* renamed from: pp */
+   protected XmlPullParser f77pp;
    protected String systemId;
 
    public SAX2Parser() throws XmlPullParserException {
-      XmlPullParserFactory var1 = XmlPullParserFactory.newInstance();
-      var1.setNamespaceAware(true);
-      this.pp = var1.newPullParser();
+      XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+      factory.setNamespaceAware(true);
+      this.f77pp = factory.newPullParser();
    }
 
-   public SAX2Parser(XmlPullParser var1) throws XmlPullParserException {
-      this.pp = var1;
-   }
-
-   public int getColumnNumber() {
-      return this.pp.getColumnNumber();
-   }
-
-   public ContentHandler getContentHandler() {
-      return this.contentHandler;
-   }
-
-   public DTDHandler getDTDHandler() {
-      return null;
-   }
-
-   public EntityResolver getEntityResolver() {
-      return null;
-   }
-
-   public ErrorHandler getErrorHandler() {
-      return this.errorHandler;
-   }
-
-   public boolean getFeature(String var1) throws SAXNotRecognizedException, SAXNotSupportedException {
-      boolean var2;
-      if ("http://xml.org/sax/features/namespaces".equals(var1)) {
-         var2 = this.pp.getFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces");
-      } else if ("http://xml.org/sax/features/namespace-prefixes".equals(var1)) {
-         var2 = this.pp.getFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes");
-      } else if ("http://xml.org/sax/features/validation".equals(var1)) {
-         var2 = this.pp.getFeature("http://xmlpull.org/v1/doc/features.html#validation");
-      } else {
-         var2 = this.pp.getFeature(var1);
-      }
-
-      return var2;
-   }
-
-   public int getIndex(String var1) {
-      int var2 = 0;
-
-      while(true) {
-         if (var2 >= this.pp.getAttributeCount()) {
-            var2 = -1;
-            break;
-         }
-
-         if (this.pp.getAttributeName(var2).equals(var1)) {
-            break;
-         }
-
-         ++var2;
-      }
-
-      return var2;
-   }
-
-   public int getIndex(String var1, String var2) {
-      int var3 = 0;
-
-      while(true) {
-         if (var3 >= this.pp.getAttributeCount()) {
-            var3 = -1;
-            break;
-         }
-
-         if (this.pp.getAttributeNamespace(var3).equals(var1) && this.pp.getAttributeName(var3).equals(var2)) {
-            break;
-         }
-
-         ++var3;
-      }
-
-      return var3;
+   public SAX2Parser(XmlPullParser pp) throws XmlPullParserException {
+      this.f77pp = pp;
    }
 
    public int getLength() {
-      return this.pp.getAttributeCount();
+      return this.f77pp.getAttributeCount();
    }
 
-   public int getLineNumber() {
-      return this.pp.getLineNumber();
+   public String getURI(int index) {
+      return this.f77pp.getAttributeNamespace(index);
    }
 
-   public String getLocalName(int var1) {
-      return this.pp.getAttributeName(var1);
+   public String getLocalName(int index) {
+      return this.f77pp.getAttributeName(index);
    }
 
-   public Object getProperty(String var1) throws SAXNotRecognizedException, SAXNotSupportedException {
-      Object var2 = null;
-      if (!"http://xml.org/sax/properties/declaration-handler".equals(var1) && !"http://xml.org/sax/properties/lexical-handler".equals(var1)) {
-         var2 = this.pp.getProperty(var1);
+   public String getQName(int index) {
+      String prefix = this.f77pp.getAttributePrefix(index);
+      if (prefix != null) {
+         return prefix + ':' + this.f77pp.getAttributeName(index);
       }
+      return this.f77pp.getAttributeName(index);
+   }
 
-      return var2;
+   public String getType(int index) {
+      return this.f77pp.getAttributeType(index);
+   }
+
+   public String getValue(int index) {
+      return this.f77pp.getAttributeValue(index);
+   }
+
+   public int getIndex(String uri, String localName) {
+      for (int i = 0; i < this.f77pp.getAttributeCount(); i++) {
+         if (this.f77pp.getAttributeNamespace(i).equals(uri) && this.f77pp.getAttributeName(i).equals(localName)) {
+            return i;
+         }
+      }
+      return -1;
+   }
+
+   public int getIndex(String qName) {
+      for (int i = 0; i < this.f77pp.getAttributeCount(); i++) {
+         if (this.f77pp.getAttributeName(i).equals(qName)) {
+            return i;
+         }
+      }
+      return -1;
+   }
+
+   public String getType(String uri, String localName) {
+      for (int i = 0; i < this.f77pp.getAttributeCount(); i++) {
+         if (this.f77pp.getAttributeNamespace(i).equals(uri) && this.f77pp.getAttributeName(i).equals(localName)) {
+            return this.f77pp.getAttributeType(i);
+         }
+      }
+      return null;
+   }
+
+   public String getType(String qName) {
+      for (int i = 0; i < this.f77pp.getAttributeCount(); i++) {
+         if (this.f77pp.getAttributeName(i).equals(qName)) {
+            return this.f77pp.getAttributeType(i);
+         }
+      }
+      return null;
+   }
+
+   public String getValue(String uri, String localName) {
+      return this.f77pp.getAttributeValue(uri, localName);
+   }
+
+   public String getValue(String qName) {
+      return this.f77pp.getAttributeValue((String) null, qName);
    }
 
    public String getPublicId() {
       return null;
    }
 
-   public String getQName(int var1) {
-      String var2 = this.pp.getAttributePrefix(var1);
-      if (var2 != null) {
-         var2 = var2 + ':' + this.pp.getAttributeName(var1);
-      } else {
-         var2 = this.pp.getAttributeName(var1);
-      }
-
-      return var2;
-   }
-
    public String getSystemId() {
       return this.systemId;
    }
 
-   public String getType(int var1) {
-      return this.pp.getAttributeType(var1);
+   public int getLineNumber() {
+      return this.f77pp.getLineNumber();
    }
 
-   public String getType(String var1) {
-      int var2 = 0;
+   public int getColumnNumber() {
+      return this.f77pp.getColumnNumber();
+   }
 
-      while(true) {
-         if (var2 >= this.pp.getAttributeCount()) {
-            var1 = null;
-            break;
-         }
-
-         if (this.pp.getAttributeName(var2).equals(var1)) {
-            var1 = this.pp.getAttributeType(var2);
-            break;
-         }
-
-         ++var2;
+   public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
+      if (NAMESPACES_FEATURE.equals(name)) {
+         return this.f77pp.getFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces");
       }
-
-      return var1;
-   }
-
-   public String getType(String var1, String var2) {
-      int var3 = 0;
-
-      while(true) {
-         if (var3 >= this.pp.getAttributeCount()) {
-            var1 = null;
-            break;
-         }
-
-         if (this.pp.getAttributeNamespace(var3).equals(var1) && this.pp.getAttributeName(var3).equals(var2)) {
-            var1 = this.pp.getAttributeType(var3);
-            break;
-         }
-
-         ++var3;
+      if (NAMESPACE_PREFIXES_FEATURE.equals(name)) {
+         return this.f77pp.getFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes");
       }
-
-      return var1;
-   }
-
-   public String getURI(int var1) {
-      return this.pp.getAttributeNamespace(var1);
-   }
-
-   public String getValue(int var1) {
-      return this.pp.getAttributeValue(var1);
-   }
-
-   public String getValue(String var1) {
-      return this.pp.getAttributeValue((String)null, var1);
-   }
-
-   public String getValue(String var1, String var2) {
-      return this.pp.getAttributeValue(var1, var2);
-   }
-
-   public void parse(String var1) throws SAXException, IOException {
-      this.parse(new InputSource(var1));
-   }
-
-   public void parse(InputSource param1) throws SAXException, IOException {
-      // $FF: Couldn't be decompiled
-   }
-
-   public void parseSubTree(XmlPullParser var1) throws SAXException, IOException {
-      this.pp = var1;
-      boolean var2 = var1.getFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces");
-
-      XmlPullParserException var10000;
-      label179: {
-         boolean var10001;
-         try {
-            if (var1.getEventType() != 2) {
-               StringBuilder var36 = new StringBuilder();
-               SAXException var37 = new SAXException(var36.append("start tag must be read before skiping subtree").append(var1.getPositionDescription()).toString());
-               throw var37;
-            }
-         } catch (XmlPullParserException var32) {
-            var10000 = var32;
-            var10001 = false;
-            break label179;
-         }
-
-         int[] var5;
-         StringBuilder var6;
-         int var7;
-         var5 = new int[2];
-         var6 = new StringBuilder(16);
-         var7 = var1.getDepth() - 1;
-
-         int var8 = 2;
-
-         label167:
-         while(true) {
-            String var4;
-            int var9;
-            String var10;
-            String var35;
-            label161:
-            switch(var8) {
-            case 1:
-               return;
-            case 2:
-               if (var2) {
-                  try {
-                     var9 = var1.getDepth() - 1;
-                     var8 = var1.getNamespaceCount(var9);
-                     var9 = var1.getNamespaceCount(var9 + 1);
-                  } catch (XmlPullParserException var29) {
-                     var10000 = var29;
-                     var10001 = false;
-                     break label167;
-                  }
-
-                  for(; var8 < var9; ++var8) {
-                     try {
-                        this.contentHandler.startPrefixMapping(var1.getNamespacePrefix(var8), var1.getNamespaceUri(var8));
-                     } catch (XmlPullParserException var28) {
-                        var10000 = var28;
-                        var10001 = false;
-                        break label167;
-                     }
-                  }
-
-                  var4 = var1.getName();
-                  var35 = var1.getPrefix();
-
-                  if (var35 != null) {
-                     var6.setLength(0);
-                     var6.append(var35);
-                     var6.append(':');
-                     var6.append(var4);
-                  }
-
-                  var10 = var1.getNamespace();
-
-                  if (var35 == null) {
-                     var35 = var4;
-                  } else {
-                     var35 = var6.toString();
-                  }
-
-                  this.startElement(var10, var4, var35);
-               } else {
-                  this.startElement(var1.getNamespace(), var1.getName(), var1.getName());
-               }
-               break;
-            case 3:
-               if (var2) {
-                  var4 = var1.getName();
-                  var35 = var1.getPrefix();
-
-                  if (var35 != null) {
-                     var6.setLength(0);
-                     var6.append(var35);
-                     var6.append(':');
-                     var6.append(var4);
-                  }
-
-                  ContentHandler var11;
-                  var11 = this.contentHandler;
-                  var10 = var1.getNamespace();
-
-                  if (var35 == null) {
-                     var35 = var4;
-                  } else {
-                     var35 = var6.toString();
-                  }
-
-                  label154: {
-                     try {
-                        var11.endElement(var10, var4, var35);
-                        if (var7 > var1.getDepth()) {
-                           var8 = var1.getNamespaceCount(var1.getDepth());
-                           break label154;
-                        }
-                     } catch (XmlPullParserException var30) {
-                        var10000 = var30;
-                        var10001 = false;
-                        break label167;
-                     }
-
-                     var8 = 0;
-                  }
-
-                  try {
-                     var9 = var1.getNamespaceCount(var1.getDepth() - 1) - 1;
-                  } catch (XmlPullParserException var16) {
-                     var10000 = var16;
-                     var10001 = false;
-                     break label167;
-                  }
-
-                  while(true) {
-                     if (var9 < var8) {
-                        break label161;
-                     }
-
-                     try {
-                        this.contentHandler.endPrefixMapping(var1.getNamespacePrefix(var9));
-                     } catch (XmlPullParserException var15) {
-                        var10000 = var15;
-                        var10001 = false;
-                        break label167;
-                     }
-
-                     --var9;
-                  }
-               } else {
-                  this.contentHandler.endElement(var1.getNamespace(), var1.getName(), var1.getName());
-                  break;
-               }
-            case 4:
-               char[] var3 = var1.getTextCharacters(var5);
-               this.contentHandler.characters(var3, var5[0], var5[1]);
-            }
-
-            try {
-               var8 = var1.next();
-            } catch (XmlPullParserException var13) {
-               var10000 = var13;
-               var10001 = false;
-               break;
-            }
-
-            if (var1.getDepth() <= var7) {
-               return;
-            }
-         }
+      if (VALIDATION_FEATURE.equals(name)) {
+         return this.f77pp.getFeature("http://xmlpull.org/v1/doc/features.html#validation");
       }
-
-      XmlPullParserException var33 = var10000;
-      //Mint.logException(var33);
-      SAXParseException var34 = new SAXParseException("parsing error: " + var33, this, var33);
-      this.errorHandler.fatalError(var34);
+      return this.f77pp.getFeature(name);
    }
 
-   public void setContentHandler(ContentHandler var1) {
-      this.contentHandler = var1;
-   }
-
-   public void setDTDHandler(DTDHandler var1) {
-   }
-
-   public void setEntityResolver(EntityResolver var1) {
-   }
-
-   public void setErrorHandler(ErrorHandler var1) {
-      this.errorHandler = var1;
-   }
-
-   public void setFeature(String var1, boolean var2) throws SAXNotRecognizedException, SAXNotSupportedException {
+   public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException {
       try {
-         if ("http://xml.org/sax/features/namespaces".equals(var1)) {
-            this.pp.setFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces", var2);
-         } else if ("http://xml.org/sax/features/namespace-prefixes".equals(var1)) {
-            if (this.pp.getFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes") != var2) {
-               this.pp.setFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes", var2);
+         if (NAMESPACES_FEATURE.equals(name)) {
+            this.f77pp.setFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces", value);
+         } else if (NAMESPACE_PREFIXES_FEATURE.equals(name)) {
+            if (this.f77pp.getFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes") != value) {
+               this.f77pp.setFeature("http://xmlpull.org/v1/doc/features.html#report-namespace-prefixes", value);
             }
-         } else if ("http://xml.org/sax/features/validation".equals(var1)) {
-            this.pp.setFeature("http://xmlpull.org/v1/doc/features.html#validation", var2);
+         } else if (VALIDATION_FEATURE.equals(name)) {
+            this.f77pp.setFeature("http://xmlpull.org/v1/doc/features.html#validation", value);
          } else {
-            this.pp.setFeature(var1, var2);
+            this.f77pp.setFeature(name, value);
          }
-      } catch (XmlPullParserException var3) {
-       //  Mint.logException(var3);
+      } catch (XmlPullParserException ex) {
+      //   Mint.logException(ex);
       }
-
    }
 
-   public void setProperty(String var1, Object var2) throws SAXNotRecognizedException, SAXNotSupportedException {
-      if ("http://xml.org/sax/properties/declaration-handler".equals(var1)) {
-         throw new SAXNotSupportedException("not supported setting property " + var1);
-      } else if ("http://xml.org/sax/properties/lexical-handler".equals(var1)) {
-         throw new SAXNotSupportedException("not supported setting property " + var1);
+   public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
+      if (!DECLARATION_HANDLER_PROPERTY.equals(name) && !LEXICAL_HANDLER_PROPERTY.equals(name)) {
+         return this.f77pp.getProperty(name);
+      }
+      return null;
+   }
+
+   public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException {
+      if (DECLARATION_HANDLER_PROPERTY.equals(name)) {
+         throw new SAXNotSupportedException("not supported setting property " + name);
+      } else if (LEXICAL_HANDLER_PROPERTY.equals(name)) {
+         throw new SAXNotSupportedException("not supported setting property " + name);
       } else {
          try {
-            this.pp.setProperty(var1, var2);
-         } catch (XmlPullParserException var3) {
-            //Mint.logException(var3);
-            throw new SAXNotSupportedException("not supported set property " + var1 + ": " + var3);
+            this.f77pp.setProperty(name, value);
+         } catch (XmlPullParserException ex) {
+         //   Mint.logException(ex);
+            throw new SAXNotSupportedException("not supported set property " + name + ": " + ex);
          }
       }
    }
 
-   protected void startElement(String var1, String var2, String var3) throws SAXException {
-      this.contentHandler.startElement(var1, var2, var3, this);
+   public EntityResolver getEntityResolver() {
+      return null;
+   }
+
+   public void setEntityResolver(EntityResolver resolver) {
+   }
+
+   public DTDHandler getDTDHandler() {
+      return null;
+   }
+
+   public void setDTDHandler(DTDHandler handler) {
+   }
+
+   public ContentHandler getContentHandler() {
+      return this.contentHandler;
+   }
+
+   public void setContentHandler(ContentHandler handler) {
+      this.contentHandler = handler;
+   }
+
+   public ErrorHandler getErrorHandler() {
+      return this.errorHandler;
+   }
+
+   public void setErrorHandler(ErrorHandler handler) {
+      this.errorHandler = handler;
+   }
+
+   public void parse(InputSource source) throws SAXException, IOException {
+      this.systemId = source.getSystemId();
+      this.contentHandler.setDocumentLocator(this);
+      Reader reader = source.getCharacterStream();
+      if (reader == null) {
+         try {
+            InputStream stream = source.getByteStream();
+            String encoding = source.getEncoding();
+            if (stream == null) {
+               this.systemId = source.getSystemId();
+               if (this.systemId == null) {
+                  this.errorHandler.fatalError(new SAXParseException("null source systemId", this));
+                  return;
+               }
+               try {
+                  stream = new URL(this.systemId).openStream();
+               } catch (MalformedURLException nue) {
+               //   Mint.logException(nue);
+                  try {
+                     stream = new FileInputStream(this.systemId);
+                  } catch (FileNotFoundException fnfe) {
+                     //Mint.logException(fnfe);
+                     this.errorHandler.fatalError(new SAXParseException("could not open file with systemId " + this.systemId, this, fnfe));
+                     return;
+                  }
+               }
+            }
+            this.f77pp.setInput(stream, encoding);
+         } catch (XmlPullParserException ex) {
+          //  Mint.logException(ex);
+            this.errorHandler.fatalError(new SAXParseException("parsing initialization error: " + ex, this, ex));
+            return;
+         }
+      } else {
+         try {
+            this.f77pp.setInput(reader);
+         } catch (XmlPullParserException e) {
+            e.printStackTrace();
+         }
+      }
+      try {
+         this.contentHandler.startDocument();
+         this.f77pp.next();
+         if (this.f77pp.getEventType() != 2) {
+            this.errorHandler.fatalError(new SAXParseException("expected start tag not" + this.f77pp.getPositionDescription(), this));
+            return;
+         }
+         parseSubTree(this.f77pp);
+         this.contentHandler.endDocument();
+      } catch (XmlPullParserException ex2) {
+         //Mint.logException(ex2);
+         this.errorHandler.fatalError(new SAXParseException("parsing initialization error: " + ex2, this, ex2));
+      }
+   }
+
+   public void parse(String systemId2) throws SAXException, IOException {
+      parse(new InputSource(systemId2));
+   }
+
+   public void parseSubTree(XmlPullParser pp) throws SAXException, IOException {
+      this.f77pp = pp;
+      boolean namespaceAware = pp.getFeature("http://xmlpull.org/v1/doc/features.html#process-namespaces");
+      try {
+         if (pp.getEventType() != 2) {
+            throw new SAXException("start tag must be read before skiping subtree" + pp.getPositionDescription());
+         }
+         int[] holderForStartAndLength = new int[2];
+         StringBuilder rawName = new StringBuilder(16);
+         int level = pp.getDepth() - 1;
+         int type = 2;
+         do {
+            switch (type) {
+               case 1:
+                  return;
+               case 2:
+                  if (!namespaceAware) {
+                     startElement(pp.getNamespace(), pp.getName(), pp.getName());
+                     break;
+                  } else {
+                     int depth = pp.getDepth() - 1;
+                     int countPrev = pp.getNamespaceCount(depth);
+                     int count = pp.getNamespaceCount(depth + 1);
+                     for (int i = countPrev; i < count; i++) {
+                        this.contentHandler.startPrefixMapping(pp.getNamespacePrefix(i), pp.getNamespaceUri(i));
+                     }
+                     String name = pp.getName();
+                     String prefix = pp.getPrefix();
+                     if (prefix != null) {
+                        rawName.setLength(0);
+                        rawName.append(prefix);
+                        rawName.append(':');
+                        rawName.append(name);
+                     }
+                     startElement(pp.getNamespace(), name, prefix == null ? name : rawName.toString());
+                     break;
+                  }
+               case 3:
+                  if (!namespaceAware) {
+                     this.contentHandler.endElement(pp.getNamespace(), pp.getName(), pp.getName());
+                     break;
+                  } else {
+                     String name2 = pp.getName();
+                     String prefix2 = pp.getPrefix();
+                     if (prefix2 != null) {
+                        rawName.setLength(0);
+                        rawName.append(prefix2);
+                        rawName.append(':');
+                        rawName.append(name2);
+                     }
+                     this.contentHandler.endElement(pp.getNamespace(), name2, prefix2 == null ? name2 : rawName.toString());
+                     int countPrev2 = level > pp.getDepth() ? pp.getNamespaceCount(pp.getDepth()) : 0;
+                     for (int i2 = pp.getNamespaceCount(pp.getDepth() - 1) - 1; i2 >= countPrev2; i2--) {
+                        this.contentHandler.endPrefixMapping(pp.getNamespacePrefix(i2));
+                     }
+                     break;
+                  }
+               case 4:
+                  this.contentHandler.characters(pp.getTextCharacters(holderForStartAndLength), holderForStartAndLength[0], holderForStartAndLength[1]);
+                  break;
+            }
+            type = pp.next();
+         } while (pp.getDepth() > level);
+      } catch (XmlPullParserException ex) {
+      //   Mint.logException(ex);
+         this.errorHandler.fatalError(new SAXParseException("parsing error: " + ex, this, ex));
+      }
+   }
+
+   /* access modifiers changed from: protected */
+   public void startElement(String namespace, String localName, String qName) throws SAXException {
+      this.contentHandler.startElement(namespace, localName, qName, this);
    }
 }

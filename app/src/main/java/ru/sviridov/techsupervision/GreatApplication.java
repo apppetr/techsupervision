@@ -11,7 +11,10 @@ import ru.sviridov.techsupervision.service.UpdateService;
 
 public class GreatApplication extends Application {
    private static Context appContext = null;
-
+   //TODO CORRECT public class PermissionController isPermissionGranted
+   //TODO reasons2compensations нет компенсирующих мероприятий
+   //TODO не выставляется обьем и не сохраняются отметки на фото дефекта
+   //TODO при добавлении дефекта впервые не сохраняет фото error urifromfile
    @NonNull
    public static Context getAppContext() {
       return appContext;

@@ -166,7 +166,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
       int[] selectedValues = args.getIntArray(SELECTED_VALUES);
       this.adapter = new VariantsAdapter(this, (Cursor) null);
       this.adapter.setSelectedIds(selectedValues);
-      RecyclerView recyclerView = (RecyclerView) findViewById(16908298);
+      RecyclerView recyclerView = (RecyclerView) findViewById(android.R.id.list);
       recyclerView.setLayoutManager(new LinearLayoutManager(this));
       recyclerView.setAdapter(getAdapter(this.adapter));
       this.searchView = (SearchView) findViewById(R.id.svQuery);
@@ -320,7 +320,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
       int id = item.getItemId();
       if (id == R.id.ready) {
          selectVariants();
-      } else if (id == 16908332) {
+      } else if (id == android.R.id.home) {
          finish();
       }
       return super.onOptionsItemSelected(item);

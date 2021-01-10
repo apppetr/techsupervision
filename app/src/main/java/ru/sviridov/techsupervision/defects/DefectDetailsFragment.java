@@ -173,14 +173,12 @@ public class DefectDetailsFragment extends Fragment implements ElementController
             SelectDialogs.showMeasumentDialog(DefectDetailsFragment.this.getActivity(), new SelectListener() {
 
                @Override
-               public void onSelected(Object var1) {
 
-               }
-
-               public void onSelected(String selection) {
+               public void onSelected(Object selection) {
                   if (selection != null) {
-                     DefectDetailsFragment.this.defect.setVolume(selection);
-                     DefectDetailsFragment.this.tvVolume.setText(selection);
+                     DefectDetailsFragment.this.defect.setVolume((String) selection);
+                     //закоментил из за несоответсвия типов
+                     //  DefectDetailsFragment.this.tvVolume.setText((Integer) selection);
                      DefectDetailsFragment.this.saveDefect();
                   }
                }

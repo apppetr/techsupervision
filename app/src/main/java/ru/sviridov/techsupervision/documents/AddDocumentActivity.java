@@ -41,7 +41,7 @@ public class AddDocumentActivity extends ToolbarActivity {
    /* access modifiers changed from: protected */
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView((int) R.layout.activity_add_document);
+      setContentView(R.layout.activity_add_document);
       ActionBar actionbar = getSupportActionBar();
       if (actionbar != null) {
          actionbar.setHomeAsUpIndicator((int) R.drawable.close);

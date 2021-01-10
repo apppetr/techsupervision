@@ -911,6 +911,7 @@ public final class R {
       public static final int xSpinner = 2131558549;
       public static final int y2Spinner = 2131558553;
       public static final int ySpinner = 2131558550;
+      public static final int button_first = 2031558550;
    }
 
    /* renamed from: ru.sviridov.techsupervision.R$integer */
@@ -1003,6 +1004,7 @@ public final class R {
       public static final int support_simple_spinner_dropdown_item = 2130903114;
       public static final int tab = 2130903115;
       public static final int view_add_element = 2130903116;
+       public static int activity_splash = 2130903119;
    }
 
    /* renamed from: ru.sviridov.techsupervision.R$menu */
