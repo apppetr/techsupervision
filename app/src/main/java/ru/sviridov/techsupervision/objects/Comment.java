@@ -7,47 +7,47 @@ public class Comment {
    private int order;
    private String type;
 
-   public long getDate() {
-      return this.date;
+   public int getOrder() {
+      return this.order;
    }
 
-   public String getDescription() {
-      return this.description;
+   public void setOrder(int order2) {
+      this.order = order2;
    }
 
    public String getMark() {
       return this.mark;
    }
 
-   public int getOrder() {
-      return this.order;
+   public void setMark(String mark2) {
+      this.mark = mark2;
+   }
+
+   public String getDescription() {
+      return this.description;
+   }
+
+   public void setDescription(String description2) {
+      this.description = description2;
+   }
+
+   public long getDate() {
+      return this.date;
+   }
+
+   public void setDate(long date2) {
+      this.date = date2;
    }
 
    public String getType() {
       return this.type;
    }
 
-   public void setDate(long var1) {
-      this.date = var1;
-   }
-
-   public void setDescription(String var1) {
-      this.description = var1;
-   }
-
-   public void setMark(String var1) {
-      this.mark = var1;
-   }
-
-   public void setOrder(int var1) {
-      this.order = var1;
-   }
-
-   public void setType(String var1) {
-      this.type = var1;
+   public void setType(String type2) {
+      this.type = type2;
    }
 
    public String toString() {
-      return String.format("order=%d, type=%s, mark=%s, description=%s, date= %d", this.order, this.type, this.mark, this.description, this.date);
+      return String.format("order=%d, type=%s, mark=%s, description=%s, date= %d", new Object[]{Integer.valueOf(this.order), this.type, this.mark, this.description, Long.valueOf(this.date)});
    }
 }

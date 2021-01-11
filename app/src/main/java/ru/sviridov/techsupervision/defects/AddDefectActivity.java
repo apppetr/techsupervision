@@ -28,7 +28,6 @@ import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Defect;
 import ru.sviridov.techsupervision.objects.Picture;
 import ru.sviridov.techsupervision.service.UpdateService;
-import ru.sviridov.techsupervision.view.SlidingTabLayout;
 
 public class AddDefectActivity extends ToolbarActivity {
    public static final String DEFECT_ID = "ru.sviridov.techsupervision.DEFECT_ID";
@@ -65,20 +64,6 @@ public class AddDefectActivity extends ToolbarActivity {
       if (viewPager != null) {
          setupViewPager(viewPager);
       }
-   //   ViewPager viewPager = (ViewPager) findViewById(R.id.stlTabs);
-
-      //tabLayout = (SlidingTabLayout) findViewById(R.id.tab_indicator);
-
-    //  tabLayout.setCustomTabView(R.layout.tab, R.id.tvTitle);
-     // tabLayout.setDistributeEvenly(true);
-    //  TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager());
-
-    //  tabsAdapter.addTab(getString(R.string.description), DefectDetailsFragment.getInstance(this.defectId));
-     // tabsAdapter.addTab(getString(R.string.images), PicturesListFragment.getInstance(this.defectId));
-
-      // viewPager.setAdapter(tabsAdapter);
-     //  tabLayout.setViewPager(viewPager);
-     //  viewPager.setCurrentItem(getIntent().getIntExtra(SELECTED_TAB, 0));
 
       this.openedTime = System.currentTimeMillis();
    }

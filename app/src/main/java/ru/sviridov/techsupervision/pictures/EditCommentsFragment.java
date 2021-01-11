@@ -11,24 +11,25 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ru.sviridov.techsupervision.free.R;
+import ru.sviridov.techsupervision.objects.Comment;
 
 public class EditCommentsFragment extends Fragment {
    private CommentsAdapter adapter;
 
-   public View onCreateView(LayoutInflater var1, @Nullable ViewGroup var2, @Nullable Bundle var3) {
-      return var1.inflate(R.layout.fragment_comment_list, var2, false);
+   public void setComments(List<Comment> comments) {
+
+      this.adapter.setComments(comments);
    }
 
-   public void onViewCreated(View var1, @Nullable Bundle var2) {
-      super.onViewCreated(var1, var2);
-      this.adapter = new CommentsAdapter(this.getActivity(), (List)null);
-
-      RecyclerView var3 = (RecyclerView)var1.findViewById(android.R.id.list);
-      var3.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-      var3.setAdapter(this.adapter);
+   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+      return inflater.inflate(R.layout.fragment_comment_list, container, false);
    }
 
-   public void setComments(List var1) {
-      this.adapter.setComments(var1);
+   public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+      super.onViewCreated(view, savedInstanceState);
+      this.adapter = new CommentsAdapter(getActivity(), (List<Comment>) null);
+      RecyclerView recView = (RecyclerView) view.findViewById(android.R.id.list);
+      recView.setLayoutManager(new LinearLayoutManager(getActivity()));
+      recView.setAdapter(this.adapter);
    }
 }

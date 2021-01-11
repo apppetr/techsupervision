@@ -38,7 +38,7 @@ public class ValuesProvider extends ContentProvider {
       matcher.addURI(AUTHORITY, "elements", VALUES_ELEMENT_URI_CONTENT);
       matcher.addURI(AUTHORITY, "materials", VALUES_MATERIAL_URI_CONTENT);
       matcher.addURI(AUTHORITY, Values.Materials.URI_FOR_SELECTION, VALUES_MATERIAL_URI_FORSELECTION_CONTENT);
-      matcher.addURI(AUTHORITY, "defects", 8194);
+      matcher.addURI(AUTHORITY, "defects", VALUES_DEFECTS_URI_CONTENT);
       matcher.addURI(AUTHORITY, Values.Defects.URI_FOR_SELECTION, VALUES_DEFECTS_URI_FORSELECTION_CONTENT);
       matcher.addURI(AUTHORITY, "reasons", VALUES_REASONS_URI_CONTENT);
       matcher.addURI(AUTHORITY, Values.Reasons.URI_FOR_SELECTION, VALUES_REASONS_URI_FORSELECTION_CONTENT);

@@ -5,7 +5,7 @@ public interface Values {
    public static final String UPLOADED = "uploaded";
    public static final String VERSION = "version";
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$Compensations */
+
    public interface Compensations {
 
       /* renamed from: ID */
@@ -21,7 +21,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$D2E */
+
    public interface D2E {
       public static final String DEFECT_ID = "defect_id";
       public static final String MANUALLY_ADDED = "manually_added";
@@ -32,7 +32,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$D2R */
+
    public interface D2R {
       public static final String DEFECT_ID = "defect_id";
       public static final String MANUALLY_ADDED = "manually_added";
@@ -43,7 +43,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$Defects */
+
    public interface Defects {
 
       /* renamed from: ID */
@@ -58,7 +58,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$E2M */
+
    public interface E2M {
       public static final String ELEMENT_ID = "element_id";
 
@@ -72,7 +72,6 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$Elements */
    public interface Elements {
 
       /* renamed from: ID */
@@ -85,7 +84,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$Materials */
+
    public interface Materials {
 
       /* renamed from: ID */
@@ -99,7 +98,7 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
-   /* renamed from: ru.sviridov.techsupervision.values.Values$R2C */
+
    public interface R2C {
       public static final String COMPENSATION_ID = "compensation_id";
       public static final String MANUALLY_ADDED = "manually_added";

@@ -17,66 +17,65 @@ import java.util.Map;
 import ru.sviridov.techsupervision.free.R;
 import ru.sviridov.techsupervision.objects.Comment;
 
-public class CommentsAdapter extends RecyclerView.Adapter {
-   private static final Map CLASS_TO_NAME;
-   private List comments;
+/* renamed from: ru.sviridov.techsupervision.pictures.CommentsAdapter */
+public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
+   private static final Map<String, String> CLASS_TO_NAME;
+   private List<Comment> comments = new ArrayList();
    private final LayoutInflater inflater;
 
    static {
-      HashMap var0 = new HashMap();
-      var0.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotLineInstrument", "Линия");
-      var0.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotArrowInstrument", "Стрелка");
-      var0.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotOvalInstrument", "Овал");
-      CLASS_TO_NAME = Collections.unmodifiableMap(Collections.synchronizedMap(var0));
+      HashMap<String, String> data = new HashMap<>();
+      data.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotLineInstrument", "Линия");
+      data.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotArrowInstrument", "Стрелка");
+      data.put("ru.sviridov.techsupervision.utils.vectors.impl.pivots.PivotOvalInstrument", "Овал");
+      CLASS_TO_NAME = Collections.unmodifiableMap(Collections.synchronizedMap(data));
    }
 
-   public CommentsAdapter(@NonNull Context var1, @Nullable List var2) {
-      this.inflater = LayoutInflater.from(var1);
-      this.comments = new ArrayList();
-      if (var2 != null) {
-         this.comments.addAll(var2);
+   public CommentsAdapter(@NonNull Context context, @Nullable List<Comment> comments2) {
+      this.inflater = LayoutInflater.from(context);
+      if (comments2 != null) {
+         this.comments.addAll(comments2);
       }
+   }
 
+   public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      return new CommentViewHolder(this.inflater.inflate(R.layout.item_comment, parent, false));
    }
 
    public int getItemCount() {
       return this.comments.size();
    }
 
-   @Override
-   public void onBindViewHolder(RecyclerView.ViewHolder var1, int var2) {
-
+   public void onBindViewHolder(CommentViewHolder holder, int position) {
+      Comment comment = this.comments.get(position);
+      holder.tvTitle.setText(CLASS_TO_NAME.get(comment.getType()));
+      holder.tvDate.setText(String.format("добавлено %1$te %1$tB %1$tY", new Object[]{Long.valueOf(comment.getDate())}));
+      holder.tvIndex.setText(String.valueOf(position + 1));
+      holder.tvDesc.setText(comment.getDescription());
    }
 
-   public void onBindViewHolder(CommentsAdapter.CommentViewHolder var1, int var2) {
-      Comment var3 = (Comment)this.comments.get(var2);
-      var1.tvTitle.setText((CharSequence)CLASS_TO_NAME.get(var3.getType()));
-      var1.tvDate.setText(String.format("добавлено %1$te %1$tB %1$tY", var3.getDate()));
-      var1.tvIndex.setText(String.valueOf(var2 + 1));
-      var1.tvDesc.setText(var3.getDescription());
+   public void setComments(List<Comment> comments2) {
+      this.comments = comments2;
+      notifyDataSetChanged();
    }
 
-   public CommentsAdapter.CommentViewHolder onCreateViewHolder(ViewGroup var1, int var2) {
-      return new CommentsAdapter.CommentViewHolder(this.inflater.inflate(R.layout.item_comment, var1, false));
-   }
-
-   public void setComments(List var1) {
-      this.comments = var1;
-      this.notifyDataSetChanged();
-   }
-
+   /* renamed from: ru.sviridov.techsupervision.pictures.CommentsAdapter$CommentViewHolder */
    class CommentViewHolder extends RecyclerView.ViewHolder {
-      private final TextView tvDate;
-      private final TextView tvDesc;
-      private final TextView tvIndex;
-      private final TextView tvTitle;
+      /* access modifiers changed from: private */
+      public final TextView tvDate;
+      /* access modifiers changed from: private */
+      public final TextView tvDesc;
+      /* access modifiers changed from: private */
+      public final TextView tvIndex;
+      /* access modifiers changed from: private */
+      public final TextView tvTitle;
 
-      public CommentViewHolder(View var2) {
-         super(var2);
-         this.tvTitle = (TextView)var2.findViewById(R.id.tvTitle);
-         this.tvDate = (TextView)var2.findViewById(R.id.tvDate);
-         this.tvIndex = (TextView)var2.findViewById(R.id.tvIndex);
-         this.tvDesc = (TextView)var2.findViewById(R.id.tvDesc);
+      public CommentViewHolder(View itemView) {
+         super(itemView);
+         this.tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+         this.tvDate = (TextView) itemView.findViewById(R.id.tvDate);
+         this.tvIndex = (TextView) itemView.findViewById(R.id.tvIndex);
+         this.tvDesc = (TextView) itemView.findViewById(R.id.tvDesc);
       }
    }
 }
