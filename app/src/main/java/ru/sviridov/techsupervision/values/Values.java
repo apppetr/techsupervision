@@ -13,7 +13,7 @@ public interface Values {
       public static final String LINKER = "reason_id";
       public static final String MANUALLY_ADDED = "manually_added";
       public static final String NAME = "name";
-      public static final String RAW_QUERY = "SELECT  * FROM compensations c where c._id in (select r2c.compensation_id from reasons2compensations r2c WHERE %s)";
+      public static final String RAW_QUERY = "SELECT  * FROM compensations c where c._id in (select r2c.compensation_id from defects2compensations r2c WHERE %s)";
       public static final String TABLE = "compensations";
       public static final String UPLOADED = "uploaded";
       public static final String URI = "compensations";
@@ -100,6 +100,16 @@ public interface Values {
 
 
    public interface R2C {
+      public static final String COMPENSATION_ID = "compensation_id";
+      public static final String MANUALLY_ADDED = "manually_added";
+      public static final String REASON_ID = "reason_id";
+      public static final String TABLE = "reasons2compensations";
+      public static final String UPLOADED = "uploaded";
+      public static final String URI = "reasons2compensations";
+      public static final String VERSION = "version";
+   }
+
+   public interface D2C {
       public static final String COMPENSATION_ID = "compensation_id";
       public static final String MANUALLY_ADDED = "manually_added";
       public static final String REASON_ID = "reason_id";
