@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.sviridov.techsupervision.free" platformBuildVersionCode="23" platformBuildVersionName="6.0-2704002">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.lihachev.norm31937.free" platformBuildVersionCode="23" platformBuildVersionName="6.0-2704002">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -6,34 +6,34 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
-    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="ru.sviridov.techsupervision.GreatApplication" android:theme="@style/AppTheme">
-        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.sviridov.techsupervision.documents.DocumentsActivity">
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="ru.lihachev.norm31937.GreatApplication" android:theme="@style/AppTheme">
+        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.lihachev.norm31937.documents.DocumentsActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.sviridov.techsupervision.documents.AddDocumentActivity" android:parentActivityName="ru.sviridov.techsupervision.documents.DocumentsActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.documents.DocumentsActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.lihachev.norm31937.documents.AddDocumentActivity" android:parentActivityName="ru.lihachev.norm31937.documents.DocumentsActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.documents.DocumentsActivity"/>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.sviridov.techsupervision.documents.DocumentActivity" android:parentActivityName="ru.sviridov.techsupervision.documents.DocumentsActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.documents.DocumentsActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:launchMode="singleTop" android:name="ru.lihachev.norm31937.documents.DocumentActivity" android:parentActivityName="ru.lihachev.norm31937.documents.DocumentsActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.documents.DocumentsActivity"/>
         </activity>
-        <activity android:name="ru.sviridov.techsupervision.documents.DocumentInfoActivity" android:parentActivityName="ru.sviridov.techsupervision.documents.DocumentActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.documents.DocumentActivity"/>
+        <activity android:name="ru.lihachev.norm31937.documents.DocumentInfoActivity" android:parentActivityName="ru.lihachev.norm31937.documents.DocumentActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.documents.DocumentActivity"/>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:label="@string/defect" android:launchMode="singleTop" android:name="ru.sviridov.techsupervision.defects.AddDefectActivity" android:parentActivityName="ru.sviridov.techsupervision.documents.DocumentActivity" android:windowSoftInputMode="stateAlwaysHidden">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.documents.DocumentActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:label="@string/defect" android:launchMode="singleTop" android:name="ru.lihachev.norm31937.defects.AddDefectActivity" android:parentActivityName="ru.lihachev.norm31937.documents.DocumentActivity" android:windowSoftInputMode="stateAlwaysHidden">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.documents.DocumentActivity"/>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:name="ru.sviridov.techsupervision.pictures.PictureEditActivity" android:parentActivityName="ru.sviridov.techsupervision.defects.AddDefectActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.defects.AddDefectActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:name="ru.lihachev.norm31937.pictures.PictureEditActivity" android:parentActivityName="ru.lihachev.norm31937.defects.AddDefectActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.defects.AddDefectActivity"/>
         </activity>
-        <activity android:configChanges="orientation|screenSize" android:name="ru.sviridov.techsupervision.defects.SelectVariantsActivity" android:parentActivityName="ru.sviridov.techsupervision.defects.AddDefectActivity" android:windowSoftInputMode="stateHidden">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.sviridov.techsupervision.defects.AddDefectActivity"/>
+        <activity android:configChanges="orientation|screenSize" android:name="ru.lihachev.norm31937.defects.SelectVariantsActivity" android:parentActivityName="ru.lihachev.norm31937.defects.AddDefectActivity" android:windowSoftInputMode="stateHidden">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="ru.lihachev.norm31937.defects.AddDefectActivity"/>
         </activity>
-        <provider android:authorities="ru.sviridov.techsupervision.free.PROPERTIES" android:enabled="true" android:exported="false" android:name="ru.sviridov.techsupervision.values.ValuesProvider"/>
-        <provider android:authorities="ru.sviridov.techsupervision.free.AUTHORITY" android:enabled="true" android:exported="false" android:name="ru.sviridov.techsupervision.db.UserDataProvider"/>
-        <service android:exported="false" android:name="ru.sviridov.techsupervision.service.UpdateService"/>
+        <provider android:authorities="ru.lihachev.norm31937.free.PROPERTIES" android:enabled="true" android:exported="false" android:name="ru.lihachev.norm31937.values.ValuesProvider"/>
+        <provider android:authorities="ru.lihachev.norm31937.free.AUTHORITY" android:enabled="true" android:exported="false" android:name="ru.lihachev.norm31937.db.UserDataProvider"/>
+        <service android:exported="false" android:name="ru.lihachev.norm31937.service.UpdateService"/>
     </application>
 </manifest>

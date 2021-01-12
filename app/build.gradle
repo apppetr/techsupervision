@@ -7,7 +7,7 @@ android {
     buildToolsVersion '29.0.3'
 
     defaultConfig {
-        applicationId "ru.sviridov.techsuperviion"
+        applicationId "ru.lihachev.norm31937"
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
