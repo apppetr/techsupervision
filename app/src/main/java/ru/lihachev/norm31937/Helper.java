@@ -7,8 +7,8 @@ import android.net.Uri;
 
 public class Helper {
    public static final boolean isFree() {
-      return BuildConfig.FLAVOR.equals(BuildConfig.FLAVOR);
-   }
+     return BuildConfig.FLAVOR.equals("free");
+ }
 
    public static void openApp(Context context) {
       try {
