@@ -87,6 +87,7 @@ public class ValuesDataHelper extends SQLiteOpenHelper {
          db.execSQL(String.format(ADD_MANUALLY_ADDED, new Object[]{"defects2elements"}));
          db.execSQL(String.format(ADD_MANUALLY_ADDED, new Object[]{"defects2reasons"}));
          db.execSQL(String.format(ADD_MANUALLY_ADDED, new Object[]{"reasons2compensations"}));
+         db.execSQL(String.format(ADD_MANUALLY_ADDED, new Object[]{"defects2compensations"}));
          db.execSQL(String.format(ADD_VERSION, new Object[]{"materials"}));
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"elements"}));
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"materials"}));
@@ -96,6 +97,7 @@ public class ValuesDataHelper extends SQLiteOpenHelper {
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"defects2reasons"}));
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"reasons"}));
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"reasons2compensations"}));
+         db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"defects2compensations"}));
          db.execSQL(String.format(ADD_IS_UPLOADED, new Object[]{"compensations"}));
          db.execSQL(String.format(SET_MANUALLY_ADDED, new Object[]{"elements", "_id", 10}));
          db.execSQL(String.format(SET_MANUALLY_ADDED, new Object[]{"materials", "_id", 6}));
@@ -105,6 +107,7 @@ public class ValuesDataHelper extends SQLiteOpenHelper {
          db.execSQL(String.format(SET_NOT_MANUALLY_ADDED2, new Object[]{"defects2reasons", "defect_id", 3, "reason_id", 3}));
          db.execSQL(String.format(SET_MANUALLY_ADDED, new Object[]{"reasons", "_id", 3}));
          db.execSQL(String.format(SET_NOT_MANUALLY_ADDED2, new Object[]{"reasons2compensations", "reason_id", 3, Values.R2C.COMPENSATION_ID, 5}));
+         db.execSQL(String.format(SET_NOT_MANUALLY_ADDED2, new Object[]{"defects2compensations", "reason_id", 3, Values.R2C.COMPENSATION_ID, 5}));
          db.execSQL(String.format(SET_MANUALLY_ADDED, new Object[]{"compensations", "_id", 5}));
       }
    }

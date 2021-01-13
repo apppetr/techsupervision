@@ -23,10 +23,10 @@ public class ElementController implements DialogInterface.OnClickListener {
    private static Variant ADD_ELEMENT = new Variant(-1, "Добавить новый");
    private static MaterialVariant ADD_MATERIAL = new MaterialVariant(-1, "Добавить новый", -1);
    private ArrayAdapter<Variant> adapter;
-   /* access modifiers changed from: private */
+
    public final Context context;
    private AlertDialog dialog;
-   /* access modifiers changed from: private */
+
    public Variant element = null;
    List<ElementListener> listeners = new ArrayList();
 
@@ -98,7 +98,6 @@ public class ElementController implements DialogInterface.OnClickListener {
       this.element = null;
    }
 
-   /* access modifiers changed from: protected */
    public void chooseElement() {
       clear();
       List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
@@ -128,7 +127,6 @@ public class ElementController implements DialogInterface.OnClickListener {
       return this.listeners.add(elementListener);
    }
 
-   /* access modifiers changed from: protected */
    public void fireElementEvent(Variant element2, MaterialVariant material) {
       for (ElementListener l : this.listeners) {
          l.elementChanged(element2, material);

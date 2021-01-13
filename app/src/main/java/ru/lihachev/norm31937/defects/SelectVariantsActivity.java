@@ -42,7 +42,6 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
     private static final int VARIANT_LOADER = 3;
     private VariantsAdapter adapter;
     private View addVariantLayout;
-    /* access modifiers changed from: private */
     public SearchView searchView;
 
     private static String[] getFeildsForInsert(String uri) {
@@ -62,7 +61,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
                 break;
             case 1769711449:
                 if (uri.equals("compensations")) {
-                    c = 1;
+                    c = 3;
                     break;
                 }
                 break;
@@ -153,7 +152,6 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
         }
     }
 
-    /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_select_variants);
@@ -253,7 +251,6 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
         }
     }
 
-    /* access modifiers changed from: private */
     public void addVariant(String name) {
         Bundle args = getIntent().getExtras();
         ContentResolver cr = getContentResolver();

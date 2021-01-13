@@ -36,7 +36,6 @@ public class AddDefectActivity extends ToolbarActivity {
    private ViewPager viewPager;
    private MyViewPagerAdapter adapter;
 
-  // SlidingTabLayout tabLayout;
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_defect);
@@ -95,7 +94,6 @@ public class AddDefectActivity extends ToolbarActivity {
       return super.onOptionsItemSelected(item);
    }
 
-   /* access modifiers changed from: protected */
    public void onDestroy() {
       Defect defect = (Defect) CupboardFactory.cupboard().withContext(this).get(ContentUris.withAppendedId(UserDataProvider.getContentUri(UserDataHelper.DEFECT_URL), (long) this.defectId), Defect.class);
       int pictureCount = CupboardFactory.cupboard().withContext(this).query(UserDataProvider.getContentUri(UserDataHelper.PICTURE_URL), Picture.class).withSelection("defectId=" + this.defectId, new String[0]).list().size();
@@ -107,7 +105,6 @@ public class AddDefectActivity extends ToolbarActivity {
    }
 
    public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
-
 
       private final List<Fragment> myFragments = new ArrayList<>();
       private final List<String> myFragmentTitles = new ArrayList<>();

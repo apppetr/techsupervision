@@ -29,6 +29,7 @@ public class ValuesProvider extends ContentProvider {
     private static final int VALUES_MATERIAL_URI_CONTENT = 8258;
     private static final int VALUES_MATERIAL_URI_FORSELECTION_CONTENT = 12338;
     private static final int VALUES_R2C_URI_CONTENT = 8322;
+    private static final int VALUES_D2C_URI_CONTENT = 8338;
     private static final int VALUES_REASONS_URI_CONTENT = 8210;
     private static final int VALUES_REASONS_URI_FORSELECTION_CONTENT = 12306;
     protected static final UriMatcher matcher = new UriMatcher(-1);
@@ -49,6 +50,7 @@ public class ValuesProvider extends ContentProvider {
         matcher.addURI(AUTHORITY, "elements2materials", VALUES_E2M_URI_CONTENT);
         matcher.addURI(AUTHORITY, "defects2reasons", VALUES_D2R_URI_CONTENT);
         matcher.addURI(AUTHORITY, "reasons2compensations", VALUES_R2C_URI_CONTENT);
+        matcher.addURI(AUTHORITY, "defects2compensations", VALUES_D2C_URI_CONTENT);
     }
 
     public static Uri uri(String uriPath) {

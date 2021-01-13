@@ -18,7 +18,7 @@ import ru.lihachev.norm31937.widgets.RVCursorAdapter;
 
 public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantViewHolder> {
    private final LayoutInflater inflater;
-   /* access modifiers changed from: private */
+
    public final SparseBooleanArray selectedIds = new SparseBooleanArray();
 
    public VariantsAdapter(@NonNull Context context, Cursor cursor) {
@@ -57,7 +57,6 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
    /* renamed from: ru.lihachev.norm31937.defects.VariantsAdapter$VariantViewHolder */
    class VariantViewHolder extends RVCursorAdapter.SelectableViewHolder {
-      /* access modifiers changed from: private */
       public final CheckedTextView view;
 
       public VariantViewHolder(View itemView) {

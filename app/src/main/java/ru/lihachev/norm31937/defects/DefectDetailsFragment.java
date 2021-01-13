@@ -42,16 +42,13 @@ import ru.lihachev.norm31937.values.ValuesProvider;
 
 public class DefectDetailsFragment extends Fragment implements ElementController.ElementListener, PlaceDialogFragment.PlaceSelectListener {
     private Spinner category;
-    /* access modifiers changed from: private */
     public Defect defect;
-    /* access modifiers changed from: private */
     public ElementController elementController;
     private TextView tvCompensation;
     private TextView tvCoord;
     private TextView tvDefect;
     private TextView tvElemMat;
     private TextView tvReason;
-    /* access modifiers changed from: private */
     public TextView tvVolume;
 
     public static DefectDetailsFragment getInstance(int defectId) {
@@ -217,7 +214,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         });
     }
 
-    /* access modifiers changed from: private */
     public void fillViews(Defect defect2) {
         if (defect2.getElement() != null) {
             this.tvElemMat.setText(getString(R.string.format_document_list, defect2.getElement(), defect2.getMaterial()));
@@ -312,7 +308,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         };
     }
 
-    /* access modifiers changed from: protected */
     public void showCoordinatesChooser() {
         PlaceDialogFragment dlgFrgmt = PlaceDialogFragment.newInstance(this.defect.place);
         dlgFrgmt.setListener(this);
@@ -334,13 +329,11 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         return super.onOptionsItemSelected(item);
     }
 
-    /* access modifiers changed from: private */
     public void saveDefect() {
         this.defect.updated = System.currentTimeMillis();
         CupboardFactory.cupboard().withContext(getActivity()).update(UserDataProvider.getContentUri(UserDataHelper.DEFECT_URL), CupboardFactory.cupboard().withEntity(Defect.class).toContentValues(this.defect));
     }
 
-    /* access modifiers changed from: private */
     public boolean showDeleteElementDialog() {
         Dialogs.show(getActivity(), R.string.delete_element, R.string.delete_element_message, R.string.yes, R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -360,7 +353,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         return true;
     }
 
-    /* access modifiers changed from: private */
     public void deleteElement(Variant element, MaterialVariant material) {
         ProviderCompartment cp = CupboardFactory.cupboard().withContext(getActivity());
         cp.delete(ValuesProvider.uri("defects2elements"), "mat_elem_id=?", String.valueOf(material.getMatElemId()));
@@ -369,7 +361,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         cp.delete(ValuesProvider.uri("materials"), "_id=?", String.valueOf(material.getId()));
     }
 
-    /* access modifiers changed from: private */
     public boolean showDeleteCompensationDialog() {
         Dialogs.show(getActivity(), R.string.delete_compensation, R.string.delete_compensation_message, R.string.yes, R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -385,7 +376,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         return true;
     }
 
-    /* access modifiers changed from: private */
     public void deleteCompensations(Variant... compensations) {
         String ids = Formats.formatArray(Formats.extractIds(compensations));
         ProviderCompartment cp = CupboardFactory.cupboard().withContext(getActivity());
@@ -393,7 +383,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         cp.delete(ValuesProvider.uri("compensations"), "_id in (" + ids + ")", (String[]) null);
     }
 
-    /* access modifiers changed from: private */
     public void deleteReasons(Variant[] reasons) {
         String ids = Formats.formatArray(Formats.extractIds(reasons));
         ProviderCompartment cp = CupboardFactory.cupboard().withContext(getActivity());
@@ -402,7 +391,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         cp.delete(ValuesProvider.uri("reasons"), "_id in (" + ids + ")", (String[]) null);
     }
 
-    /* access modifiers changed from: private */
     public void deleteProblems(Variant[] problems) {
         String ids = Formats.formatArray(Formats.extractIds(problems));
         ProviderCompartment cp = CupboardFactory.cupboard().withContext(getActivity());
@@ -411,7 +399,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         cp.delete(ValuesProvider.uri("defects"), "_id in (" + ids + ")", (String[]) null);
     }
 
-    /* access modifiers changed from: private */
     public boolean showDeleteReasonDialog() {
         Dialogs.show(getActivity(), R.string.delete_reason, R.string.delete_reason_message, R.string.yes, R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -428,7 +415,6 @@ public class DefectDetailsFragment extends Fragment implements ElementController
         return true;
     }
 
-    /* access modifiers changed from: private */
     public boolean showDeleteProblemsDialog() {
         Dialogs.show(getActivity(), R.string.delete_problem, R.string.delete_problem_message, R.string.yes, R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

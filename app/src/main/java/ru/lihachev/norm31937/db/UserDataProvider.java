@@ -304,7 +304,6 @@ public class UserDataProvider extends ContentProvider {
       return FRAGMENT_NO_NOTIFY.equals(uri.getFragment());
    }
 
-   /* access modifiers changed from: protected */
    public String composeIdSelection(String originalSelection, String id, String idColumn) {
       StringBuffer sb = new StringBuffer();
       sb.append(idColumn).append('=').append(id);
