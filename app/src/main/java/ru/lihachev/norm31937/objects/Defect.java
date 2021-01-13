@@ -12,6 +12,7 @@ public class Defect {
    private MaterialVariant material;
    public Place place;
    public Variant[] problems;
+   public String problemsForSaving;
    public Variant[] reasons;
    public long updated;
    private String volume;
@@ -29,19 +30,29 @@ public class Defect {
    }
 
    public String getNiceCompensations() {
-      return Formats.formatArray((Object[])this.compensations);
+      return Formats.formatArray(this.compensations);
    }
 
    public String getNiceProblems() {
-      return Formats.formatArray((Object[])this.problems);
+      return Formats.formatArray(this.problems);
+   }
+   public String getHuinyar() {
+      String Huinyar = this.getNiceReasons();
+      return Huinyar;
+   }
+
+   public String getHuinyac() {
+      String Huinyac = this.getNiceCompensations();
+      return Huinyac;
    }
 
    public String getNiceReasons() {
-      return Formats.formatArray((Object[])this.reasons);
+      return Formats.formatArray(this.reasons);
    }
 
    public String getVolume() {
-      return this.volume;
+      String Volume = this.volume;
+      return  Volume;
    }
 
    public void setCategory(String var1) {

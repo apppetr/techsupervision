@@ -4,10 +4,13 @@ import java.util.List;
 import ru.lihachev.norm31937.objects.Defect;
 import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.objects.Variant;
+import ru.lihachev.norm31937.utils.Formats;
 
 /* renamed from: ru.lihachev.norm31937.docx.DefectwithPicture */
 public class DefectwithPicture {
+   public String Problems;
    private Defect defect;
+
    private int order;
    private List<Picture> pictures;
 
@@ -24,9 +27,24 @@ public class DefectwithPicture {
    }
 
    public String getVolume() {
+
       return this.defect.getVolume() == null ? "" : this.defect.getVolume();
    }
 
+   public String getHuinya() {
+      String Huinya = this.defect.getNiceProblems();
+      return Huinya;
+   }
+
+   public String getHuinyac() {
+      String Huinyac = this.defect.getNiceCompensations();
+      return Huinyac;
+   }
+
+   public String getHuinyar() {
+      String Huinyar = this.defect.getNiceReasons();
+      return Huinyar;
+   }
    public int getOrder() {
       return this.order;
    }
@@ -36,6 +54,7 @@ public class DefectwithPicture {
    }
 
    public Variant getElement() {
+
       return this.defect.getElement();
    }
 
@@ -47,11 +66,10 @@ public class DefectwithPicture {
       return this.defect.getCategory();
    }
 
-
    public String getCoordinates() {
       if (this.defect.place == null) {
          return "";
       }
-      return String.format("в осях %s", new Object[]{this.defect.place});
+      return String.format("в осях %s", this.defect.place);
    }
 }

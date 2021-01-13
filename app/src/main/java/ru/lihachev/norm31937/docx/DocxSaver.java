@@ -79,6 +79,9 @@ public class DocxSaver implements ISaver {
    /* access modifiers changed from: private */
    public void compose() {
       for (DefectwithPicture defect : this.defects) {
+        // defect.NiceReasons = defect.getNiceReasons();
+        // defect.NiceCompensations = defect.getNiceCompensations();
+        // defect.NiceProblems = defect.getNiceProblems();
          composePictures(defect.getPictures());
          System.gc();
       }
@@ -93,7 +96,7 @@ public class DocxSaver implements ISaver {
             map.put("outputdir", this.imgComposer.getOutputDir());
             map.put("picture_id", picture.getId());
             map.put("picture_id", picture.getImgUrl());
-            map.put("Defect_Id", Integer.valueOf(picture.getDefectId()));
+            map.put("Defect_Id", picture.getDefectId());
            //Mint.logExceptionMap(map, e);
          }
       }
@@ -112,16 +115,15 @@ public class DocxSaver implements ISaver {
          report.setFieldsMetadata(metadata);
          IContext iContext = report.createContext();
          iContext.put("defects", this.defects);
+         iContext.put("document", this.document);
          report.process(iContext, (OutputStream) outStream);
          outStream.close();
          return true;
-      } catch (XDocReportException e) {
+      } catch (XDocReportException | IOException e) {
        ///  Mint.logException(e);
          return false;
-      } catch (IOException e2) {
-        // Mint.logException(e2);
-         return false;
-      }
+      } // Mint.logException(e2);
+
    }
 
    /* access modifiers changed from: private */
@@ -179,6 +181,6 @@ public class DocxSaver implements ISaver {
                listener.onPostSave(result);
             }
          }
-      }.execute(new Object[0]);
+      }.execute();
    }
 }

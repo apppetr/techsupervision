@@ -17,6 +17,13 @@ public class Document {
       this.date = 0L;
       this.appointment = Appointment.ADMIN;
    }
+   public String getTitle() {
+      return this.title;
+   }
+
+   public String getFull() {
+      return this.full();
+   }
 
    public String full() {
       return String.format("Адрес объекта: %s,\nГод постройки: %s,\nУровень ответственности: %s,\nГабариты в плане: %s,\nЭтажность: %s,\nНазначение: %s", this.address, this.year, this.responsibility.getName(), this.sizes, this.floors, this.appointment.getName());

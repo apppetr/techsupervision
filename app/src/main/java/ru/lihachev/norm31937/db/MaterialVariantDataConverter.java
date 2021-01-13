@@ -15,7 +15,7 @@ public class MaterialVariantDataConverter implements FieldConverter<MaterialVari
    public MaterialVariant fromCursorValue(Cursor cursor, int columnIndex) {
       try {
          JSONObject json = new JSONObject(cursor.getString(columnIndex));
-         return new MaterialVariant(json.getInt("id"), json.getString("name"), Integer.valueOf(json.optInt("mat_elem_id")));
+         return new MaterialVariant(json.getInt("id"), json.getString("name"), json.optInt("mat_elem_id"));
       } catch (JSONException e) {
          //Mint.logException(e);
          return null;
@@ -23,7 +23,7 @@ public class MaterialVariantDataConverter implements FieldConverter<MaterialVari
    }
 
    public void toContentValue(MaterialVariant value, String key, ContentValues values) {
-      values.put(key, String.format(PROPERTY_PATTERN, new Object[]{Integer.valueOf(value.getId()), value.getName(), value.getMatElemId()}));
+      values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.getMatElemId()));
    }
 
    public EntityConverter.ColumnType getColumnType() {
