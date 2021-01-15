@@ -209,4 +209,7 @@
     <string name="point_amount">Пометки на фотографиях основных моментов визуального обследования</string>
     <string name="send_defects_by_email">Анализ полученной информации в соответствии с действующей нормативной документацией</string>
     <string name="begin_work">НАЧАТЬ РАБОТУ</string>
+    <string name="question">\?</string>
+    <string name="defect_size">Размер дефекта</string>
+    <string name="note">Добавить комментарий</string>
 </resources>

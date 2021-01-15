@@ -76,7 +76,6 @@ public class ElementController implements DialogInterface.OnClickListener {
       final EditText etTitle = (EditText) rootView.findViewById(R.id.etTitle);
       builder.setTitle( "Новый материал для " + this.element).setView(rootView).setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
 
-
          public void onClick(DialogInterface dialog, int which) {
             Variant material = new Variant();
             material.setName(etTitle.getText().toString());
