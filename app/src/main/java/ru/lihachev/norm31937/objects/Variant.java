@@ -49,6 +49,9 @@ public class Variant extends Meta implements Parcelable {
         return this.s_description;
     }
 
+    public String get_Note() {
+        return this.note;
+    }
   // public Snip getSnip() {
   //      return snip;
    // }
