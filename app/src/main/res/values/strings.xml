@@ -212,4 +212,17 @@
     <string name="question">\?</string>
     <string name="defect_size">Размер дефекта</string>
     <string name="note">Добавить комментарий</string>
+    <string name="depth">Глубина</string>
+    <string name="depth2">Глубина:</string>
+    <string name="input_depth">Величина измерения</string>
+    <string name="area2">Площадь:</string>
+    <string name="area">Площадь</string>
+    <string name="input_length">Величина измерения или процент от площади</string>
+    <string name="length2">Длина:</string>
+    <string name="length">Длина</string>
+    <string name="width">Ширина</string>
+    <string name="width2">Ширина:</string>
+    <string name="count2">Количество:</string>
+    <string name="count">Количество</string>
+    <string name="input_count">Количество штук</string>
 </resources>

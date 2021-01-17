@@ -11,6 +11,21 @@
         <item>Б</item>
         <item>В</item>
     </array>
+    <string-array name="count_quality">
+        <item>@string/sht</item>
+    </string-array>
+    <string-array name="measurement_quality_in2">
+        <item>@string/m2</item>
+        <item>@string/sm2</item>
+        <item>@string/mm2</item>
+        <item>@string/percent</item>
+    </string-array>
+    <string-array name="measurement_quality">
+        <item>@string/m</item>
+        <item>@string/sm</item>
+        <item>@string/mm</item>
+        <item>@string/percent</item>
+    </string-array>
     <array name="responsibilities">
         <item>@string/enter_responsibility</item>
         <item>Пониженный</item>
@@ -22,4 +37,12 @@
         <item>По дате добавления</item>
     </array>
 
+    <string name="m">М</string>
+    <string name="sm">см</string>
+    <string name="mm">мм</string>
+    <string name="percent">%</string>
+    <string name="m2">М²</string>
+    <string name="sm2">см²</string>
+    <string name="mm2">мм²</string>
+    <string name="sht">ШТ</string>
 </resources>

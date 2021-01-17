@@ -1,6 +1,7 @@
 package ru.lihachev.norm31937.defects;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
@@ -8,10 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.CheckedTextView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.cab404.jsonm.core.JSONMaker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +26,10 @@ import java.util.List;
 import nl.qbusict.cupboard.CupboardFactory;
 import ru.lihachev.norm31937.free.R;
 import ru.lihachev.norm31937.objects.Variant;
+import ru.lihachev.norm31937.pictures.PictureEditActivity;
+import ru.lihachev.norm31937.utils.SelectListener;
+import ru.lihachev.norm31937.utils.alerts.Dialogs;
+import ru.lihachev.norm31937.utils.alerts.SelectDialogs;
 import ru.lihachev.norm31937.widgets.ExpandableLayout;
 import ru.lihachev.norm31937.widgets.RVCursorAdapter;
 
@@ -96,6 +107,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final TextView notetextView;
         public final TextView tvAddSnipToReport;
         public final TextView tvAddNoteToReport;
+        public final RelativeLayout tvnoteContainer;
+        public final ImageView addDefectSize;
        // public final TextView descriptionTextLeftline;
         public final ExpandableLayout expandableLayout;
 
@@ -107,13 +120,18 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.textVariant = (TextView) itemView.findViewById(R.id.cbVariantText);
             this.descriptiontextView = (TextView) itemView.findViewById(R.id.tvDesc);
             this.descriptionToggle = (TextView) itemView.findViewById(R.id.descriptionToggle);
+            this.tvnoteContainer = (RelativeLayout) itemView.findViewById(R.id.tvNoteContainer);
             this.notetextView = (TextView) itemView.findViewById(R.id.tvAddNote);
             this.defectDetails = (TextView) itemView.findViewById(R.id.tvAddSizes);
             this.tvAddSnipToReport = (TextView) itemView.findViewById(R.id.tvAddSnipToReport);
             this.tvAddNoteToReport = (TextView) itemView.findViewById(R.id.tvAddNoteToReport);
+            this.addDefectSize = (ImageView) itemView.findViewById(R.id.bDefectSize);
+
          //   this.descriptionTextLeftline = (TextView)  itemView.findViewById(R.id.leftline);
             this.textCheckBox.setOnClickListener(this);
             this.descriptionToggle.setOnClickListener(this);
+            this.addDefectSize.setOnClickListener(this);//кнопка редактировать размеры
+            this.tvnoteContainer.setOnClickListener(this);//редактировать комментарий
             this.expandableLayout = new ExpandableLayout((LinearLayout) itemView.findViewById(R.id.llDescription));
 
         }
@@ -135,6 +153,22 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     VariantsAdapter.this.selectedIds.put(itemid, checked);
                     VariantsAdapter.this.notifyItemChanged(getLayoutPosition());
                     break;
+                case R.id.tvNoteContainer:
+                    View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
+                    SelectDialogs.showMeasumentDialog(view2.getContext(), new SelectListener() {
+                        @Override
+                        public void onSelected(final Object selection) {
+                            if (selection != null) {
+                            }
+                        }
+                    }).show();
+                case R.id.bDefectSize:
+                    View view = LayoutInflater.from(v.getContext()).inflate(R.layout.fragment_defect_size, (ViewGroup) null);
+                   final EditText etText = (EditText) view.findViewById(R.id.etText);
+                    Dialogs.showCustomView(v.getContext(), R.string.mark_comment, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(@NonNull DialogInterface dialog, int which) {
+                        }
+                    });
                 default:
                     break;
             }
