@@ -36,11 +36,11 @@ implements Parcelable {
     }
 
     public String getDepreciation() {
-        return this.description;
+        return this.img_url;
     }
 
     public String getDescription() {
-        return this.img_url;
+        return this.description;
     }
 
     public String getParagraph() {

@@ -22,8 +22,16 @@ public class Variant extends Meta implements Parcelable {
     };
     private Integer _id;
     private String name;
-
     private String snip;
+
+    public String getSnip() {
+        if(this.snip==null)
+        return "";
+        else
+            return this.snip;
+    }
+
+
 
     //  private String note;
 
@@ -52,19 +60,16 @@ public class Variant extends Meta implements Parcelable {
             this.snip = snip;
     }
 
-    public String getSnip() throws JSONException {
-        Snip snipclass = new Snip();
-        Gson localGson = new Gson();
+    public Snip getSnipclas() throws JSONException {
+        if(this.snip == null){
+            return null;
+        }else{
+            Snip snipclass = new Snip();
+            Gson localGson = new Gson();
 
-        if(this.snip == null)
-            return "";
-        else{
-            Object localObject = new JSONObject(this.snip);
-            String json = this.snip; // {"id":100,"name":"name"}
+            String json = this.snip; // {"description":100,"url":"name","img_url":"name"}
             snipclass = localGson.fromJson(json, Snip.class);
-            //localObject = localGson.toJson(((JSONObject)localObject).getString("snip"), Snip.class);
-
-            return this.snip;
+            return snipclass;
         }
     }
 

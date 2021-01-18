@@ -19,23 +19,15 @@ import com.cab404.jsonm.core.JSONMaker;
 import com.cab404.jsonm.impl.SimpleJSONMaker;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.qbusict.cupboard.CupboardFactory;
-import ru.lihachev.norm31937.db.UserDataHelper;
-import ru.lihachev.norm31937.db.UserDataProvider;
 import ru.lihachev.norm31937.free.R;
 import ru.lihachev.norm31937.objects.Defect;
-import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.objects.Variant;
-import ru.lihachev.norm31937.pictures.PictureEditActivity;
-import ru.lihachev.norm31937.utils.SelectListener;
 import ru.lihachev.norm31937.utils.alerts.Dialogs;
-import ru.lihachev.norm31937.utils.alerts.SelectDialogs;
 import ru.lihachev.norm31937.values.ValuesProvider;
 import ru.lihachev.norm31937.widgets.ExpandableLayout;
 import ru.lihachev.norm31937.widgets.RVCursorAdapter;
@@ -47,6 +39,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public String URI = "ru.lihachev.norm31937.URI";
     public Variant variant;
     public Defect defect;
+
     public VariantsAdapter(@NonNull Context context, Cursor cursor) {
         super(context, cursor);
         this.inflater = LayoutInflater.from(context);
@@ -68,24 +61,26 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
         holder.textVariant.setText(variant.getName());
 
-       if (!variant.getSnip().equals(""))
-        {
-           holder.tvAddSnipToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления комментария к отчету
-           holder.descriptiontextView.setText(variant.getSnip());
-      }
-        else{
-           holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
-          holder.descriptiontextView.setVisibility(View.INVISIBLE);
-         }
-
+        if (variant.getSnipclas() == null) {
+            holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
+            holder.descriptiontextView.setVisibility(View.INVISIBLE);
+        } else {
+            if (!variant.getSnipclas().getDescription().equals("")) {
+                holder.tvAddSnipToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления комментария к отчету
+                holder.descriptiontextView.setText(variant.getSnipclas().getDescription());
+            } else {
+                holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
+                holder.descriptiontextView.setVisibility(View.INVISIBLE);
+            }
+        }
         //if (variant.get_DefectSizes() != null)
-            //holder.defectDetails.setText(variant.get_DefectSizes());
+        //holder.defectDetails.setText(variant.get_DefectSizes());
         //else
         //holder.defectDetails.setText("Добавить размеры");
 
-       // if (variant.get_Note() != null)
+        // if (variant.get_Note() != null)
         //    holder.notetextView.setText(variant.get_Note());
-      //  else holder.notetextView.setText(R.string.note);
+        //  else holder.notetextView.setText(R.string.note);
 
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
         holder.tvAddNoteToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления заметки к отчету
@@ -115,7 +110,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final RelativeLayout tvnoteContainer;
         public final ImageView addDefectSize;
 
-       // public final TextView descriptionTextLeftline;
+        // public final TextView descriptionTextLeftline;
         public final ExpandableLayout expandableLayout;
 
         //здесь заполняютя строки нужно сделать это выпадающим списком
@@ -164,28 +159,30 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
                                 JSONMaker jSONMaker = VariantsAdapter.this.maker;
-                              //  variant.setNote(etText.getText().toString());
-                              //  Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
-                             //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
-                               CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri("elements"), CupboardFactory.cupboard().withEntity(Variant.class).toContentValues(variant));
+                                //  variant.setNote(etText.getText().toString());
+                                //  Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
+                                //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
+                                CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri("elements"), CupboardFactory.cupboard().withEntity(Variant.class).toContentValues(variant));
 
                             }
-                        }  });
+                        }
+                    });
                     break;
                 case R.id.bDefectSize:
                     View view = LayoutInflater.from(v.getContext()).inflate(R.layout.fragment_defect_size, (ViewGroup) null);
-                //   final EditText etText = (EditText) view.findViewById(R.id.etText);
-                  //   SelectDialogs.showMeasumentDialog(view.getContext(), new SelectListener() {
+                    //   final EditText etText = (EditText) view.findViewById(R.id.etText);
+                    //   SelectDialogs.showMeasumentDialog(view.getContext(), new SelectListener() {
                     //  @Override
                     //  public void onSelected(final Object selection) {
-                      //  if (selection != null) {
-                      //  }
-                     // }
+                    //  if (selection != null) {
+                    //  }
+                    // }
                     // }).show();
-                   Dialogs.showCustomView(view.getContext(), R.string.mark_comment, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
+                    Dialogs.showCustomView(view.getContext(), R.string.mark_comment, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(@NonNull DialogInterface dialog, int which) {
 
-                        }  });
+                        }
+                    });
                     break;
                 default:
                     break;

@@ -23,11 +23,7 @@ public class MaterialVariantDataConverter implements FieldConverter<MaterialVari
    }
 
    public void toContentValue(MaterialVariant value, String key, ContentValues values) {
-      try {
-         values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.getMatElemId(), value.getSnip()));
-      } catch (JSONException e) {
-         e.printStackTrace();
-      }
+      values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.getMatElemId(), value.getSnip()));
    }
 
    public EntityConverter.ColumnType getColumnType() {
