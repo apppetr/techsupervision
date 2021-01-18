@@ -30,5 +30,13 @@
         </RelativeLayout>
         <TextView android:textSize="@dimen/text_normal2" android:textColor="@color/azure" android:id="@id/tvAddNoteToReport" android:tag="binding_9" android:background="?selectableItemBackground" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="65.29999dip" android:layout_marginBottom="14.0dip" style="@style/TextAppearance.AppCompat.Subhead" />
     </LinearLayout>
+    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
+   </RelativeLayout>
+    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
+    </RelativeLayout>
+    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
+    </RelativeLayout>
+    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
+    </RelativeLayout>
 
 </RelativeLayout>

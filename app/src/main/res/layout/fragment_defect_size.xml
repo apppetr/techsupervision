@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <EditText android:gravity="top|left|center_vertical|center_horizontal|center" android:id="@+id/etText" android:background="@null" android:paddingLeft="@dimen/padding_short" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/padding_normal" android:layout_marginTop="@dimen/padding_normal" android:hint="@string/enter_comment_text" android:minLines="5"/>
+    <LinearLayout android:orientation="vertical" android:paddingLeft="@dimen/padding_normal" android:paddingTop="@dimen/padding_normal" android:paddingRight="@dimen/padding_normal" android:paddingBottom="@dimen/padding_normal" android:focusable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:animateLayoutChanges="true">
+    <TableLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="*" android:shrinkColumns="*">
+        <TableRow android:id="@id/rowDept" android:visibility="visible">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/padding_normal">
+                <TextView android:textSize="18.0sp" android:textColor="@color/azure" android:paddingLeft="@dimen/padding_tiny" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/depth2" style="@style/TextAppearance.AppCompat" />
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <EditText android:ellipsize="end" android:id="@id/etDepth" android:paddingTop="@dimen/padding_tiny" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/padding_short" android:hint="@string/input_depth" android:layout_weight="1.0" android:inputType="numberDecimal" />
+                    <android.support.v7.widget.AppCompatSpinner android:entries="@array/measurement_quality" android:id="@id/sDepth" android:background="@drawable/spinner_backgound_light" android:paddingRight="@dimen/padding_huge" android:layout_width="80.0dip" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+        <TableRow android:id="@id/rowArea" android:visibility="visible">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/padding_normal">
+                <TextView android:textSize="18.0sp" android:textColor="@color/azure" android:paddingLeft="@dimen/padding_tiny" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/area2" style="@style/TextAppearance.AppCompat" />
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <EditText android:ellipsize="end" android:id="@id/etArea" android:paddingTop="@dimen/padding_tiny" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/padding_short" android:hint="@string/input_length" android:layout_weight="1.0" android:inputType="numberDecimal" />
+                    <android.support.v7.widget.AppCompatSpinner android:entries="@array/measurement_quality_in2" android:id="@id/sArea" android:background="@drawable/spinner_backgound_light" android:paddingRight="@dimen/padding_huge" android:layout_width="80.0dip" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+        <TableRow android:id="@id/rowLength" android:visibility="visible">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/padding_normal">
+                <TextView android:textSize="18.0sp" android:textColor="@color/azure" android:paddingLeft="@dimen/padding_tiny" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/length2" style="@style/TextAppearance.AppCompat" />
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <EditText android:ellipsize="end" android:id="@id/etLength" android:paddingTop="@dimen/padding_tiny" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/padding_short" android:hint="@string/input_depth" android:layout_weight="1.0" android:inputType="numberDecimal" />
+                    <android.support.v7.widget.AppCompatSpinner android:entries="@array/measurement_quality" android:id="@id/sLength" android:background="@drawable/spinner_backgound_light" android:paddingRight="@dimen/padding_huge" android:layout_width="80.0dip" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+        <TableRow android:id="@id/rowWidth" android:visibility="visible">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/padding_normal">
+                <TextView android:textSize="18.0sp" android:textColor="@color/azure" android:paddingLeft="@dimen/padding_tiny" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/width2" style="@style/TextAppearance.AppCompat" />
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <EditText android:ellipsize="end" android:id="@id/etWidth" android:paddingTop="@dimen/padding_tiny" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/padding_short" android:hint="@string/input_depth" android:layout_weight="1.0" android:inputType="numberDecimal" />
+                    <android.support.v7.widget.AppCompatSpinner android:entries="@array/measurement_quality" android:id="@id/sWidth" android:background="@drawable/spinner_backgound_light" android:paddingRight="@dimen/padding_huge" android:layout_width="80.0dip" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+        <TableRow android:id="@id/rowCount" android:visibility="visible">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/padding_normal">
+                <TextView android:textSize="18.0sp" android:textColor="@color/azure" android:paddingLeft="@dimen/padding_tiny" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/count2" style="@style/TextAppearance.AppCompat" />
+                <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <EditText android:ellipsize="end" android:id="@id/etCount" android:paddingTop="@dimen/padding_tiny" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginRight="@dimen/padding_short" android:hint="@string/input_count" android:layout_weight="1.0" android:inputType="numberDecimal" />
+                    <android.support.v7.widget.AppCompatSpinner android:entries="@array/count_quality" android:id="@id/sCount" android:background="@drawable/spinner_backgound_light" android:paddingRight="@dimen/padding_huge" android:layout_width="80.0dip" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+    </LinearLayout>
+    </ScrollView>
 </FrameLayout>

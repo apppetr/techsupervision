@@ -18,6 +18,9 @@ public class Variant extends Meta implements Parcelable {
     private Integer _id;
     private String name;
     private String s_description;
+
+
+
     private String note;
 
     public Variant() {
@@ -52,6 +55,10 @@ public class Variant extends Meta implements Parcelable {
     public String get_Note() {
         return this.note;
     }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
   // public Snip getSnip() {
   //      return snip;
    // }
@@ -71,6 +78,7 @@ public class Variant extends Meta implements Parcelable {
     public void writeToParcel(@NonNull Parcel paramParcel, int paramInt) {
        paramParcel.writeInt(this._id);
        paramParcel.writeString(this.name);
+        paramParcel.writeString(this.note);
       // paramParcel.writeParcelable(snip, paramInt);
     }
 }

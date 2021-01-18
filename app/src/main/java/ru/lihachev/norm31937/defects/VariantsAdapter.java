@@ -16,31 +16,41 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cab404.jsonm.core.JSONMaker;
+import com.cab404.jsonm.impl.SimpleJSONMaker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.qbusict.cupboard.CupboardFactory;
+import ru.lihachev.norm31937.db.UserDataHelper;
+import ru.lihachev.norm31937.db.UserDataProvider;
 import ru.lihachev.norm31937.free.R;
+import ru.lihachev.norm31937.objects.Defect;
+import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.objects.Variant;
 import ru.lihachev.norm31937.pictures.PictureEditActivity;
 import ru.lihachev.norm31937.utils.SelectListener;
 import ru.lihachev.norm31937.utils.alerts.Dialogs;
 import ru.lihachev.norm31937.utils.alerts.SelectDialogs;
+import ru.lihachev.norm31937.values.ValuesProvider;
 import ru.lihachev.norm31937.widgets.ExpandableLayout;
 import ru.lihachev.norm31937.widgets.RVCursorAdapter;
 
 public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantViewHolder> {
     private final LayoutInflater inflater;
-
+    JSONMaker maker = new SimpleJSONMaker();
     public final SparseBooleanArray selectedIds = new SparseBooleanArray();
-
-    public VariantsAdapter(@NonNull Context context, Cursor cursor) {
+    public String URI = "ru.lihachev.norm31937.URI";
+    public Variant variant;
+    public Defect defect;
+    public VariantsAdapter(@NonNull Context context, Cursor cursor, String uri) {
         super(context, cursor);
         this.inflater = LayoutInflater.from(context);
+        this.URI = SelectVariantsActivity.URI;
     }
 
     public void setSelectedIds(@NonNull int[] selectedIds2) {
@@ -56,7 +66,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     }
 
     public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) {
-        Variant variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
+        this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
         holder.textVariant.setText(variant.getName());
         //holder.descriptiontextView.setText(variant.getS_description());
 
@@ -109,6 +119,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final TextView tvAddNoteToReport;
         public final RelativeLayout tvnoteContainer;
         public final ImageView addDefectSize;
+
        // public final TextView descriptionTextLeftline;
         public final ExpandableLayout expandableLayout;
 
@@ -155,20 +166,34 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     break;
                 case R.id.tvNoteContainer:
                     View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
-                    SelectDialogs.showMeasumentDialog(view2.getContext(), new SelectListener() {
-                        @Override
-                        public void onSelected(final Object selection) {
-                            if (selection != null) {
+                    final EditText etText = (EditText) view2.findViewById(R.id.etText);
+                    Dialogs.showCustomView(view2.getContext(), R.string.noteComment, view2, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(@NonNull DialogInterface dialog, int which) {
+                            if (which == -1) {
+                                JSONMaker jSONMaker = VariantsAdapter.this.maker;
+                                variant.setNote(etText.getText().toString());
+                                Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
+                             //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
+                               CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri("elements"), CupboardFactory.cupboard().withEntity(Variant.class).toContentValues(variant));
+
                             }
-                        }
-                    }).show();
+                        }  });
+                    break;
                 case R.id.bDefectSize:
                     View view = LayoutInflater.from(v.getContext()).inflate(R.layout.fragment_defect_size, (ViewGroup) null);
-                   final EditText etText = (EditText) view.findViewById(R.id.etText);
-                    Dialogs.showCustomView(v.getContext(), R.string.mark_comment, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
+                //   final EditText etText = (EditText) view.findViewById(R.id.etText);
+                  //   SelectDialogs.showMeasumentDialog(view.getContext(), new SelectListener() {
+                    //  @Override
+                    //  public void onSelected(final Object selection) {
+                      //  if (selection != null) {
+                      //  }
+                     // }
+                    // }).show();
+                   Dialogs.showCustomView(view.getContext(), R.string.mark_comment, view, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(@NonNull DialogInterface dialog, int which) {
-                        }
-                    });
+
+                        }  });
+                    break;
                 default:
                     break;
             }

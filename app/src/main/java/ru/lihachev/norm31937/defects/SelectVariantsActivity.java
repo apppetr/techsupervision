@@ -165,7 +165,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
             getSupportActionBar().setTitle(selectTitle(uriPath));
         }
         int[] selectedValues = args.getIntArray(SELECTED_VALUES);
-        this.adapter = new VariantsAdapter(this, (Cursor) null);
+        this.adapter = new VariantsAdapter(this, (Cursor) null, URI);
         this.adapter.setSelectedIds(selectedValues);
         RecyclerView recyclerView = (RecyclerView) findViewById(android.R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
