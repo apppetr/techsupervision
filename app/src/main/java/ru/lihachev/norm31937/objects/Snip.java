@@ -17,9 +17,9 @@ implements Parcelable {
 
         public Snip createFromParcel(Parcel parcel) {
             Snip snip = new Snip();
+            snip.img_url = parcel.readString();
+            snip.url = parcel.readString();
             snip.description = parcel.readString();
-            snip.paragraph = parcel.readString();
-            snip.depreciation = parcel.readString();
             return snip;
         }
 
@@ -27,42 +27,42 @@ implements Parcelable {
             return new Snip[n10];
         }
     };
-    private String depreciation;
     private String description;
-    private String paragraph;
+    private String img_url;
+    private String url;
 
     public int describeContents() {
         return 0;
     }
 
     public String getDepreciation() {
-        return this.depreciation;
-    }
-
-    public String getDescription() {
         return this.description;
     }
 
+    public String getDescription() {
+        return this.img_url;
+    }
+
     public String getParagraph() {
-        return this.paragraph;
+        return this.url;
     }
 
     public void setDepreciation(String string) {
-        this.depreciation = string;
-    }
-
-    public void setDescription(String string) {
         this.description = string;
     }
 
+    public void setDescription(String string) {
+        this.img_url = string;
+    }
+
     public void setParagraph(String string) {
-        this.paragraph = string;
+        this.url = string;
     }
 
     public void writeToParcel(Parcel parcel, int n10) {
+        parcel.writeString(this.img_url);
+        parcel.writeString(this.url);
         parcel.writeString(this.description);
-        parcel.writeString(this.paragraph);
-        parcel.writeString(this.depreciation);
     }
 
 }

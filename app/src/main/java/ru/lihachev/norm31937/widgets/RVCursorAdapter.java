@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import org.json.JSONException;
+
 public abstract class RVCursorAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
    /* renamed from: ID */
@@ -28,7 +30,7 @@ public abstract class RVCursorAdapter<VH extends RecyclerView.ViewHolder> extend
       void onItemSelected(Cursor cursor);
    }
 
-   public abstract void onBindViewHolder(VH vh, Cursor cursor2);
+   public abstract void onBindViewHolder(VH vh, Cursor cursor2) throws JSONException;
 
    public RVCursorAdapter(@NonNull Context context2, @Nullable Cursor cursor2) {
       this.context = context2;
@@ -54,7 +56,11 @@ public abstract class RVCursorAdapter<VH extends RecyclerView.ViewHolder> extend
 
    public final void onBindViewHolder(VH h, int position) {
       this.cursor.moveToPosition(position);
-      onBindViewHolder(h, this.cursor);
+      try {
+         onBindViewHolder(h, this.cursor);
+      } catch (JSONException e) {
+         e.printStackTrace();
+      }
    }
 
    public int getItemCount() {

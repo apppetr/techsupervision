@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import ru.lihachev.norm31937.objects.MaterialVariant;
 
 public class MaterialVariantDataConverter implements FieldConverter<MaterialVariant> {
-   private static final String PROPERTY_PATTERN = "{\"id\":%s, \"name\":\"%s\", \"mat_elem_id\":\"%s\"}";
+   private static final String PROPERTY_PATTERN = "{\"id\":%s, \"name\":\"%s\", \"mat_elem_id\":\"%s\",\"snip\":\"%s\"}";
 
    public MaterialVariant fromCursorValue(Cursor cursor, int columnIndex) {
       try {
@@ -23,7 +23,11 @@ public class MaterialVariantDataConverter implements FieldConverter<MaterialVari
    }
 
    public void toContentValue(MaterialVariant value, String key, ContentValues values) {
-      values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.getMatElemId()));
+      try {
+         values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.getMatElemId(), value.getSnip()));
+      } catch (JSONException e) {
+         e.printStackTrace();
+      }
    }
 
    public EntityConverter.ColumnType getColumnType() {

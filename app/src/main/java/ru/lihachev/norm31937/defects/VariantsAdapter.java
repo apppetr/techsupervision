@@ -47,10 +47,9 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public String URI = "ru.lihachev.norm31937.URI";
     public Variant variant;
     public Defect defect;
-    public VariantsAdapter(@NonNull Context context, Cursor cursor, String uri) {
+    public VariantsAdapter(@NonNull Context context, Cursor cursor) {
         super(context, cursor);
         this.inflater = LayoutInflater.from(context);
-        this.URI = SelectVariantsActivity.URI;
     }
 
     public void setSelectedIds(@NonNull int[] selectedIds2) {
@@ -65,34 +64,30 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         return new VariantViewHolder(this.inflater.inflate(R.layout.item_variant, parent, false));
     }
 
-    public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) {
+    public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) throws JSONException {
         this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
         holder.textVariant.setText(variant.getName());
-        //holder.descriptiontextView.setText(variant.getS_description());
 
-        if (!variant.getS_description().equals(""))
+       if (!variant.getSnip().equals(""))
         {
-            holder.tvAddSnipToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления комментария к отчету
-            holder.descriptiontextView.setText(variant.getS_description());
-        }
+           holder.tvAddSnipToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления комментария к отчету
+           holder.descriptiontextView.setText(variant.getSnip());
+      }
         else{
-            holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
-            holder.descriptiontextView.setVisibility(View.INVISIBLE);
-         //   holder.descriptionTextLeftline.setVisibility(View.INVISIBLE);
-        }
+           holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
+          holder.descriptiontextView.setVisibility(View.INVISIBLE);
+         }
 
         //if (variant.get_DefectSizes() != null)
             //holder.defectDetails.setText(variant.get_DefectSizes());
         //else
-            holder.defectDetails.setText("Добавить размеры");
+        //holder.defectDetails.setText("Добавить размеры");
 
-        if (variant.get_Note() != null)
-            holder.notetextView.setText(variant.get_Note());
-        else holder.notetextView.setText(R.string.note);
-
+       // if (variant.get_Note() != null)
+        //    holder.notetextView.setText(variant.get_Note());
+      //  else holder.notetextView.setText(R.string.note);
 
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
-
         holder.tvAddNoteToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления заметки к отчету
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
     }
@@ -138,13 +133,11 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.tvAddNoteToReport = (TextView) itemView.findViewById(R.id.tvAddNoteToReport);
             this.addDefectSize = (ImageView) itemView.findViewById(R.id.bDefectSize);
 
-         //   this.descriptionTextLeftline = (TextView)  itemView.findViewById(R.id.leftline);
             this.textCheckBox.setOnClickListener(this);
             this.descriptionToggle.setOnClickListener(this);
             this.addDefectSize.setOnClickListener(this);//кнопка редактировать размеры
             this.tvnoteContainer.setOnClickListener(this);//редактировать комментарий
             this.expandableLayout = new ExpandableLayout((LinearLayout) itemView.findViewById(R.id.llDescription));
-
         }
 
         public void onClick(@NonNull View v) {
@@ -171,8 +164,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
                                 JSONMaker jSONMaker = VariantsAdapter.this.maker;
-                                variant.setNote(etText.getText().toString());
-                                Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
+                              //  variant.setNote(etText.getText().toString());
+                              //  Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
                              //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
                                CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri("elements"), CupboardFactory.cupboard().withEntity(Variant.class).toContentValues(variant));
 
