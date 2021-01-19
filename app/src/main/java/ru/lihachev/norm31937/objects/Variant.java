@@ -8,10 +8,18 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 
+import ru.lihachev.norm31937.utils.Packet;
+
 public class Variant extends Meta implements Parcelable {
     public static final Creator CREATOR = new Creator() {
-        public Variant createFromParcel(Parcel var1) {
-            return new Variant(var1.readInt(), var1.readString());
+        public Variant createFromParcel(Parcel paramAnonymousParcel)
+        {
+            Variant localVariant = new Variant(paramAnonymousParcel.readInt(), paramAnonymousParcel.readString());
+            localVariant.setNote(paramAnonymousParcel.readString());
+            localVariant.setSnip(paramAnonymousParcel.readString());
+            //localVariant.setSnip((Snip)paramAnonymousParcel.readParcelable(Snip.class.getClassLoader()));
+            //localVariant.setDefectSize((DefectSize)paramAnonymousParcel.readParcelable(DefectSize.class.getClassLoader()));
+            return localVariant;
         }
 
         public Variant[] newArray(int var1) {
@@ -21,6 +29,14 @@ public class Variant extends Meta implements Parcelable {
     private Integer _id;
     private String name;
     private String snip;
+
+    public String getNote() {
+        if (this.note == null)
+            return "";
+        else
+            return Packet.valueOf(this.note);
+    }
+
     private String note;
 
     public String getSnip() {
@@ -67,15 +83,8 @@ public class Variant extends Meta implements Parcelable {
         }
     }
 
-    public String get_Note() {
-        if (this.note == null)
-            return "";
-        else
-            return this.note;
-    }
-
     public void setNote(String note) {
-         this.note = note;
+         this.note = Packet.valueOf(note);
     }
     // public Snip getSnip() {
     //      return snip;
@@ -94,9 +103,19 @@ public class Variant extends Meta implements Parcelable {
     }
 
     public void writeToParcel(@NonNull Parcel paramParcel, int paramInt) {
+        String note = "";
+        String snip = "";
+        if(this.snip != null){
+            snip = this.snip;
+        }
+
+        if(this.note != null){
+             note = this.note;
+        }
         paramParcel.writeInt(this._id);
         paramParcel.writeString(this.name);
-        //   paramParcel.writeString(this.note);
-        // paramParcel.writeParcelable(snip, paramInt);
+        paramParcel.writeString(Packet.valueOf(note));
+        paramParcel.writeString(Packet.valueOf(snip));
+       //  paramParcel.writeString(snip);
     }
 }

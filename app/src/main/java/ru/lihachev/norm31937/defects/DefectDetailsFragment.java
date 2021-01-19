@@ -20,6 +20,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import nl.qbusict.cupboard.CupboardFactory;
@@ -123,7 +124,13 @@ public class DefectDetailsFragment extends Fragment implements ElementController
                 Intent intent = new Intent(v.getContext(), SelectVariantsActivity.class);
                 intent.putExtra(SelectVariantsActivity.ROOTS, new int[]{DefectDetailsFragment.this.defect.getMaterial().getMatElemId().intValue()});
                 intent.putExtra(SelectVariantsActivity.ROOTS_STRING, DefectDetailsFragment.this.defect.getElement() + " " + DefectDetailsFragment.this.defect.getMaterial());
-                intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, Formats.extractIds(DefectDetailsFragment.this.defect.problems));
+
+                List<Variant> selectedVariants = Arrays.asList(DefectDetailsFragment.this.defect.problems);
+                Parcelable[] values = selectedVariants.toArray(new Parcelable[selectedVariants.size()]);
+                intent.putExtra(SelectVariantsActivity.VALUES_INFO, values);
+
+               intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, Formats.extractIds(DefectDetailsFragment.this.defect.problems));
+
                 intent.putExtra(SelectVariantsActivity.URI, "defects");
                 DefectDetailsFragment.this.startActivityForResult(intent, 0);
             }

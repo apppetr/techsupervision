@@ -21,6 +21,7 @@ import com.cab404.jsonm.impl.SimpleJSONMaker;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import nl.qbusict.cupboard.CupboardFactory;
@@ -39,6 +40,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public String URI = "ru.lihachev.norm31937.URI";
     public Variant variant;
     public Defect defect;
+    public HashMap<Integer, Variant> mapVariants = new HashMap<>();
 
     public VariantsAdapter(@NonNull Context context, Cursor cursor) {
         super(context, cursor);
@@ -59,6 +61,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
     public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) throws JSONException {
         this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
+        mapVariants.put(this.variant.getId(), this.variant);
         holder.textVariant.setText(variant.getName());
 
         if (variant.getSnipclas() == null) {
@@ -78,9 +81,14 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         //else
         //holder.defectDetails.setText("Добавить размеры");
 
-        if (variant.get_Note() != null)
-            holder.notetextView.setText(variant.get_Note());
-          else holder.notetextView.setText(R.string.note);
+        if (variant.getNote() != null){
+    holder.tvNote.setText(variant.getNote());
+            holder.notetextView.setText(variant.getNote());
+        }else{
+            holder.notetextView.setText(R.string.note);
+            holder.tvNote.setText("Добавить заметку");
+        }
+
 
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
         holder.tvAddNoteToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления заметки к отчету
@@ -92,7 +100,10 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         int count = getItemCount();
         for (int i = 0; i < count; i++) {
             if (this.selectedIds.get((int) getItemId(i))) {
-                selectedVariants.add((Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class));
+                Variant selVar = (Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class);
+                Variant var = mapVariants.get(selVar.getId());
+               // selectedVariants.add((Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class));
+                selectedVariants.add(var);
             }
         }
         return selectedVariants;
@@ -104,7 +115,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final TextView descriptiontextView;
         public final TextView descriptionToggle;
         public final TextView defectDetails;
-        public final TextView notetextView;
+        public final TextView notetextView;//кнопка добавить комментарий
+        public final TextView tvNote;//поле добавить комментарий
         public final TextView tvAddSnipToReport;
         public final TextView tvAddNoteToReport;
         public final RelativeLayout tvnoteContainer;
@@ -122,7 +134,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.descriptiontextView = (TextView) itemView.findViewById(R.id.tvDesc);
             this.descriptionToggle = (TextView) itemView.findViewById(R.id.descriptionToggle);
             this.tvnoteContainer = (RelativeLayout) itemView.findViewById(R.id.tvNoteContainer);
-            this.notetextView = (TextView) itemView.findViewById(R.id.tvAddNote);
+            this.notetextView = (TextView) itemView.findViewById(R.id.tvAddNote);//кнокпа добавить комментарий
+            this.tvNote = (TextView) itemView.findViewById(R.id.tvNote);//поле добавить комментарий
             this.defectDetails = (TextView) itemView.findViewById(R.id.tvAddSizes);
             this.tvAddSnipToReport = (TextView) itemView.findViewById(R.id.tvAddSnipToReport);
             this.tvAddNoteToReport = (TextView) itemView.findViewById(R.id.tvAddNoteToReport);
@@ -137,6 +150,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
         public void onClick(@NonNull View v) {
             int id = v.getId();
+
             switch (id) {
                 case R.id.descriptionToggle:
                     if (this.expandableLayout.isVisible()) {
@@ -153,19 +167,19 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     VariantsAdapter.this.notifyItemChanged(getLayoutPosition());
                     break;
                 case R.id.tvNoteContainer:
+
+                    int itemVariantid = (int) getItemId();
+                    Variant variant = mapVariants.get(itemVariantid);
+
                     View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
                     final EditText etText = (EditText) view2.findViewById(R.id.etText);
                     Dialogs.showCustomView(view2.getContext(), R.string.noteComment, view2, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
                                 JSONMaker jSONMaker = VariantsAdapter.this.maker;
-                                 variant.setNote(etText.getText().toString());
-                                 Object[] objArr = {variant.get_Note(), System.currentTimeMillis()};
-                                //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
-                                String url = SelectVariantsActivity.selectedUrl;
-
-                               // CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri(url), CupboardFactory.cupboard().withEntity(Defect.class).toContentValues(variant));
-
+                                variant.setNote(etText.getText().toString());
+                                mapVariants.remove(itemVariantid);
+                                mapVariants.put(itemVariantid, variant);
                             }
                         }
                     });

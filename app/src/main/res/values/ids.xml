@@ -192,6 +192,7 @@
     <item type="id" name="ilSize" />
     <item type="id" name="image" />
     <item type="id" name="imageView" />
+    <item type="id" name="addnotecomment" />
     <item type="id" name="imageView2" />
     <item type="id" name="image_content_root" />
     <item type="id" name="image_root" />

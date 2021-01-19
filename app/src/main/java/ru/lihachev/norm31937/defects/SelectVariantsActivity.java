@@ -20,7 +20,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import fr.opensagres.xdocreport.document.docx.DocxConstants;
 import ru.lihachev.norm31937.Helper;
@@ -39,6 +41,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
     public static final String ROOTS = "ru.lihachev.norm31937.ROOTS";
     public static final String ROOTS_STRING = "ru.lihachev.norm31937.ROOTS_STRING";
     public static final String SELECTED_VALUES = "ru.lihachev.norm31937.SELECTED_VALUES";
+    public static final String VALUES_INFO = "ru.lihachev.norm31937.VALUES_INFO";
     private static final String TEXT = "ru.lihachev.norm31937.TEXT";
     public static final String URI = "ru.lihachev.norm31937.URI";
     public static String selectedUrl;
@@ -159,7 +162,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView((int) R.layout.activity_select_variants);
+         setContentView((int) R.layout.activity_select_variants);
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
             actionbar.setHomeAsUpIndicator((int) R.drawable.close);
@@ -170,8 +173,13 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
             getSupportActionBar().setTitle(selectTitle(uriPath));
         }
         int[] selectedValues = args.getIntArray(SELECTED_VALUES);
+     //   Object[] selectedValuesr = args.getStringArray(SELECTED_VALUES);
+        Parcelable[] values = args.getParcelableArray(VALUES_INFO);
+    //   Parcelable[] values = savedInstanceState.getParcelableArray(VALUES_INFO);
+
         this.adapter = new VariantsAdapter(this, (Cursor) null);
         this.adapter.setSelectedIds(selectedValues);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(android.R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(getAdapter(this.adapter));
@@ -332,8 +340,11 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
     }
 
     private void selectVariants() {
-        getIntent().putExtra(SELECTED_VALUES, (Parcelable[]) this.adapter.getSelected().toArray(new Variant[this.adapter.getSelected().size()]));
-        setResult(-1, getIntent());
+        List<Variant> selectedVariants = this.adapter.getSelected();
+        Parcelable[] values = this.adapter.getSelected().toArray(new Parcelable[selectedVariants.size()]);
+        getIntent().putExtra(SELECTED_VALUES, values);
+
+     setResult(-1, getIntent());
         finish();
     }
 
