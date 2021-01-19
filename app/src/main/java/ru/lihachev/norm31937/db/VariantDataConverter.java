@@ -23,7 +23,7 @@ public class VariantDataConverter implements FieldConverter<Variant> {
    }
 
    public void toContentValue(Variant value, String key, ContentValues values) {
-      values.put(key, String.format(PROPERTY_PATTERN, new Object[]{Integer.valueOf(value.getId()), value.getName(), Boolean.valueOf(value.isManuallyAdded()), value.getVersion(), Boolean.valueOf(value.isUploaded())}));
+      values.put(key, String.format(PROPERTY_PATTERN, value.getId(), value.getName(), value.isManuallyAdded(), value.getVersion(), value.isUploaded()));
    }
 
    public EntityConverter.ColumnType getColumnType() {

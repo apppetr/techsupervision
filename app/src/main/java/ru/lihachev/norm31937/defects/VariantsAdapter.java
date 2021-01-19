@@ -78,9 +78,9 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         //else
         //holder.defectDetails.setText("Добавить размеры");
 
-        // if (variant.get_Note() != null)
-        //    holder.notetextView.setText(variant.get_Note());
-        //  else holder.notetextView.setText(R.string.note);
+        if (variant.get_Note() != null)
+            holder.notetextView.setText(variant.get_Note());
+          else holder.notetextView.setText(R.string.note);
 
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
         holder.tvAddNoteToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления заметки к отчету
@@ -159,10 +159,12 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
                                 JSONMaker jSONMaker = VariantsAdapter.this.maker;
-                                //  variant.setNote(etText.getText().toString());
-                                //  Object[] objArr = {variant.get_Note(), Long.valueOf(System.currentTimeMillis())};
+                                 variant.setNote(etText.getText().toString());
+                                 Object[] objArr = {variant.get_Note(), System.currentTimeMillis()};
                                 //   List<Variant> elements = CupboardFactory.cupboard().withContext(this.context).query(ValuesProvider.uri("elements"), Variant.class).list();
-                                CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri("elements"), CupboardFactory.cupboard().withEntity(Variant.class).toContentValues(variant));
+                                String url = SelectVariantsActivity.selectedUrl;
+
+                               // CupboardFactory.cupboard().withContext(view2.getContext()).update(ValuesProvider.uri(url), CupboardFactory.cupboard().withEntity(Defect.class).toContentValues(variant));
 
                             }
                         }

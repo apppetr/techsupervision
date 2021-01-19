@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.StringRes;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.net.URI;
 import java.util.HashMap;
 
 import fr.opensagres.xdocreport.document.docx.DocxConstants;
@@ -39,6 +41,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
     public static final String SELECTED_VALUES = "ru.lihachev.norm31937.SELECTED_VALUES";
     private static final String TEXT = "ru.lihachev.norm31937.TEXT";
     public static final String URI = "ru.lihachev.norm31937.URI";
+    public static String selectedUrl;
     private static final int VARIANT_LOADER = 3;
     private VariantsAdapter adapter;
     private View addVariantLayout;
@@ -118,9 +121,11 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
 
     private static String getUriForSelection(String uriPath) {
         char c = 65535;
+        selectedUrl = uriPath;
         switch (uriPath.hashCode()) {
             case 1080866479:
                 if (uriPath.equals("reasons")) {
+
                     c = 1;
                     break;
                 }

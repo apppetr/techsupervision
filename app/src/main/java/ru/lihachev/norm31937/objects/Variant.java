@@ -5,10 +5,8 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class Variant extends Meta implements Parcelable {
     public static final Creator CREATOR = new Creator() {
@@ -23,17 +21,14 @@ public class Variant extends Meta implements Parcelable {
     private Integer _id;
     private String name;
     private String snip;
+    private String note;
 
     public String getSnip() {
-        if(this.snip==null)
-        return "";
+        if (this.snip == null)
+            return "";
         else
             return this.snip;
     }
-
-
-
-    //  private String note;
 
     public Variant(int var1, String var2) {
         this._id = var1;
@@ -41,7 +36,6 @@ public class Variant extends Meta implements Parcelable {
     }
 
     public Variant() {
-
     }
 
     public int describeContents() {
@@ -57,13 +51,13 @@ public class Variant extends Meta implements Parcelable {
     }
 
     public void setSnip(String snip) {
-            this.snip = snip;
+        this.snip = snip;
     }
 
     public Snip getSnipclas() throws JSONException {
-        if(this.snip == null){
+        if (this.snip == null) {
             return null;
-        }else{
+        } else {
             Snip snipclass = new Snip();
             Gson localGson = new Gson();
 
@@ -73,13 +67,16 @@ public class Variant extends Meta implements Parcelable {
         }
     }
 
-    //public String get_Note() {
-    //   return this.note;
-    // }
+    public String get_Note() {
+        if (this.note == null)
+            return "";
+        else
+            return this.note;
+    }
 
-    //public void setNote(String note) {
-    //     this.note = note;
-    //}
+    public void setNote(String note) {
+         this.note = note;
+    }
     // public Snip getSnip() {
     //      return snip;
     // }
