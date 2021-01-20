@@ -179,7 +179,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
 
         this.adapter = new VariantsAdapter(this, (Cursor) null);
         this.adapter.setSelectedIds(selectedValues);
-
+        this.adapter.setUserData(values);
         RecyclerView recyclerView = (RecyclerView) findViewById(android.R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(getAdapter(this.adapter));

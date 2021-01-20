@@ -20,6 +20,8 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.velocity.util.introspection.VelPropertySet;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -125,11 +127,13 @@ public class DefectDetailsFragment extends Fragment implements ElementController
                 intent.putExtra(SelectVariantsActivity.ROOTS, new int[]{DefectDetailsFragment.this.defect.getMaterial().getMatElemId().intValue()});
                 intent.putExtra(SelectVariantsActivity.ROOTS_STRING, DefectDetailsFragment.this.defect.getElement() + " " + DefectDetailsFragment.this.defect.getMaterial());
 
-                List<Variant> selectedVariants = Arrays.asList(DefectDetailsFragment.this.defect.problems);
-                Parcelable[] values = selectedVariants.toArray(new Parcelable[selectedVariants.size()]);
-                intent.putExtra(SelectVariantsActivity.VALUES_INFO, values);
-
-               intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, Formats.extractIds(DefectDetailsFragment.this.defect.problems));
+                int[] properties = Formats.extractIds(DefectDetailsFragment.this.defect.problems);
+               intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, properties);
+               if (properties.length > 0) {
+                   List<Variant> selectedVariants = Arrays.asList(DefectDetailsFragment.this.defect.problems);
+                   Parcelable[] values = selectedVariants.toArray(new Parcelable[selectedVariants.size()]);
+                   intent.putExtra(SelectVariantsActivity.VALUES_INFO, values);
+               }
 
                 intent.putExtra(SelectVariantsActivity.URI, "defects");
                 DefectDetailsFragment.this.startActivityForResult(intent, 0);
@@ -149,8 +153,13 @@ public class DefectDetailsFragment extends Fragment implements ElementController
                 Intent intent = new Intent(v.getContext(), SelectVariantsActivity.class);
                 intent.putExtra(SelectVariantsActivity.ROOTS, problems);
                 intent.putExtra(SelectVariantsActivity.ROOTS_STRING, niceProblems);
-                intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, reasons);
 
+                intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, reasons);
+                if (reasons.length > 0) {
+                    List<Variant> selectedVariants = Arrays.asList(DefectDetailsFragment.this.defect.reasons);
+                    Parcelable[] values = selectedVariants.toArray(new Parcelable[selectedVariants.size()]);
+                    intent.putExtra(SelectVariantsActivity.VALUES_INFO, values);
+                }
                 intent.putExtra(SelectVariantsActivity.URI, "reasons");
                 DefectDetailsFragment.this.startActivityForResult(intent, 1);
             }
@@ -169,7 +178,13 @@ public class DefectDetailsFragment extends Fragment implements ElementController
                 Intent intent = new Intent(v.getContext(), SelectVariantsActivity.class);
                 intent.putExtra(SelectVariantsActivity.ROOTS, problems);
                 intent.putExtra(SelectVariantsActivity.ROOTS_STRING, niceProblems);
+
                 intent.putExtra(SelectVariantsActivity.SELECTED_VALUES, Compensations);
+                if (Compensations.length > 0) {
+                    List<Variant> selectedVariants = Arrays.asList(DefectDetailsFragment.this.defect.compensations);
+                    Parcelable[] values = selectedVariants.toArray(new Parcelable[selectedVariants.size()]);
+                    intent.putExtra(SelectVariantsActivity.VALUES_INFO, values);
+                }
                 intent.putExtra(SelectVariantsActivity.URI, "compensations");
                 DefectDetailsFragment.this.startActivityForResult(intent, 2);
             }

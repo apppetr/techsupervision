@@ -3,6 +3,7 @@ package ru.lihachev.norm31937.defects;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.cab404.jsonm.core.JSONMaker;
 import com.cab404.jsonm.impl.SimpleJSONMaker;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 
@@ -29,7 +31,6 @@ import ru.lihachev.norm31937.free.R;
 import ru.lihachev.norm31937.objects.Defect;
 import ru.lihachev.norm31937.objects.Variant;
 import ru.lihachev.norm31937.utils.alerts.Dialogs;
-import ru.lihachev.norm31937.values.ValuesProvider;
 import ru.lihachev.norm31937.widgets.ExpandableLayout;
 import ru.lihachev.norm31937.widgets.RVCursorAdapter;
 
@@ -41,6 +42,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public Variant variant;
     public Defect defect;
     public HashMap<Integer, Variant> mapVariants = new HashMap<>();
+    public Variant[] userData;
+    public Variant[] userChecked;
 
     public VariantsAdapter(@NonNull Context context, Cursor cursor) {
         super(context, cursor);
@@ -55,13 +58,36 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         notifyDataSetChanged();
     }
 
+    public void setUserData(Parcelable[] arrayData) {
+        if(arrayData ==  null)
+        {
+            userData = null;
+        }else{
+            userData = new Variant[arrayData.length];
+            for (int i = 0; i < arrayData.length; i++) {
+                userData[i] = (Variant) arrayData[i];
+            }
+            notifyDataSetChanged();
+        }
+
+    }
+
     public VariantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new VariantViewHolder(this.inflater.inflate(R.layout.item_variant, parent, false));
     }
 
     public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) throws JSONException {
         this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
+
+        //берем данные пользователя для отображения
+        if(userData!=null)
+        for (int i = 0; i < userData.length; i++) {
+            if (userData[i].getId() == this.variant.getId())
+                this.variant = userData[i];
+        }
+
         mapVariants.put(this.variant.getId(), this.variant);
+
         holder.textVariant.setText(variant.getName());
 
         if (variant.getSnipclas() == null) {
@@ -81,10 +107,10 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         //else
         //holder.defectDetails.setText("Добавить размеры");
 
-        if (variant.getNote() != null){
-    holder.tvNote.setText(variant.getNote());
+        if (variant.getNote() != null) {
+            holder.tvNote.setText(variant.getNote());
             holder.notetextView.setText(variant.getNote());
-        }else{
+        } else {
             holder.notetextView.setText(R.string.note);
             holder.tvNote.setText("Добавить заметку");
         }
@@ -102,7 +128,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             if (this.selectedIds.get((int) getItemId(i))) {
                 Variant selVar = (Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class);
                 Variant var = mapVariants.get(selVar.getId());
-               // selectedVariants.add((Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class));
+                // selectedVariants.add((Variant) CupboardFactory.cupboard().withCursor(getItem(i)).get(Variant.class));
                 selectedVariants.add(var);
             }
         }
@@ -148,6 +174,13 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.expandableLayout = new ExpandableLayout((LinearLayout) itemView.findViewById(R.id.llDescription));
         }
 
+        public class Note {
+            String name;
+            public Note(String name) {
+                this.name = name;
+            }
+        }
+
         public void onClick(@NonNull View v) {
             int id = v.getId();
 
@@ -173,11 +206,16 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
                     View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
                     final EditText etText = (EditText) view2.findViewById(R.id.etText);
+                    if(variant.getNote()!="")  etText.setText(variant.getNote());
+
                     Dialogs.showCustomView(view2.getContext(), R.string.noteComment, view2, R.string.apply, R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
-                                JSONMaker jSONMaker = VariantsAdapter.this.maker;
-                                variant.setNote(etText.getText().toString());
+                                Note newnote = new Note(etText.getText().toString());
+                                Gson gson = new Gson();
+                                String json = gson.toJson(newnote);
+                                variant.setNote(json);
+
                                 mapVariants.remove(itemVariantid);
                                 mapVariants.put(itemVariantid, variant);
                             }
