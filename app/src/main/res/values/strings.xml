@@ -225,4 +225,5 @@
     <string name="count2">Количество:</string>
     <string name="count">Количество</string>
     <string name="input_count">Количество штук</string>
+    <string name="empty_description">описание отсутствует</string>
 </resources>

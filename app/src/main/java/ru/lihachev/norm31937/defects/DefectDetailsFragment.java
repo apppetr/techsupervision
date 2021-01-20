@@ -205,6 +205,7 @@ public class DefectDetailsFragment extends Fragment implements ElementController
                         }
                     }
                 }).show();
+
             }
         });
         fillViews(this.defect);
