@@ -91,16 +91,17 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
         holder.textVariant.setText(variant.getName());
 
-        if (variant.getSnipclas() == null) {
-            holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
-            holder.descriptiontextView.setVisibility(View.INVISIBLE);
-        } else {
-            if (!variant.getSnipclas().getDescription().equals("")) {
-                holder.tvAddSnipToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления комментария к отчету
-                holder.descriptiontextView.setText(variant.getSnipclas().getDescription());
-            } else {
-                holder.tvAddSnipToReport.setVisibility(View.INVISIBLE);
-                holder.descriptiontextView.setVisibility(View.INVISIBLE);
+        if (!variant.getNote().equals("")) {
+            if (variant.getNoteclas().getQuality().equals("0")) {
+                holder.tvAddSnipToReport.setText("Добавить в отчет");
+            }
+
+            if (variant.getNoteclas().getQuality().equals("")) {
+                holder.tvAddSnipToReport.setText("Добавить в отчет");
+            }
+
+            if (variant.getNoteclas().getQuality().equals("1")) {
+                holder.tvAddSnipToReport.setText("Убрать из отчета");
             }
         }
 
@@ -111,7 +112,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             holder.notetextView.setText(variant.getNoteclas().getName());
 
             if ((!variant.getNoteclas().getArea().equals("")) || (!variant.getNoteclas().getCount().equals("")) || (!variant.getNoteclas().getDepth().equals("")) || (!variant.getNoteclas().getLength().equals("")) || (!variant.getNoteclas().getWidth().equals(""))) {
-                String defectSize = variant.getNoteclas().getDepth() + variant.getNoteclas().getArea() + variant.getNoteclas().getLength() + variant.getNoteclas().getWidth() + variant.getNoteclas().getCount();
+                String defectSize = "Гл. " + variant.getNoteclas().getDepth() + " "  + variant.getNoteclas().getsDepth() + " Пл. " + variant.getNoteclas().getArea() + " " + variant.getNoteclas().getsArea() + " Дл. " +  variant.getNoteclas().getLength() + " " + variant.getNoteclas().getsLength()  + " Ш. " + variant.getNoteclas().getWidth() + " " + variant.getNoteclas().getsWidth() + " Кол-во " + " " + variant.getNoteclas().getCount();
                 holder.defectDetails.setText(defectSize);
             }
 
@@ -121,8 +122,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         }
 
         holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
-        holder.tvAddNoteToReport.setText("Добавить к отчету");//в базу устанавливать тег добаления заметки к отчету
-        holder.textCheckBox.setChecked(this.selectedIds.get(variant.getId()));
+
     }
 
     public List<Variant> getSelected() {
@@ -149,6 +149,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final TextView tvAddSnipToReport;
         public final TextView tvAddNoteToReport;
         public final RelativeLayout tvnoteContainer;
+        public final RelativeLayout defectDetailsContainer;
         public final ImageView addDefectSize;
 
         // public final TextView descriptionTextLeftline;
@@ -163,16 +164,20 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.descriptiontextView = itemView.findViewById(R.id.tvDesc);
             this.descriptionToggle = itemView.findViewById(R.id.descriptionToggle);
             this.tvnoteContainer = itemView.findViewById(R.id.tvNoteContainer);
+            this.defectDetailsContainer = itemView.findViewById(R.id.defectDetailsContainer);
             this.notetextView = itemView.findViewById(R.id.tvAddNote);//кнопка добавить комментарий
             this.tvNote = itemView.findViewById(R.id.tvNote);//поле добавить комментарий
             this.defectDetails = itemView.findViewById(R.id.tvAddSizes);//кнопка добавить размеры
-            this.tvAddSnipToReport = itemView.findViewById(R.id.tvAddSnipToReport);
-            this.tvAddNoteToReport = itemView.findViewById(R.id.tvAddNoteToReport);
+            this.tvAddSnipToReport = itemView.findViewById(R.id.tvAddSnipToReport);//Текст добавить в отчет
+            this.tvAddNoteToReport = itemView.findViewById(R.id.tvAddNoteToReport);//Текст добавить в отчет
             this.addDefectSize = itemView.findViewById(R.id.bDefectSize);
             this.textCheckBox.setOnClickListener(this);
             this.descriptionToggle.setOnClickListener(this);
+            this.tvAddSnipToReport.setOnClickListener(this);//Текст добавить в отчет
+            this.tvAddNoteToReport.setOnClickListener(this);//Текст добавить в отчет
             this.addDefectSize.setOnClickListener(this);//кнопка редактировать размеры
             this.tvnoteContainer.setOnClickListener(this);//редактировать комментарий
+            this.defectDetailsContainer.setOnClickListener(this);//редактировать размеры
             this.expandableLayout = new ExpandableLayout((LinearLayout) itemView.findViewById(R.id.llDescription));
         }
 
@@ -186,6 +191,68 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         this.expandableLayout.collapse();
                     }
                     break;
+                case R.id.tvAddSnipToReport:
+                    int itemAddSnip = (int) getItemId();
+                    Variant variantSnip = mapVariants.get(itemAddSnip);
+                    Note noteclassSnip = new Note();
+
+                    if (!variantSnip.getNote().equals("")) {
+                        try {
+                            noteclassSnip.setName(variantSnip.getNoteclas().getName());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        noteclassSnip.setName(variantSnip.getNoteclas().getName());
+                        noteclassSnip.setLength(variantSnip.getNoteclas().getLength());
+                        noteclassSnip.setArea(variantSnip.getNoteclas().getArea());
+                        noteclassSnip.setWidth(variantSnip.getNoteclas().getWidth());
+                        noteclassSnip.setCount(variantSnip.getNoteclas().getCount());
+                        noteclassSnip.setDepth(variantSnip.getNoteclas().getDepth());
+                        noteclassSnip.setsDepth(variantSnip.getNoteclas().getsDepth());
+                        noteclassSnip.setsArea(variantSnip.getNoteclas().getsArea());
+                        noteclassSnip.setsCount(variantSnip.getNoteclas().getsCount());
+                        noteclassSnip.setsLength(variantSnip.getNoteclas().getsLength());
+                        noteclassSnip.setsWidth(variantSnip.getNoteclas().getsWidth());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!variantSnip.getNote().equals("")) {
+                        try {
+                            if (variantSnip.getNoteclas().getQuality().equals("0")) {
+                                noteclassSnip.setQuality("1");
+                            }
+
+                            if (variantSnip.getNoteclas().getQuality().equals("")) {
+                                noteclassSnip.setQuality("1");
+                            }
+
+                            if (variantSnip.getNoteclas().getQuality().equals("1")) {
+                                noteclassSnip.setQuality("0");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    variantSnip.setNote(new Gson().toJson(noteclassSnip));
+                    mapVariants.remove(itemAddSnip);
+                    mapVariants.put(itemAddSnip, variantSnip);
+                    notifyDataSetChanged();
+
+                    break;
+
+                case R.id.tvAddNoteToReport:
+                    if (!variant.getNote().equals("")) {
+                    }
+
+                    break;
                 case R.id.cbVariant:
                     int itemid = (int) getItemId();
                     boolean checked = this.textCheckBox.isChecked();
@@ -194,8 +261,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     VariantsAdapter.this.notifyItemChanged(getLayoutPosition());
                     break;
                 case R.id.tvNoteContainer:
-                    int itemVariantid = (int) getItemId();
-                    Variant variant = mapVariants.get(itemVariantid);
+                    int itemNoteid = (int) getItemId();
+                    Variant variant = mapVariants.get(itemNoteid);
                     View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
                     final EditText etText = view2.findViewById(R.id.etText);
                     if (!variant.getNote().equals("")) {
@@ -210,27 +277,8 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         public void onClick(@NonNull DialogInterface dialog, int which) {
                             if (which == -1) {
                                 Note noteclass = new Note();
-                                noteclass.setDepth("");
-                                noteclass.setLength("");
-                                noteclass.setArea("");
-                                noteclass.setWidth("");
-                                noteclass.setCount("");
-                                noteclass.setsDepth("");
-                                noteclass.setQuality("");
-                                noteclass.setsArea("");
-                                noteclass.setsCount("");
-                                noteclass.setsLength("");
-                                noteclass.setsWidth("");
 
                                 if (!variant.getNote().equals("")) {
-                                    Note notes = null;
-                                    try {
-                                        notes = variant.getNoteclas();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    String area = notes.getArea();
                                     try {
                                         if ((!variant.getNoteclas().getArea().equals("")) || (!variant.getNoteclas().getCount().equals("")) || (!variant.getNoteclas().getDepth().equals("")) || (!variant.getNoteclas().getLength().equals("")) || (!variant.getNoteclas().getWidth().equals(""))) {
                                             noteclass.setDepth(variant.getNoteclas().getDepth());
@@ -250,19 +298,19 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                                     }
                                 }
 
-
                                 noteclass.setName(etText.getText().toString());
                                 variant.setNote(new Gson().toJson(noteclass));
-                                mapVariants.remove(itemVariantid);
-                                mapVariants.put(itemVariantid, variant);
+                                mapVariants.remove(itemNoteid);
+                                mapVariants.put(itemNoteid, variant);
                                 notifyDataSetChanged();
                             }
                         }
                     });
                     break;
+                case R.id.defectDetailsContainer:
                 case R.id.bDefectSize:
-                    int itemId = (int) getItemId();
-                    Variant variantForView = mapVariants.get(itemId);
+                    int itemDefectId = (int) getItemId();
+                    Variant variantForView = mapVariants.get(itemDefectId);
                     View view = LayoutInflater.from(v.getContext()).inflate(R.layout.fragment_defect_size, (ViewGroup) null);
 
                     final EditText etDepth = view.findViewById(R.id.etDepth);
@@ -275,6 +323,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     final AppCompatSpinner sArea = view.findViewById(R.id.sArea);
                     final AppCompatSpinner sWidth = view.findViewById(R.id.sWidth);
                     final AppCompatSpinner sCount = view.findViewById(R.id.sCount);
+
                     try {
                         if (variantForView.getNoteclas() != null) {
                             etDepth.setText(variantForView.getNoteclas().getDepth());
@@ -282,7 +331,6 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                             etArea.setText(variantForView.getNoteclas().getArea());
                             etWidth.setText(variantForView.getNoteclas().getWidth());
                             etCount.setText(variantForView.getNoteclas().getCount());
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -293,13 +341,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                             if (which == -1) {
 
                                 Note noteclass = new Note();
-                                noteclass.setName("");
-                                noteclass.setsDepth("");
-                                noteclass.setQuality("");
-                                noteclass.setsArea("");
-                                noteclass.setsCount("");
-                                noteclass.setsLength("");
-                                noteclass.setsWidth("");
+
                                 if (!variantForView.getNote().equals("")) {
                                     try {
                                         noteclass.setName(variantForView.getNoteclas().getName());
@@ -313,16 +355,22 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                                 noteclass.setWidth(etWidth.getText().toString());
                                 noteclass.setCount(etCount.getText().toString());
 
+                                noteclass.setsDepth((String) sDepth.getSelectedItem());
+                                noteclass.setsArea((String) sArea.getSelectedItem());
+                                noteclass.setsCount((String) sCount.getSelectedItem());
+                                noteclass.setsLength((String) sLength.getSelectedItem());
+                                noteclass.setsWidth((String) sWidth.getSelectedItem());
 
                                 variantForView.setNote(new Gson().toJson(noteclass));
-                                mapVariants.remove(itemId);
-                                mapVariants.put(itemId, variantForView);
+                                mapVariants.remove(itemDefectId);
+                                mapVariants.put(itemDefectId, variantForView);
                                 notifyDataSetChanged();
 
                             }
                         }
                     });
                     break;
+
                 default:
                     break;
             }

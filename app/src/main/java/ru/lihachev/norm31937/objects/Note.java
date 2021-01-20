@@ -34,7 +34,18 @@ public class Note {
     }
 
     public Note() {
-
+        this.name = "";
+        this.area = "";
+        this.count = "";
+        this.depth = "";
+        this.length = "";
+        this.width = "";
+        this.Quality = "";
+        this.sDepth = "";
+        this.sLength = "";
+        this.sArea = "";
+        this.sWidth = "";
+        this.sCount = "";
     }
 
     public String getName() {
