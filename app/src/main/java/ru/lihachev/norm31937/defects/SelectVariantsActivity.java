@@ -173,10 +173,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
             getSupportActionBar().setTitle(selectTitle(uriPath));
         }
         int[] selectedValues = args.getIntArray(SELECTED_VALUES);
-     //   Object[] selectedValuesr = args.getStringArray(SELECTED_VALUES);
         Parcelable[] values = args.getParcelableArray(VALUES_INFO);
-    //   Parcelable[] values = savedInstanceState.getParcelableArray(VALUES_INFO);
-
         this.adapter = new VariantsAdapter(this, (Cursor) null);
         this.adapter.setSelectedIds(selectedValues);
         this.adapter.setUserData(values);

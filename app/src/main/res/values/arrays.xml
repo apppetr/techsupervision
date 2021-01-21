@@ -6,6 +6,9 @@
         <item>Производственное</item>
         <item>Жилое</item>
     </array>
+    <string-array name="snips">
+        <item>ВСН 53-88</item>
+    </string-array>
     <array name="danger_categories">
         <item>А</item>
         <item>Б</item>

@@ -124,6 +124,8 @@
     <item type="id" name="delete" />
     <item type="id" name="delete_marks" />
     <item type="id" name="descriptionToggle" />
+    <item type="id" name="view_s" />
+
     <item type="id" name="design_bottom_sheet" />
     <item type="id" name="design_menu_item_action_area" />
     <item type="id" name="design_menu_item_action_area_stub" />
@@ -220,6 +222,8 @@
     <item type="id" name="llBottom" />
     <item type="id" name="llCoordinates" />
     <item type="id" name="llDescription" />
+    <item type="id" name="llDocument" />
+    <item type="id" name="llDocumentDescription" />
     <item type="id" name="llDetails" />
     <item type="id" name="llSize" />
     <item type="id" name="llVariant" />

@@ -91,19 +91,25 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
         holder.textVariant.setText(variant.getName());
 
-        if (!variant.getNote().equals("")) {
-            if (variant.getNoteclas().getQuality().equals("0")) {
-                holder.tvAddSnipToReport.setText("Добавить в отчет");
+            holder.descriptiontextView.setVisibility(View.VISIBLE);
+            holder.tvAddSnipToReport.setVisibility(View.VISIBLE);
+            holder.descriptiontextView.setText(variant.getSnipclas().getDescription());
+
+            if (!variant.getNote().equals("")) {
+                if (variant.getNoteclas().getQuality().equals("0")) {
+                    holder.tvAddSnipToReport.setText("Добавить в отчет");
+                }
+
+                if (variant.getNoteclas().getQuality().equals("")) {
+                    holder.tvAddSnipToReport.setText("Добавить в отчет");
+                }
+
+                if (variant.getNoteclas().getQuality().equals("1")) {
+                    holder.tvAddSnipToReport.setText("Убрать из отчета");
+                }
             }
 
-            if (variant.getNoteclas().getQuality().equals("")) {
-                holder.tvAddSnipToReport.setText("Добавить в отчет");
-            }
 
-            if (variant.getNoteclas().getQuality().equals("1")) {
-                holder.tvAddSnipToReport.setText("Убрать из отчета");
-            }
-        }
 
         String note = variant.getNote();
         if (!note.equals("")) {

@@ -226,4 +226,9 @@
     <string name="count">Количество</string>
     <string name="input_count">Количество штук</string>
     <string name="empty_description">описание отсутствует</string>
+    <string name="used_document">Нормативный документ</string>
+    <string name="object_description">Объект</string>
+    <string name="forward">Продолжить</string>
+    <string name="id_data">Идентификационные данные</string>
+    <string name="code">Шифр</string>
 </resources>

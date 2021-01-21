@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:id="@id/llDetails" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dip" android:layout_marginRight="24.0dip" android:layout_marginBottom="56.0dip">
+        <android.support.design.widget.TextInputLayout android:paddingTop="@dimen/padding_small" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText android:textAppearance="@style/EditText.Details" android:id="@id/etCode" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/code" android:inputType="textPostalAddress" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:paddingTop="@dimen/padding_small" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <AutoCompleteTextView android:id="@id/acAppointment" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/appointment" android:maxLines="1" android:completionThreshold="1" android:inputType="textAutoComplete" android:imeOptions="actionNext" android:nextFocusForward="@id/etAddress" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:paddingTop="@dimen/padding_small" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText android:textAppearance="@style/EditText.Details" android:id="@id/etAddress" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/enter_address" android:inputType="textPostalAddress" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:paddingTop="@dimen/padding_short" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <EditText android:textAppearance="@style/EditText.Details" android:gravity="center_vertical" android:id="@id/etYear" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/enter_build_year" android:maxLength="4" android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</merge>

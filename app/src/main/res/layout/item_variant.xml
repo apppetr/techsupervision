@@ -12,31 +12,146 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-    <LinearLayout android:orientation="vertical" android:id="@id/llDescription" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/llVariant">
-        <RelativeLayout android:id="@id/defectDetailsContainer" android:tag="binding_6" android:paddingBottom="@dimen/margin_between_lines_item_variant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip">
-            <com.google.android.flexbox.FlexboxLayout android:id="@id/rlDefectDetails" android:background="@drawable/rectangle_background_content_item" android:paddingLeft="12.0dip" android:paddingTop="6.0dip" android:paddingRight="10.0dip" android:paddingBottom="6.0dip" android:layout_width="@dimen/defect_details_width" android:layout_height="wrap_content" app:flexWrap="wrap" style="@style/TextAppearance.AppCompat.Subhead" />
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="7.0dip" android:layout_marginRight="13.0dip" android:src="@drawable/ic_edit_darkest" android:layout_alignTop="@id/rlDefectDetails" android:layout_alignRight="@id/rlDefectDetails" android:layout_alignEnd="@id/rlDefectDetails" />
-            <include android:id="@id/tvAddSizes" layout="@layout/item_variant_adding_item" />
-        </RelativeLayout>
-        <RelativeLayout android:id="@id/tvDescContainer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="25.5dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-            <View android:orientation="vertical" android:id="@id/leftline" android:background="@color/greyapple" android:layout_width="0.5dip" android:layout_height="1000.0dip" android:layout_marginLeft="16.0dip" android:layout_marginTop="10.0dip" android:layout_marginBottom="3.0dip" android:layout_alignBottom="@id/tvDesc" android:layout_alignParentLeft="true" android:layout_alignParentStart="true" />
-            <TextView android:textSize="@dimen/text_normal2" android:textColor="@color/greyapple" android:id="@id/tvDesc" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="39.299988dip" android:layout_marginRight="50.0dip" style="@style/TextAppearance.AppCompat.Subhead" />
-        </RelativeLayout>
-        <TextView android:textSize="@dimen/text_normal2" android:textColor="@color/azure" android:id="@id/tvAddSnipToReport" android:tag="binding_7" android:background="?selectableItemBackground" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="65.29999dip" android:layout_marginBottom="14.0dip" style="@style/TextAppearance.AppCompat.Subhead" />
-        <RelativeLayout android:id="@id/tvNoteContainer" android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-            <TextView  android:textSize="@dimen/text_normal2" android:textColor="@color/greytext" android:id="@id/tvNote" android:background="@drawable/rectangle_background_content_item" android:paddingLeft="16.0dip" android:paddingTop="6.0dip" android:paddingRight="34.69998dip" android:paddingBottom="7.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/padding_micro" android:layout_marginRight="@dimen/padding_micro" android:layout_marginBottom="@dimen/padding_micro" android:hint="@string/note" style="@style/TextAppearance.AppCompat.Subhead" />
-            <ImageView android:id="@id/imageView" android:paddingLeft="@dimen/padding_small2" android:paddingRight="9.299988dip" android:paddingBottom="12.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignRight="@id/tvNote" android:layout_alignBottom="@id/tvNote" android:layout_alignEnd="@id/tvNote" app:srcCompat="@drawable/ic_pencil" />
-            <include android:id="@id/tvAddNote" layout="@layout/item_variant_adding_item" />
-        </RelativeLayout>
-        <TextView android:textSize="@dimen/text_normal2" android:textColor="@color/azure" android:id="@id/tvAddNoteToReport" android:tag="binding_9" android:background="?selectableItemBackground" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="65.29999dip" android:layout_marginBottom="14.0dip" style="@style/TextAppearance.AppCompat.Subhead" />
-    </LinearLayout>
-    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-   </RelativeLayout>
-    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-    </RelativeLayout>
-    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-    </RelativeLayout>
-    <RelativeLayout  android:tag="binding_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="46.69998dip" android:layout_marginRight="50.0dip" android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
-    </RelativeLayout>
 
+    <LinearLayout
+        android:id="@id/llDescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llVariant"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@id/defectDetailsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="46.69998dip"
+            android:layout_marginRight="50.0dip"
+            android:paddingBottom="@dimen/margin_between_lines_item_variant"
+            android:tag="binding_6">
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@id/rlDefectDetails"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="@dimen/defect_details_width"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_background_content_item"
+                android:paddingLeft="12.0dip"
+                android:paddingTop="6.0dip"
+                android:paddingRight="10.0dip"
+                android:paddingBottom="6.0dip"
+                app:flexWrap="wrap" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/rlDefectDetails"
+                android:layout_alignEnd="@id/rlDefectDetails"
+                android:layout_alignRight="@id/rlDefectDetails"
+                android:layout_marginTop="7.0dip"
+                android:layout_marginRight="13.0dip"
+                android:src="@drawable/ic_edit_darkest" />
+            <include
+                android:id="@id/tvAddSizes"
+                layout="@layout/item_variant_adding_item" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@id/tvDescContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25.5dip"
+            android:layout_marginBottom="@dimen/margin_between_lines_item_variant">
+
+            <View
+                android:id="@id/leftline"
+                android:layout_width="0.5dip"
+                android:layout_height="1000.0dip"
+                android:layout_alignBottom="@id/tvDesc"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="3.0dip"
+                android:background="@color/greyapple"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@id/tvDesc"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="39.299988dip"
+                android:layout_marginRight="50.0dip"
+                android:textColor="@color/greyapple"
+                android:textSize="@dimen/text_normal2" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@id/tvAddSnipToReport"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65.29999dip"
+            android:layout_marginBottom="14.0dip"
+            android:background="?selectableItemBackground"
+            android:tag="binding_7"
+            android:textColor="@color/azure"
+            android:textSize="@dimen/text_normal2" />
+
+        <RelativeLayout
+            android:id="@id/tvNoteContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="46.69998dip"
+            android:layout_marginRight="50.0dip"
+            android:layout_marginBottom="@dimen/margin_between_lines_item_variant"
+            android:tag="binding_8">
+
+            <TextView
+                android:id="@id/tvNote"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_micro"
+                android:layout_marginRight="@dimen/padding_micro"
+                android:layout_marginBottom="@dimen/padding_micro"
+                android:background="@drawable/rectangle_background_content_item"
+                android:hint="@string/note"
+                android:paddingLeft="16.0dip"
+                android:paddingTop="6.0dip"
+                android:paddingRight="34.69998dip"
+                android:paddingBottom="7.0dip"
+                android:textColor="@color/greytext"
+                android:textSize="@dimen/text_normal2" />
+
+            <ImageView
+                android:id="@id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/tvNote"
+                android:layout_alignRight="@id/tvNote"
+                android:layout_alignBottom="@id/tvNote"
+                android:paddingLeft="@dimen/padding_small2"
+                android:paddingRight="9.299988dip"
+                android:paddingBottom="12.0dip"
+                app:srcCompat="@drawable/ic_pencil" />
+
+            <include
+                android:id="@id/tvAddNote"
+                layout="@layout/item_variant_adding_item" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@id/tvAddNoteToReport"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="65.29999dip"
+            android:layout_marginBottom="14.0dip"
+            android:background="?selectableItemBackground"
+            android:tag="binding_9"
+            android:textColor="@color/azure"
+            android:textSize="@dimen/text_normal2" />
+    </LinearLayout>
 </RelativeLayout>
