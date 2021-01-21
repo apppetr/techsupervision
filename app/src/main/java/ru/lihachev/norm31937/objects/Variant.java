@@ -71,14 +71,16 @@ public class Variant extends Meta implements Parcelable {
 
     public Snip getSnipclas() {
         if (this.snip == null) {
-            return null;
+            return new Snip();
         } else {
             Snip snipclass = new Snip();
             Gson localGson = new Gson();
 
             String json = this.snip; // {"description":100,"url":"name","img_url":"name"}
             snipclass = localGson.fromJson(json, Snip.class);
+            if(snipclass==null) snipclass = new Snip();
             return snipclass;
+
         }
     }
 

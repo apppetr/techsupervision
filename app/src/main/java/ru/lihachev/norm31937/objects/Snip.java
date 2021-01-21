@@ -31,6 +31,12 @@ implements Parcelable {
     private String img_url;
     private String url;
 
+    public Snip() {
+       this.description = "";
+       this.img_url = "";
+       this.url = "";
+    }
+
     public int describeContents() {
         return 0;
     }

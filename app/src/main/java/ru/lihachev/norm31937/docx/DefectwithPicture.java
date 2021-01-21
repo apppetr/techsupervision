@@ -91,6 +91,7 @@ public class DefectwithPicture {
                }
 
                if(this.defect.reasons[i].getNoteclas().getNoteToReport().equals("1")){
+
                   comment += " " + this.defect.reasons[i].getSnipclas().getDescription();
                   comment += " Комментарий: " + this.defect.reasons[i].getNoteclas().getName();
                }
