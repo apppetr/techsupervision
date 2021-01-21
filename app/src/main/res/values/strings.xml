@@ -113,7 +113,7 @@
     <string name="want_delete_doc" translatable="false">Хотите удалить документ?</string>
     <string name="want_delete_picture" translatable="false">Хотите удалить изображение?</string>
     <string name="yes" translatable="false">Да</string>
-    <string name="visual_diagnostic">Визуальное обследование зданий</string>
+    <string name="visual_diagnostic">Визуальное обследование сооружений</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

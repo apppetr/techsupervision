@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:icon="@drawable/ic_sort" android:id="@+id/sort" android:title="@string/sort" app:showAsAction="always"/>
-    <item android:icon="@drawable/ic_send" android:id="@+id/send" android:title="@string/send" app:showAsAction="ifRoom"/>
-    <item android:icon="@drawable/ic_receipt" android:id="@+id/details" android:title="@string/information" app:showAsAction="never"/>
-    <item android:id="@+id/export" android:title="@string/export" app:showAsAction="never"/>
-    <item android:id="@+id/delete" android:title="@string/delete" app:showAsAction="never"/>
-</menu>

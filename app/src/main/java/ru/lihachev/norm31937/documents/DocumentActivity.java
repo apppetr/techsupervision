@@ -128,6 +128,7 @@ public class DocumentActivity extends ToolbarActivity implements LoaderManager.L
             intent.putExtra("ru.lihachev.norm31937.DOCUMENT_ID", this.document._id.longValue());
             startActivity(intent);
             break;
+
          case R.id.export /*2131558603*/:
             checkAndRequestPermissions(23);
             return true;

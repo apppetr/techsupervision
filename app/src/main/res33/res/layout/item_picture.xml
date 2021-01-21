@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/ivPicture" android:layout_width="match_parent" android:layout_height="@dimen/height_picture_defect" android:layout_marginBottom="@dimen/padding_tiny" android:src="@null" android:scaleType="centerCrop" android:contentDescription="@string/picture"/>

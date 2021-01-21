@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:textSize="18sp" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/tvTitle" android:background="?attr/selectableItemBackground" android:padding="8dp" android:layout_width="wrap_content" android:layout_height="@dimen/abc_action_bar_default_height_material" android:text="New Text" android:singleLine="true" android:textAllCaps="true"/>

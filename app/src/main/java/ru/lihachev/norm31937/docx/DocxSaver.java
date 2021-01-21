@@ -37,17 +37,12 @@ import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.db.UserDataHelper;
 import ru.lihachev.norm31937.db.UserDataProvider;
 
-/* renamed from: ru.lihachev.norm31937.docx.DocxSaver */
 public class DocxSaver implements ISaver {
-   /* access modifiers changed from: private */
    public final Context context;
-   /* access modifiers changed from: private */
    public final List<DefectwithPicture> defects;
-   /* access modifiers changed from: private */
    public final Document document;
    private final ImageComposer imgComposer;
 
-   /* renamed from: ru.lihachev.norm31937.docx.DocxSaver$PostListener */
    private interface PostListener {
       void onPostSave(Boolean bool);
    }

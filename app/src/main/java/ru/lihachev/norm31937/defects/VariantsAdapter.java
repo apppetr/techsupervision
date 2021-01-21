@@ -46,6 +46,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public Defect defect;
     public HashMap<Integer, Variant> mapVariants = new HashMap<>();
     public Variant[] userData;
+    public Variant[] newuserData;
     public Variant[] userChecked;
 
     public VariantsAdapter(@NonNull Context context, Cursor cursor) {
@@ -73,6 +74,30 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         }
     }
 
+    public void addToUserData(Variant arraytoAdd) {
+        if (arraytoAdd == null) {
+            return;
+
+        } else {
+            int length = 0;
+            if(userData!=null)
+            {
+                length = userData.length;
+                newuserData = new Variant[length + 1];
+                for (int i = 0; i < userData.length; i++) {
+                    newuserData[i] = userData[i];
+                }
+                newuserData[userData.length] = arraytoAdd; //добавляем Variant в конец массива
+            }
+            else{
+                newuserData = new Variant[length + 1];
+                newuserData[length] = arraytoAdd;
+            }
+
+            setUserData(newuserData);
+        }
+    }
+
     public VariantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new VariantViewHolder(this.inflater.inflate(R.layout.item_variant, parent, false));
     }
@@ -80,7 +105,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
     public void onBindViewHolder(VariantViewHolder holder, Cursor cursor) throws JSONException {
         this.variant = (Variant) CupboardFactory.cupboard().withCursor(cursor).get(Variant.class);
 
-        //берем данные пользователя для отображения
+        //берем сохраненные данные пользователя для отображения
         if (userData != null)
             for (int i = 0; i < userData.length; i++) {
                 if (userData[i].getId() == this.variant.getId())
@@ -91,25 +116,28 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
         holder.textVariant.setText(variant.getName());
 
-            holder.descriptiontextView.setVisibility(View.VISIBLE);
-            holder.tvAddSnipToReport.setVisibility(View.VISIBLE);
+        holder.descriptiontextView.setVisibility(View.VISIBLE);
+        holder.tvAddSnipToReport.setVisibility(View.VISIBLE);
+        if (!variant.getNote().equals("")) {
             holder.descriptiontextView.setText(variant.getSnipclas().getDescription());
-
-            if (!variant.getNote().equals("")) {
-                if (variant.getNoteclas().getQuality().equals("0")) {
-                    holder.tvAddSnipToReport.setText("Добавить в отчет");
-                }
-
-                if (variant.getNoteclas().getQuality().equals("")) {
-                    holder.tvAddSnipToReport.setText("Добавить в отчет");
-                }
-
-                if (variant.getNoteclas().getQuality().equals("1")) {
-                    holder.tvAddSnipToReport.setText("Убрать из отчета");
-                }
+        }
+        else
+        {
+            holder.descriptiontextView.setText("");
+        }
+        if (!variant.getNote().equals("")) {
+            if (variant.getNoteclas().getQuality().equals("0")) {
+                holder.tvAddSnipToReport.setText("Добавить в отчет");
             }
 
+            if (variant.getNoteclas().getQuality().equals("")) {
+                holder.tvAddSnipToReport.setText("Добавить в отчет");
+            }
 
+            if (variant.getNoteclas().getQuality().equals("1")) {
+                holder.tvAddSnipToReport.setText("Убрать из отчета");
+            }
+        }
 
         String note = variant.getNote();
         if (!note.equals("")) {
@@ -118,7 +146,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             holder.notetextView.setText(variant.getNoteclas().getName());
 
             if ((!variant.getNoteclas().getArea().equals("")) || (!variant.getNoteclas().getCount().equals("")) || (!variant.getNoteclas().getDepth().equals("")) || (!variant.getNoteclas().getLength().equals("")) || (!variant.getNoteclas().getWidth().equals(""))) {
-                String defectSize = "Гл. " + variant.getNoteclas().getDepth() + " "  + variant.getNoteclas().getsDepth() + " Пл. " + variant.getNoteclas().getArea() + " " + variant.getNoteclas().getsArea() + " Дл. " +  variant.getNoteclas().getLength() + " " + variant.getNoteclas().getsLength()  + " Ш. " + variant.getNoteclas().getWidth() + " " + variant.getNoteclas().getsWidth() + " Кол-во " + " " + variant.getNoteclas().getCount();
+                String defectSize = "Гл. " + variant.getNoteclas().getDepth() + " " + variant.getNoteclas().getsDepth() + " Пл. " + variant.getNoteclas().getArea() + " " + variant.getNoteclas().getsArea() + " Дл. " + variant.getNoteclas().getLength() + " " + variant.getNoteclas().getsLength() + " Ш. " + variant.getNoteclas().getWidth() + " " + variant.getNoteclas().getsWidth() + " Кол-во " + " " + variant.getNoteclas().getCount();
                 holder.defectDetails.setText(defectSize);
             }
 
@@ -370,17 +398,30 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                                 variantForView.setNote(new Gson().toJson(noteclass));
                                 mapVariants.remove(itemDefectId);
                                 mapVariants.put(itemDefectId, variantForView);
-                                notifyDataSetChanged();
 
-                            }
+                                if (userData != null){
+                                    for (int i = 0; i < userData.length; i++) {
+                                        if (userData[i].getId() == variantForView.getId()) {
+                                            userData[i] = variantForView;
+                                            notifyDataSetChanged();
+                                            return;
+                                        }
+                                    }
+                                    addToUserData(variantForView);
+                                    notifyDataSetChanged();
+                                }else
+                                    addToUserData(variantForView);
+                            notifyDataSetChanged();
+
                         }
-                    });
-                    break;
+                    }
+            });
+            break;
 
-                default:
-                    break;
-            }
-
+            default:
+            break;
         }
+
     }
+}
 }

@@ -1,5 +1,7 @@
 package ru.lihachev.norm31937.docx;
 
+import org.json.JSONException;
+
 import java.util.List;
 import ru.lihachev.norm31937.objects.Defect;
 import ru.lihachev.norm31937.objects.Picture;
@@ -31,18 +33,27 @@ public class DefectwithPicture {
       return this.defect.getVolume() == null ? "" : this.defect.getVolume();
    }
 
-   public String getHuinya() {
-      String Huinya = this.defect.getNiceProblems();
+   public String getHuinya() throws JSONException {
+      String Huinya = "";
+     for(int i = 0; i < this.defect.problems.length; i ++ ){
+        Huinya += Huinya + " " + this.defect.problems[i].getSnipclas().getDescription() + " " +  this.defect.problems[i].getNote() + " ; ";
+     }
       return Huinya;
    }
 
-   public String getHuinyac() {
-      String Huinyac = this.defect.getNiceCompensations();
+   public String getHuinyac() throws JSONException {
+      String Huinyac = "";
+      for(int i = 0; i < this.defect.compensations.length; i ++ ){
+         Huinyac += Huinyac + " " + this.defect.compensations[i].getSnipclas().getDescription() + " " +  this.defect.compensations[i].getNote() + " ; ";
+      }
       return Huinyac;
    }
 
-   public String getHuinyar() {
-      String Huinyar = this.defect.getNiceReasons();
+   public String getHuinyar() throws JSONException {
+      String Huinyar = "";
+      for(int i = 0; i < this.defect.reasons.length; i ++ ){
+         Huinyar += Huinyar + " " + this.defect.reasons[i].getSnipclas().getDescription() + " " +  this.defect.reasons[i].getNote() + " ; ";
+      }
       return Huinyar;
    }
    public int getOrder() {
