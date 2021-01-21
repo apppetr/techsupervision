@@ -8,7 +8,6 @@ import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.objects.Variant;
 import ru.lihachev.norm31937.utils.Formats;
 
-/* renamed from: ru.lihachev.norm31937.docx.DefectwithPicture */
 public class DefectwithPicture {
    public String Problems;
    private Defect defect;
@@ -34,27 +33,73 @@ public class DefectwithPicture {
    }
 
    public String getHuinya() throws JSONException {
-      String Huinya = "";
-     for(int i = 0; i < this.defect.problems.length; i ++ ){
-        Huinya += Huinya + " " + this.defect.problems[i].getSnipclas().getDescription() + " " +  this.defect.problems[i].getNote() + " ; ";
-     }
-      return Huinya;
+      String comment = "";
+      if (defect.problems!=null){
+         for(int i = 0; i < this.defect.problems.length; i ++ ){
+
+            comment += " " + this.defect.problems[i].getName();
+
+            if (!this.defect.problems[i].getNote().equals("")) {
+
+               if(this.defect.problems[i].getNoteclas().getQuality().equals("1")){
+                  comment += " Размерами: " + " " + this.defect.problems[i].getNoteclas().getDefectSizeDescription();
+               }
+
+               if(this.defect.problems[i].getNoteclas().getNoteToReport().equals("1")){
+                  comment += " " + this.defect.problems[i].getSnipclas().getDescription();
+                  comment += " Комментарий: " + this.defect.problems[i].getNoteclas().getName();
+               }
+            }
+         }
+      }
+
+      return comment;
    }
 
    public String getHuinyac() throws JSONException {
-      String Huinyac = "";
-      for(int i = 0; i < this.defect.compensations.length; i ++ ){
-         Huinyac += Huinyac + " " + this.defect.compensations[i].getSnipclas().getDescription() + " " +  this.defect.compensations[i].getNote() + " ; ";
+      String comment = "";
+      if (defect.compensations!=null){
+         for(int i = 0; i < this.defect.compensations.length; i ++ ){
+
+            comment += " " + this.defect.compensations[i].getName();
+
+            if (!this.defect.compensations[i].getNote().equals("")) {
+               if(this.defect.compensations[i].getNoteclas().getQuality().equals("1")){
+                  comment += " Размерами: " + " " + this.defect.compensations[i].getNoteclas().getDefectSizeDescription();
+               }
+
+               if(this.defect.compensations[i].getNoteclas().getNoteToReport().equals("1")){
+                  comment += " " + this.defect.compensations[i].getSnipclas().getDescription();
+                  comment += " Комментарий: " + this.defect.compensations[i].getNoteclas().getName();
+               }
+            }
+         }
       }
-      return Huinyac;
+
+      return comment;
    }
 
    public String getHuinyar() throws JSONException {
-      String Huinyar = "";
-      for(int i = 0; i < this.defect.reasons.length; i ++ ){
-         Huinyar += Huinyar + " " + this.defect.reasons[i].getSnipclas().getDescription() + " " +  this.defect.reasons[i].getNote() + " ; ";
+      String comment = "";
+      if (defect.reasons!=null){
+         for(int i = 0; i < this.defect.reasons.length; i ++ ){
+            comment += " " + this.defect.reasons[i].getName();
+
+            if (!this.defect.reasons[i].getNote().equals("")) {
+               if(this.defect.reasons[i].getNoteclas().getQuality().equals("1")){
+                  comment += " Размерами: " + " " + this.defect.reasons[i].getNoteclas().getDefectSizeDescription();
+               }
+
+               if(this.defect.reasons[i].getNoteclas().getNoteToReport().equals("1")){
+                  comment += " " + this.defect.reasons[i].getSnipclas().getDescription();
+                  comment += " Комментарий: " + this.defect.reasons[i].getNoteclas().getName();
+               }
+            }
+         }
       }
-      return Huinyar;
+
+
+      return comment;
    }
    public int getOrder() {
       return this.order;

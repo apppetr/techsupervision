@@ -118,7 +118,9 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
         holder.descriptiontextView.setVisibility(View.VISIBLE);
         holder.tvAddSnipToReport.setVisibility(View.VISIBLE);
-        if (!variant.getNote().equals("")) {
+        holder.tvAddNoteToReport.setVisibility(View.VISIBLE);
+
+        if (!variant.getSnip().equals("")) {
             holder.descriptiontextView.setText(variant.getSnipclas().getDescription());
         }
         else
@@ -136,6 +138,18 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
             if (variant.getNoteclas().getQuality().equals("1")) {
                 holder.tvAddSnipToReport.setText("Убрать из отчета");
+            }
+
+            if (variant.getNoteclas().getNoteToReport().equals("0")) {
+                holder.tvAddNoteToReport.setText("Добавить в отчет");
+            }
+
+            if (variant.getNoteclas().getNoteToReport().equals("")) {
+                holder.tvAddNoteToReport.setText("Добавить в отчет");
+            }
+
+            if (variant.getNoteclas().getNoteToReport().equals("1")) {
+                holder.tvAddNoteToReport.setText("Убрать из отчета");
             }
         }
 
@@ -193,18 +207,18 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public VariantViewHolder(View itemView) {
             super(itemView);
 
-            this.textCheckBox = itemView.findViewById(R.id.cbVariant);
-            this.textVariant = itemView.findViewById(R.id.cbVariantText);
-            this.descriptiontextView = itemView.findViewById(R.id.tvDesc);
-            this.descriptionToggle = itemView.findViewById(R.id.descriptionToggle);
-            this.tvnoteContainer = itemView.findViewById(R.id.tvNoteContainer);
-            this.defectDetailsContainer = itemView.findViewById(R.id.defectDetailsContainer);
-            this.notetextView = itemView.findViewById(R.id.tvAddNote);//кнопка добавить комментарий
-            this.tvNote = itemView.findViewById(R.id.tvNote);//поле добавить комментарий
-            this.defectDetails = itemView.findViewById(R.id.tvAddSizes);//кнопка добавить размеры
-            this.tvAddSnipToReport = itemView.findViewById(R.id.tvAddSnipToReport);//Текст добавить в отчет
-            this.tvAddNoteToReport = itemView.findViewById(R.id.tvAddNoteToReport);//Текст добавить в отчет
-            this.addDefectSize = itemView.findViewById(R.id.bDefectSize);
+            this.textCheckBox = (CheckBox) itemView.findViewById(R.id.cbVariant);
+            this.textVariant = (TextView) itemView.findViewById(R.id.cbVariantText);
+            this.descriptiontextView = (TextView) itemView.findViewById(R.id.tvDesc);
+            this.descriptionToggle = (TextView) itemView.findViewById(R.id.descriptionToggle);
+            this.tvnoteContainer = (RelativeLayout) itemView.findViewById(R.id.tvNoteContainer);
+            this.defectDetailsContainer = (RelativeLayout) itemView.findViewById(R.id.defectDetailsContainer);
+            this.notetextView = (TextView) itemView.findViewById(R.id.tvAddNote);//кнопка добавить комментарий
+            this.tvNote = (TextView) itemView.findViewById(R.id.tvNote);//поле добавить комментарий
+            this.defectDetails = (TextView) itemView.findViewById(R.id.tvAddSizes);//кнопка добавить размеры
+            this.tvAddSnipToReport = (TextView) itemView.findViewById(R.id.tvAddSnipToReport);//Текст добавить в отчет
+            this.tvAddNoteToReport = (TextView) itemView.findViewById(R.id.tvAddNoteToReport);//Текст добавить в отчет
+            this.addDefectSize = (ImageView) itemView.findViewById(R.id.bDefectSize);
             this.textCheckBox.setOnClickListener(this);
             this.descriptionToggle.setOnClickListener(this);
             this.tvAddSnipToReport.setOnClickListener(this);//Текст добавить в отчет
@@ -225,6 +239,63 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         this.expandableLayout.collapse();
                     }
                     break;
+                case R.id.tvAddNoteToReport:
+                    int itemAddNote = (int) getItemId();
+                    Variant variantNote = mapVariants.get(itemAddNote);
+                    Note noteclassNote = new Note();
+
+                    if (!variantNote.getNote().equals("")) {
+                        try {
+                            noteclassNote.setName(variantNote.getNoteclas().getName());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        noteclassNote.setName(variantNote.getNoteclas().getName());
+                        noteclassNote.setLength(variantNote.getNoteclas().getLength());
+                        noteclassNote.setArea(variantNote.getNoteclas().getArea());
+                        noteclassNote.setWidth(variantNote.getNoteclas().getWidth());
+                        noteclassNote.setCount(variantNote.getNoteclas().getCount());
+                        noteclassNote.setDepth(variantNote.getNoteclas().getDepth());
+                        noteclassNote.setsDepth(variantNote.getNoteclas().getsDepth());
+                        noteclassNote.setsArea(variantNote.getNoteclas().getsArea());
+                        noteclassNote.setsCount(variantNote.getNoteclas().getsCount());
+                        noteclassNote.setsLength(variantNote.getNoteclas().getsLength());
+                        noteclassNote.setsWidth(variantNote.getNoteclas().getsWidth());
+                        noteclassNote.setQuality(variantNote.getNoteclas().getQuality());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!variantNote.getNote().equals("")) {
+                        try {
+                            if (variantNote.getNoteclas().getNoteToReport().equals("0")) {
+                                noteclassNote.setNoteToReport("1");
+                            }
+
+                            if (variantNote.getNoteclas().getNoteToReport().equals("")) {
+                                noteclassNote.setNoteToReport("1");
+                            }
+
+                            if (variantNote.getNoteclas().getNoteToReport().equals("1")) {
+                                noteclassNote.setNoteToReport("0");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    variantNote.setNote(new Gson().toJson(noteclassNote));
+                    mapVariants.remove(itemAddNote);
+                    mapVariants.put(itemAddNote, variantNote);
+                    notifyDataSetChanged();
+
+                    break;
+
                 case R.id.tvAddSnipToReport:
                     int itemAddSnip = (int) getItemId();
                     Variant variantSnip = mapVariants.get(itemAddSnip);
@@ -250,6 +321,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         noteclassSnip.setsCount(variantSnip.getNoteclas().getsCount());
                         noteclassSnip.setsLength(variantSnip.getNoteclas().getsLength());
                         noteclassSnip.setsWidth(variantSnip.getNoteclas().getsWidth());
+                        noteclassSnip.setNoteToReport(variantSnip.getNoteclas().getNoteToReport());
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -282,11 +354,6 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
 
                     break;
 
-                case R.id.tvAddNoteToReport:
-                    if (!variant.getNote().equals("")) {
-                    }
-
-                    break;
                 case R.id.cbVariant:
                     int itemid = (int) getItemId();
                     boolean checked = this.textCheckBox.isChecked();
@@ -298,7 +365,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     int itemNoteid = (int) getItemId();
                     Variant variant = mapVariants.get(itemNoteid);
                     View view2 = LayoutInflater.from(v.getContext()).inflate(R.layout.photo_comment, (ViewGroup) null);
-                    final EditText etText = view2.findViewById(R.id.etText);
+                    final EditText etText = (EditText) view2.findViewById(R.id.etText);
                     if (!variant.getNote().equals("")) {
                         try {
                             etText.setText(variant.getNoteclas().getName());
@@ -336,6 +403,20 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                                 variant.setNote(new Gson().toJson(noteclass));
                                 mapVariants.remove(itemNoteid);
                                 mapVariants.put(itemNoteid, variant);
+
+                                if (userData != null){
+                                    for (int i = 0; i < userData.length; i++) {
+                                        if (userData[i].getId() == variant.getId()) {
+                                            userData[i] = variant;
+                                            notifyDataSetChanged();
+                                            return;
+                                        }
+                                    }
+                                    addToUserData(variant);
+                                    notifyDataSetChanged();
+                                }else
+                                    addToUserData(variant);
+
                                 notifyDataSetChanged();
                             }
                         }
@@ -347,16 +428,16 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     Variant variantForView = mapVariants.get(itemDefectId);
                     View view = LayoutInflater.from(v.getContext()).inflate(R.layout.fragment_defect_size, (ViewGroup) null);
 
-                    final EditText etDepth = view.findViewById(R.id.etDepth);
-                    final EditText etLength = view.findViewById(R.id.etLength);
-                    final EditText etArea = view.findViewById(R.id.etArea);
-                    final EditText etWidth = view.findViewById(R.id.etWidth);
-                    final EditText etCount = view.findViewById(R.id.etCount);
-                    final AppCompatSpinner sDepth = view.findViewById(R.id.sDepth);
-                    final AppCompatSpinner sLength = view.findViewById(R.id.sLength);
-                    final AppCompatSpinner sArea = view.findViewById(R.id.sArea);
-                    final AppCompatSpinner sWidth = view.findViewById(R.id.sWidth);
-                    final AppCompatSpinner sCount = view.findViewById(R.id.sCount);
+                    final EditText etDepth = (EditText) view.findViewById(R.id.etDepth);
+                    final EditText etLength = (EditText) view.findViewById(R.id.etLength);
+                    final EditText etArea = (EditText) view.findViewById(R.id.etArea);
+                    final EditText etWidth = (EditText) view.findViewById(R.id.etWidth);
+                    final EditText etCount = (EditText) view.findViewById(R.id.etCount);
+                    final AppCompatSpinner sDepth = (AppCompatSpinner) view.findViewById(R.id.sDepth);
+                    final AppCompatSpinner sLength = (AppCompatSpinner) view.findViewById(R.id.sLength);
+                    final AppCompatSpinner sArea = (AppCompatSpinner) view.findViewById(R.id.sArea);
+                    final AppCompatSpinner sWidth = (AppCompatSpinner) view.findViewById(R.id.sWidth);
+                    final AppCompatSpinner sCount = (AppCompatSpinner) view.findViewById(R.id.sCount);
 
                     try {
                         if (variantForView.getNoteclas() != null) {

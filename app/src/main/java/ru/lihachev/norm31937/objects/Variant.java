@@ -17,9 +17,6 @@ public class Variant extends Meta implements Parcelable {
             Variant localVariant = new Variant(paramAnonymousParcel.readInt(), paramAnonymousParcel.readString());
             localVariant.setNote(paramAnonymousParcel.readString());
             localVariant.setSnip(paramAnonymousParcel.readString());
-          //  localVariant.setDefectSize(paramAnonymousParcel.readString());
-            //localVariant.setSnip((Snip)paramAnonymousParcel.readParcelable(Snip.class.getClassLoader()));
-            //localVariant.setDefectSize((DefectSize)paramAnonymousParcel.readParcelable(DefectSize.class.getClassLoader()));
             return localVariant;
         }
 
@@ -72,7 +69,7 @@ public class Variant extends Meta implements Parcelable {
         this.snip = snip;
     }
 
-    public Snip getSnipclas() throws JSONException {
+    public Snip getSnipclas() {
         if (this.snip == null) {
             return null;
         } else {
@@ -102,13 +99,6 @@ public class Variant extends Meta implements Parcelable {
     public void setNote(String note) {
          this.note = Packet.valueOf(note);
     }
-    // public Snip getSnip() {
-    //      return snip;
-    // }
-
-    // public void setSnip(Snip paramSnip) {
-    //     snip = paramSnip;
-    // }
 
     public void setName(String var1) {
         this.name = var1;

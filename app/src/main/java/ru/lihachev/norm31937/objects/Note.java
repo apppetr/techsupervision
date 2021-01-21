@@ -17,6 +17,8 @@ public class Note {
     private String sWidth;
     private String sCount;
 
+    private String NoteToReport;
+
 
     public Note(String name) {
         this.name = name;
@@ -31,6 +33,7 @@ public class Note {
         this.sArea = "";
         this.sWidth = "";
         this.sCount = "";
+        this.NoteToReport = "";
     }
 
     public Note() {
@@ -46,6 +49,38 @@ public class Note {
         this.sArea = "";
         this.sWidth = "";
         this.sCount = "";
+        this.NoteToReport = "";
+    }
+
+    public String getDefectSizeDescription(){
+
+        String defectDepth = "";
+        String defectArea = "";
+        String defectLength = "";
+        String defectWidth = "";
+        String defectCount = "";
+
+        if (!this.depth.equals("")){
+            defectDepth = " Глубина: " + this.depth + " " + this.sDepth + " ";
+        }
+
+        if (!this.area.equals("")){
+            defectArea = " Площадь: " + this.area + " " + this.sArea + " ";
+        }
+
+        if (!this.length.equals("")){
+            defectLength = " Длина: " + this.length + " " + this.sLength + " ";
+        }
+
+        if (!this.width.equals("")){
+            defectWidth = " Ширина: " + this.width + " " + this.sWidth + " ";
+        }
+
+        if (!this.count.equals("")){
+            defectCount = " Количество: " + this.count + " " + this.sCount + " ";
+        }
+
+        return defectDepth + defectArea + defectLength + defectWidth + defectCount;
     }
 
     public String getName() {
@@ -142,5 +177,13 @@ public class Note {
 
     public void setsCount(String sCount) {
         this.sCount = sCount;
+    }
+
+    public String getNoteToReport() {
+        return NoteToReport;
+    }
+
+    public void setNoteToReport(String noteToReport) {
+        NoteToReport = noteToReport;
     }
 }

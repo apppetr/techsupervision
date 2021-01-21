@@ -36,6 +36,7 @@ public class Defect {
    public String getNiceProblems() {
       return Formats.formatArray(this.problems);
    }
+
    public String getHuinyar() {
       String Huinyar = this.getNiceReasons();
       return Huinyar;
