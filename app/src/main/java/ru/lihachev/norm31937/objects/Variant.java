@@ -30,8 +30,10 @@ public class Variant extends Meta implements Parcelable {
     private String note;
 
     public String getNote() {
-        if (this.note == null)
-            return "";
+        if (this.note == null){
+            this.setNote("");
+            return this.note;
+        }
         else
             return Packet.valueOf(this.note);
     }
@@ -39,10 +41,10 @@ public class Variant extends Meta implements Parcelable {
 
 
     public String getSnip() {
-        if (this.snip == null)
-            return "";
-        else
-            return this.snip;
+        if (this.snip == null){
+            this.setSnip("");
+        }
+        return this.snip;
     }
 
     public Variant(int var1, String var2) {
@@ -86,16 +88,16 @@ public class Variant extends Meta implements Parcelable {
 
 
     public Note getNoteclas() throws JSONException {
-        if (this.note == null) {
-            return null;
-        } else {
+        if (this.note == null)
+            this.setNote("");
+
             Note noteclass = new Note();
             Gson localGson = new Gson();
 
             String json = this.note; // {"description":100,"url":"name","img_url":"name"}
             noteclass = localGson.fromJson(json, Note.class);
+            if(noteclass==null) noteclass = new Note();
             return noteclass;
-        }
     }
 
     public void setNote(String note) {

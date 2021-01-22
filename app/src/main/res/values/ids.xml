@@ -37,6 +37,8 @@
     <item type="id" name="accessibility_custom_action_9" />
     <item type="id" name="action0" />
     <item type="id" name="action_bar" />
+    <item type="id" name="tvNoteContainer2" />
+    <item type="id" name="tvNoteContainer3" />
     <item type="id" name="action_bar_activity_content" />
     <item type="id" name="action_bar_container" />
     <item type="id" name="action_bar_root" />
@@ -227,6 +229,7 @@
     <item type="id" name="llDetails" />
     <item type="id" name="llSize" />
     <item type="id" name="llVariant" />
+    <item type="id" name="llemptyVariant" />
     <item type="id" name="loader" />
     <item type="id" name="lvData" />
     <item type="id" name="main" />

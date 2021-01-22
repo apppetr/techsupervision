@@ -127,7 +127,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         {
             holder.descriptiontextView.setText("");
         }
-        if (!variant.getNote().equals("")) {
+
             if (variant.getNoteclas().getQuality().equals("0")) {
                 holder.tvAddSnipToReport.setText("Добавить в отчет");
             }
@@ -151,12 +151,13 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             if (variant.getNoteclas().getNoteToReport().equals("1")) {
                 holder.tvAddNoteToReport.setText("Убрать из отчета");
             }
-        }
+
 
         String note = variant.getNote();
         if (!note.equals("")) {
 
             holder.tvNote.setText(variant.getNoteclas().getName());
+            if(!variant.getNoteclas().getName().equals(""))
             holder.notetextView.setText(variant.getNoteclas().getName());
 
             if ((!variant.getNoteclas().getArea().equals("")) || (!variant.getNoteclas().getCount().equals("")) || (!variant.getNoteclas().getDepth().equals("")) || (!variant.getNoteclas().getLength().equals("")) || (!variant.getNoteclas().getWidth().equals(""))) {
@@ -270,7 +271,6 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         e.printStackTrace();
                     }
 
-                    if (!variantNote.getNote().equals("")) {
                         try {
                             if (variantNote.getNoteclas().getNoteToReport().equals("0")) {
                                 noteclassNote.setNoteToReport("1");
@@ -287,11 +287,26 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
+
 
                     variantNote.setNote(new Gson().toJson(noteclassNote));
                     mapVariants.remove(itemAddNote);
                     mapVariants.put(itemAddNote, variantNote);
+
+
+                    if (userData != null){
+                        for (int i = 0; i < userData.length; i++) {
+                            if (userData[i].getId() == variantNote.getId()) {
+                                userData[i] = variantNote;
+                                notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                        addToUserData(variantNote);
+                        notifyDataSetChanged();
+                    }else
+                        addToUserData(variantNote);
+
                     notifyDataSetChanged();
 
                     break;
@@ -326,8 +341,6 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    if (!variantSnip.getNote().equals("")) {
                         try {
                             if (variantSnip.getNoteclas().getQuality().equals("0")) {
                                 noteclassSnip.setQuality("1");
@@ -345,11 +358,24 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                             e.printStackTrace();
                         }
 
-                    }
+
 
                     variantSnip.setNote(new Gson().toJson(noteclassSnip));
                     mapVariants.remove(itemAddSnip);
                     mapVariants.put(itemAddSnip, variantSnip);
+
+                    if (userData != null){
+                        for (int i = 0; i < userData.length; i++) {
+                            if (userData[i].getId() == variantSnip.getId()) {
+                                userData[i] = variantSnip;
+                                notifyDataSetChanged();
+                                return;
+                            }
+                        }
+                        addToUserData(variantSnip);
+                        notifyDataSetChanged();
+                    }else
+                        addToUserData(variantSnip);
                     notifyDataSetChanged();
 
                     break;
