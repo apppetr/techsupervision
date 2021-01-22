@@ -10,7 +10,6 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_camera"
-            android:tint="@color/pale_grey_two"
             />
         <TextView
             android:id="@+id/TextTabletopRPG"
