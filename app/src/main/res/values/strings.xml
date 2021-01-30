@@ -231,4 +231,8 @@
     <string name="forward">Продолжить</string>
     <string name="id_data">Идентификационные данные</string>
     <string name="code">Шифр</string>
+    <string name="enter_Org_address">Введите адрес организации</string>
+    <string name="enter_Org_build_year">Год создания организации</string>
+    <string name="enter_Org_name">Название организации</string>
+    <string name="Org_description">Организация</string>
 </resources>

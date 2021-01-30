@@ -38,7 +38,6 @@ public class AddDocumentActivity extends ToolbarActivity {
    private ExpandableLayout expandableLayout;
    private Button btnContinue;
 
-   /* access modifiers changed from: protected */
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_document);

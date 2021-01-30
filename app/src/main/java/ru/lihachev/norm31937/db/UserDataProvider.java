@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import nl.qbusict.cupboard.CupboardFactory;
 import ru.lihachev.norm31937.objects.Defect;
 import ru.lihachev.norm31937.objects.Document;
+import ru.lihachev.norm31937.objects.Organization;
 import ru.lihachev.norm31937.objects.Picture;
 public class UserDataProvider extends ContentProvider {
    public static String AUTHORITY = "ru.lihachev.norm31937.free.AUTHORITY";
@@ -32,6 +33,8 @@ public class UserDataProvider extends ContentProvider {
    protected static final int MATCH_DEFECT_WITH_PICTURE_URI_CONTENT = 4178;
    protected static final int MATCH_DOCUMENT_URI_CONTENT = 4098;
    protected static final int MATCH_DOCUMENT_URI_CONTENT_ITEM = 4113;
+   protected static final int MATCH_ORGANIZATION_URI_CONTENT = 4200;
+   protected static final int MATCH_ORGANIZATION_URI_CONTENT_ITEM = 4199;
    protected static final int MATCH_DOCUMENT_WITH_DEFECT_URI_CONTENT = 4162;
    protected static final int MATCH_PICTURE_URL_CONTENT = 4146;
    protected static final int MATCH_PICTURE_URL_CONTENT_ITEM = 4145;
@@ -49,6 +52,8 @@ public class UserDataProvider extends ContentProvider {
       matcher.addURI(AUTHORITY, "Document/#", MATCH_DOCUMENT_URI_CONTENT_ITEM);
       matcher.addURI(AUTHORITY, UserDataHelper.DEFECT_URL, MATCH_DEFECT_URI_CONTENT);
       matcher.addURI(AUTHORITY, "Defect/#", MATCH_DEFECT_URI_CONTENT_ITEM);
+      matcher.addURI(AUTHORITY, UserDataHelper.ORGANIZATION_URL, MATCH_ORGANIZATION_URI_CONTENT);
+      matcher.addURI(AUTHORITY, "Organization/#", MATCH_ORGANIZATION_URI_CONTENT_ITEM);
       matcher.addURI(AUTHORITY, UserDataHelper.PICTURE_URL, MATCH_PICTURE_URL_CONTENT);
       matcher.addURI(AUTHORITY, "Picture/#", MATCH_PICTURE_URL_CONTENT_ITEM);
       matcher.addURI(AUTHORITY, UserDataHelper.DOCUMENT_WITH_DEFECTS.URI, MATCH_DOCUMENT_WITH_DEFECT_URI_CONTENT);
@@ -80,7 +85,14 @@ public class UserDataProvider extends ContentProvider {
       String str3;
       SQLiteQueryBuilder query = new SQLiteQueryBuilder();
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT /*4200*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Organization.class));
+            break;
+         case MATCH_ORGANIZATION_URI_CONTENT_ITEM /*4199*/:
+            query.setTables(CupboardFactory.cupboard().getTable(Organization.class));
+            query.appendWhere("_id = " + uri.getLastPathSegment());
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT /*4098*/:
             query.setTables(CupboardFactory.cupboard().getTable(Document.class));
             break;
          case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
@@ -150,11 +162,13 @@ public class UserDataProvider extends ContentProvider {
       }
    }
 
-   /* JADX INFO: finally extract failed */
    public int bulkInsert(Uri uri, @NonNull ContentValues[] valuesAr) {
       String table;
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT:
             table = CupboardFactory.cupboard().getTable(Document.class);
             break;
          case MATCH_DEFECT_URI_CONTENT /*4130*/:
@@ -191,7 +205,10 @@ public class UserDataProvider extends ContentProvider {
    public Uri insert(@NonNull Uri uri, ContentValues values) {
       String table;
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT:
             table = CupboardFactory.cupboard().getTable(Document.class);
             break;
          case MATCH_DEFECT_URI_CONTENT /*4130*/:
@@ -214,7 +231,14 @@ public class UserDataProvider extends ContentProvider {
       String table;
       String processedSelection = selection;
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT/*4200*/:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            break;
+         case MATCH_ORGANIZATION_URI_CONTENT_ITEM /*4199*/:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT:
             table = CupboardFactory.cupboard().getTable(Document.class);
             break;
          case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
@@ -249,7 +273,14 @@ public class UserDataProvider extends ContentProvider {
       String table;
       String processedSelection = selection;
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT/*4200*/:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            break;
+         case MATCH_ORGANIZATION_URI_CONTENT_ITEM /*4199*/:
+            table = CupboardFactory.cupboard().getTable(Organization.class);
+            processedSelection = composeIdSelection(selection, uri.getLastPathSegment(), "_id");
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT:
             table = CupboardFactory.cupboard().getTable(Document.class);
             break;
          case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
@@ -283,7 +314,10 @@ public class UserDataProvider extends ContentProvider {
    public static void notifyUri(ContentResolver cr, Uri uri) {
       cr.notifyChange(uri, (ContentObserver) null);
       switch (matcher.match(uri)) {
-         case 4098:
+         case MATCH_ORGANIZATION_URI_CONTENT/*4200*/:
+         case MATCH_ORGANIZATION_URI_CONTENT_ITEM /*4199*/:
+            break;
+         case MATCH_DOCUMENT_URI_CONTENT/*4098*/:
          case MATCH_DOCUMENT_URI_CONTENT_ITEM /*4113*/:
             break;
          case MATCH_DEFECT_URI_CONTENT_ITEM /*4129*/:

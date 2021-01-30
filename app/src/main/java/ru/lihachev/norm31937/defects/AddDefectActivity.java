@@ -50,7 +50,7 @@ public class AddDefectActivity extends ToolbarActivity {
          if (actionbar != null) {
             actionbar.setHomeAsUpIndicator(R.drawable.close);
             actionbar.setDisplayHomeAsUpEnabled(true);
-            actionbar.setTitle("Add Defect"); // hide the title bar
+            actionbar.setTitle("Добавить дефект"); // hide the title bar
          }
       }
       tabLayout = (TabLayout) findViewById(R.id.tab_layout);

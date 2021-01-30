@@ -62,6 +62,12 @@ public class DocumentsActivity extends ToolbarActivity implements LoaderManager.
                 DocumentsActivity.this.startActivity(new Intent(DocumentsActivity.this, AddDocumentActivity.class));
             }
         });
+
+        findViewById(R.id.TextAddOrganization).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                DocumentsActivity.this.startActivity(new Intent(DocumentsActivity.this, AddOrganization.class));
+            }
+        });
         this.permissionController = new PermissionController(this);
     }
 

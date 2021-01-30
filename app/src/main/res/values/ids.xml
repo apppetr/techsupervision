@@ -127,6 +127,12 @@
     <item type="id" name="delete_marks" />
     <item type="id" name="descriptionToggle" />
     <item type="id" name="view_s" />
+    <item type="id" name="llOrganization" />
+    <item type="id" name="toolbarOrganization_title" />
+    <item type="id" name="etOrganizationTitle" />
+    <item type="id" name="cvOrganizationDetails" />
+    <item type="id" name="llOrganizationDescription" />
+    <item type="id" name="llOrganizationVariant" />
 
     <item type="id" name="design_bottom_sheet" />
     <item type="id" name="design_menu_item_action_area" />

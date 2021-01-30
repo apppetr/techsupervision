@@ -15,6 +15,7 @@ import ru.lihachev.norm31937.defects.place.object.PlaceConverter;
 import ru.lihachev.norm31937.objects.Defect;
 import ru.lihachev.norm31937.objects.Document;
 import ru.lihachev.norm31937.objects.MaterialVariant;
+import ru.lihachev.norm31937.objects.Organization;
 import ru.lihachev.norm31937.objects.Picture;
 import ru.lihachev.norm31937.objects.Variant;
 
@@ -23,17 +24,16 @@ public class UserDataHelper extends SQLiteOpenHelper {
    private static final int DB_VERSION = 1;
    public static final String DEFECT_URL = "Defect";
    public static final String DOCUMENT_URL = "Document";
+   public static final String ORGANIZATION_URL = "Organization";
    public static final String PICTURE_URL = "Picture";
    String CREATE_TRIGGER_DELETE_REVISION = "CREATE TRIGGER IF NOT EXISTS delete_revision  AFTER DELETE ON Document BEGIN DELETE FROM Defect WHERE documentId=OLD._id ;END";
 
-   /* renamed from: ru.lihachev.norm31937.db.UserDataHelper$DEFECT_WITH_PICTURE */
    public interface DEFECT_WITH_PICTURE {
       public static final String IMG_URL = "imgUrl";
       public static final String QUERY = "SELECT d.*, p.imgUrl as imgUrl FROM Defect as d LEFT JOIN Picture as p ON d._id=p.defectId";
       public static final String URI = "defect_with_picture";
    }
 
-   /* renamed from: ru.lihachev.norm31937.db.UserDataHelper$DOCUMENT_WITH_DEFECTS */
    public interface DOCUMENT_WITH_DEFECTS {
       public static final String DEFECT_COUNT = "defect_count";
       public static final String QUERY = "SELECT d.*, count(def.documentId) as defect_count FROM Document as d LEFT JOIN Defect as def ON d._id=def.documentId GROUP BY d._id";
@@ -48,6 +48,7 @@ public class UserDataHelper extends SQLiteOpenHelper {
       cb.register(Picture.class);
       cb.register(Variant.class);
       cb.register(MaterialVariant.class);
+      cb.register(Organization.class);
    }
 
    public UserDataHelper(Context context) {
