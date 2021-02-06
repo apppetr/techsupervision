@@ -9,6 +9,9 @@
     <string-array name="snips">
         <item>ВСН 53-88</item>
     </string-array>
+    <string-array name="organizations">
+        <item>Добавить новую организацию</item>
+    </string-array>
     <array name="danger_categories">
         <item>А</item>
         <item>Б</item>

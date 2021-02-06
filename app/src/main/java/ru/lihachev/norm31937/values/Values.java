@@ -21,7 +21,13 @@ public interface Values {
       public static final String VERSION = "version";
    }
 
+   public interface Organizations {
 
+      public static final String RAW_QUERY = "SELECT  * FROM Organization)";
+
+      public static final String URI_FOR_SELECTION = "select_organizations";
+      public static final String VERSION = "version";
+   }
    public interface D2E {
       public static final String DEFECT_ID = "defect_id";
       public static final String MANUALLY_ADDED = "manually_added";

@@ -200,7 +200,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
         public final RelativeLayout tvnoteContainer;
         public final RelativeLayout defectDetailsContainer;
         public final ImageView addDefectSize;
-
+        public final ImageView bEdit;
         // public final TextView descriptionTextLeftline;
         public final ExpandableLayout expandableLayout;
 
@@ -220,14 +220,17 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
             this.tvAddSnipToReport = (TextView) itemView.findViewById(R.id.tvAddSnipToReport);//Текст добавить в отчет
             this.tvAddNoteToReport = (TextView) itemView.findViewById(R.id.tvAddNoteToReport);//Текст добавить в отчет
             this.addDefectSize = (ImageView) itemView.findViewById(R.id.bDefectSize);
+            this.bEdit = (ImageView) itemView.findViewById(R.id.bEdit);
             this.textCheckBox.setOnClickListener(this);
             this.descriptionToggle.setOnClickListener(this);
             this.tvAddSnipToReport.setOnClickListener(this);//Текст добавить в отчет
             this.tvAddNoteToReport.setOnClickListener(this);//Текст добавить в отчет
             this.addDefectSize.setOnClickListener(this);//кнопка редактировать размеры
+            this.bEdit.setOnClickListener(this);//кнопка редактировать название
             this.tvnoteContainer.setOnClickListener(this);//редактировать комментарий
             this.defectDetailsContainer.setOnClickListener(this);//редактировать размеры
             this.expandableLayout = new ExpandableLayout((LinearLayout) itemView.findViewById(R.id.llDescription));
+
         }
 
         public void onClick(@NonNull View v) {
@@ -448,6 +451,7 @@ public class VariantsAdapter extends RVCursorAdapter<VariantsAdapter.VariantView
                         }
                     });
                     break;
+                case R.id.bEdit:
                 case R.id.defectDetailsContainer:
                 case R.id.bDefectSize:
                     int itemDefectId = (int) getItemId();

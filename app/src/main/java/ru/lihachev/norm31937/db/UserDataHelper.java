@@ -40,6 +40,12 @@ public class UserDataHelper extends SQLiteOpenHelper {
       public static final String URI = "document_with_defects";
    }
 
+   public interface ORGANIZATIONS_LIST {
+      public static final String ORGANIZATIONS_COUNT = "organiztions_count";
+      public static final String QUERY = "SELECT d.*, count(def.documentId) as defect_count FROM Document as d LEFT JOIN Defect as def ON d._id=def.documentId GROUP BY d._id";
+      public static final String URI = "organizations_list";
+   }
+
    static {
       Cupboard cb = new CupboardBuilder().registerFieldConverter(Variant.class, new VariantDataConverter()).registerFieldConverter(MaterialVariant.class, new MaterialVariantDataConverter()).registerFieldConverter(Variant[].class, new VariantsArrayDataConverter()).registerFieldConverter(JSONObject.class, new JsonObjectConverter()).registerFieldConverter(JSONArray.class, new JsonArrayConverter()).registerFieldConverter(Place.class, new PlaceConverter()).useAnnotations().build();
       CupboardFactory.setCupboard(cb);

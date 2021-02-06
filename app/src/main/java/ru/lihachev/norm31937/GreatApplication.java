@@ -12,7 +12,6 @@ import ru.lihachev.norm31937.service.UpdateService;
 public class GreatApplication extends Application {
    private static Context appContext = null;
    //TODO CORRECT public class PermissionController isPermissionGranted
-   //TODO FIX ADD DELETE Compensations
    //TODO при добавлении дефекта впервые не сохраняет фото error urifromfile
    @NonNull
    public static Context getAppContext() {

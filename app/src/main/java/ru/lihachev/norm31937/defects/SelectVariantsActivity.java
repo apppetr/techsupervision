@@ -110,7 +110,7 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
         }
         switch (c) {
             case 0:
-                return "mat_elem_id";   //передача параметра для запроса к базе в переменную select
+                return "mat_elem_id"; //передача параметра для запроса к базе в переменную select
             case 1:
                 return "defect_id";  //передача параметра для запроса к базе в переменную select
             case 2:
@@ -128,7 +128,6 @@ public class SelectVariantsActivity extends ToolbarActivity implements LoaderMan
         switch (uriPath.hashCode()) {
             case 1080866479:
                 if (uriPath.equals("reasons")) {
-
                     c = 1;
                     break;
                 }

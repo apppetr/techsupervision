@@ -235,4 +235,6 @@
     <string name="enter_Org_build_year">Год создания организации</string>
     <string name="enter_Org_name">Название организации</string>
     <string name="Org_description">Организация</string>
+    <string name="used_organization">Организация</string>
+    <string name="enter_organization">Название организации</string>
 </resources>

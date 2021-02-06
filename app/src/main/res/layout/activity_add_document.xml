@@ -19,16 +19,21 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llVariant"
                 android:orientation="vertical">
+
                 <FrameLayout android:id="@id/flDetailsSubTitle" android:background="?selectableItemBackground" android:layout_width="fill_parent" android:layout_height="wrap_content">
                     <CheckedTextView android:textSize="16.0sp" android:gravity="center_vertical" android:id="@id/tvDetailsSubTitle" android:paddingLeft="@dimen/padding_normal" android:layout_width="wrap_content" android:layout_height="48.0dip" android:checked="true" android:text="@string/id_data" android:drawableRight="@drawable/ic_down" android:drawablePadding="@dimen/padding_small" />
                 </FrameLayout>
+
                 <LinearLayout
                     android:id="@id/llDocument"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/llVariant"
                     android:orientation="vertical">
-
+                    <LinearLayout android:paddingLeft="@dimen/padding_small" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <ImageView android:paddingRight="@dimen/padding_tiny" android:layout_width="30dp" android:layout_height="match_parent" android:src="@drawable/ic_launcher_foreground"/>
+                        <Spinner android:textSize="@dimen/text_large" android:gravity="center_vertical" android:entries="@array/organizations" android:id="@+id/etOrganization" android:layout_width="match_parent" android:layout_height="@dimen/height_doc_item" android:prompt="@string/enter_organization"/>
+                    </LinearLayout>
                     <EditText android:textSize="@dimen/text_large" android:gravity="center_vertical" android:id="@+id/etAddress" android:background="@null" android:paddingLeft="@dimen/padding_small" android:layout_width="match_parent" android:layout_height="@dimen/height_doc_item" android:hint="@string/enter_address" android:drawableLeft="@drawable/pin" android:drawablePadding="16dp" android:inputType="textPostalAddress"/>
                     <EditText android:textSize="@dimen/text_large" android:gravity="center_vertical" android:id="@+id/etYear" android:background="@null" android:paddingLeft="@dimen/padding_small" android:layout_width="match_parent" android:layout_height="@dimen/height_doc_item" android:hint="@string/enter_build_year" android:maxLength="4" android:drawableLeft="@drawable/calendar" android:drawablePadding="16dp" android:inputType="number"/>
                     <LinearLayout android:paddingLeft="@dimen/padding_small" android:layout_width="match_parent" android:layout_height="wrap_content">

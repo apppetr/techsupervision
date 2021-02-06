@@ -97,7 +97,7 @@ public class DocumentsAdapter extends ResourceCursorAdapter implements View.OnCl
       return true;
    }
 
-   /* renamed from: ru.lihachev.norm31937.documents.DocumentsAdapter$DocumentsHolder */
+
    private class DocumentsHolder {
       View ivMore;
       TextView tvDesc;
