@@ -6,6 +6,9 @@ public class Organization {
     public long date;
     public String name;
     public int year;
+    public String creator;
+    public String inspector;
+    public String coordinator;
 
     public Organization() {
         this.date = 0L;

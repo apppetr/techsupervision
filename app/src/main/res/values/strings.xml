@@ -237,4 +237,7 @@
     <string name="Org_description">Организация</string>
     <string name="used_organization">Организация</string>
     <string name="enter_organization">Название организации</string>
+    <string name="enter_Org_build_creator">Выполнил</string>
+    <string name="enter_Org_build_inspector">Утвердил</string>
+    <string name="enter_Org_build_coordinator">Согласовал от Заказчика</string>
 </resources>
