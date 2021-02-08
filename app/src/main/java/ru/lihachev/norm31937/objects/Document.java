@@ -10,6 +10,11 @@ public class Document {
    public Responsibility responsibility;
    public String sizes;
    public String title;
+   public String organization;
+   public String creator;
+   public String inspector;
+   public String coordinator;
+   public String orgAddres;
    public int year;
 
    public Document() {
